@@ -1,7 +1,7 @@
 var socket;
 
 function setup() {
-	socket = io.connect('http://localhost:3000');
+	socket = io.connect('https://vengeur69.github.io');
 	socket.on('mouse', draw);
 	createCanvas(720,480);
 	background(51);
