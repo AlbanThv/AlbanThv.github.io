@@ -2,7 +2,7 @@ var config = require(__dirname + '/config');
 var express = require('express');
 
 var app = express();
-var server = require('http').Server(app);
+var server = require('https').Server(app);
 var io = require('socket.io')(server);
 
 server.listen(config.port);
