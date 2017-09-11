@@ -5,7 +5,7 @@ var lasers = [];
 function setup() {
     createCanvas(windowWidth, windowHeight);
     console.log('topkek');
-    //window.alert("- Arrow keys or zqsd to move\n- x key to fire\n- c for bombe");
+    window.alert("- Arrow keys or zqsd to move\n- x key to fire\n- c for bombe");
     ship = new Ship();
     ship.coloring();
     for (var i = 0; i < 5; i++) {
