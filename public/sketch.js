@@ -57,7 +57,7 @@ function draw() {
 
     if (asteroids.length == 0) {
         window.alert("You won !");
-        location.reload(true);
+        window.location.reload();
     }
 
     if (keyIsDown(LEFT_ARROW)){
