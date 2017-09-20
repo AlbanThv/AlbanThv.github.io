@@ -47,7 +47,7 @@ var operation = {
 
 
 function cherche_tout(a, b, c, d, e, f, but, premier) {
-    document.write(`Avec ${a}, ${b}, ${c}, ${d}, ${e}, et ${f} je cherche ${but} :</br>`)
+    document.write(`Avec <b>${a}</b>, <b>${b}</b>, <b>${c}</b>, <b>${d}</b>, <b>${e}</b>, et <b>${f}</b> je cherche <b>${but}</b> :</br>`)
     var liste = [a,b,c,d,e,f]
     var operate = ['+', '-', '*', '/']
     var solution = []
@@ -296,10 +296,15 @@ function cherche_tout(a, b, c, d, e, f, but, premier) {
         }
     }
     if (sol==0) {
-        document.write(`</br>--Fin--</br>Resultat le plus proche est ${proche[0]} en faisant :</br>`)
+        document.write(`</br>--<u>Aucun</u> résultat trouvé--</br>Resultat le plus proche est <b>${proche[0]}</b> en faisant :</br>`)
+		console.log(proche[1]);
         for (i = proche[1].length-1; i >= 0; i--) {
-            document.write(proche[1][i]+"</br>")
+			for (j = 0; j < proche[1][i].length; j++) {
+				document.write(proche[1][i][j])
+			}
+			document.write("</br>")
         }
+		document.write(`Temps mis : ${new Date().getTime()-thetime} ms</br>`)
     }
     else {document.write("</br>--Fin--</br>")}
 }
