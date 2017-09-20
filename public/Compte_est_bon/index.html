@@ -1,0 +1,42 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Le compte est bon</title>
+</head>
+<body>
+    <input type="submit" value="Générer des nombres aléatoires" onclick="generate()">
+    <form method="get" action="resultat.html">
+        </br>
+        <input id="but" name="but" type="number" placeholder="but" size=8 autofocus>
+        <p id="number">
+            <input id="a" name="a" type="number" placeholder="a" maxlenght=4 >
+            <input id="b" name="b" type="number" placeholder="b" size=4 >
+            <input id="c" name="c" type="number" placeholder="c" size=4 >
+            <input id="d" name="d" type="number" placeholder="d" size=4 >
+            <input id="e" name="e" type="number" placeholder="e" size=4 >
+            <input id="f" name="f" type="number" placeholder="f" size=4 >
+        </p>
+        <p>
+            <input type="radio" name="unOUtout" value="1">Tout chercher (⚠️Chrome n'affiche qu'après annulation)
+            <br/>
+			<input type="radio" name="unOUtout" value="0" checked>Chercher le premier resultat
+        <p>
+        Tout chercher avec des pacquets de <input id="ask" name="ask" type="number" value="10" size=4> resultats </br>
+        <input type="submit" value="Lancer la recherche">
+    </form>
+
+
+    <script>
+        function generate() {
+            document.getElementById("but").value = Math.floor((Math.random() * 999) + 1);
+            var myArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 25, 50, 75, 100];
+            document.getElementById("a").value = myArray[Math.floor(Math.random() * myArray.length)];
+            document.getElementById("b").value = myArray[Math.floor(Math.random() * myArray.length)];
+            document.getElementById("c").value = myArray[Math.floor(Math.random() * myArray.length)];
+            document.getElementById("d").value = myArray[Math.floor(Math.random() * myArray.length)];
+            document.getElementById("e").value = myArray[Math.floor(Math.random() * myArray.length)];
+            document.getElementById("f").value = myArray[Math.floor(Math.random() * myArray.length)];
+        }
+    </script>
+</body>
+</html>
