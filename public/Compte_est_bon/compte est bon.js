@@ -313,6 +313,7 @@ function cherche_tout(a, b, c, d, e, f, but, premier) {
 
 var numero=1
 function afficher(a,b,c,d,e,f,resultat,but,precedent,thetime,premier) {
+    identique=0
     if (typeof resultat[0] != "object") {
         resultat.splice(0, 1);
         resultat[0].splice(3, 2);
@@ -335,7 +336,6 @@ function afficher(a,b,c,d,e,f,resultat,but,precedent,thetime,premier) {
         if (compare==precedent[i]) {identique=1}
     }
 
-    identique=0
     if (identique==0) {
         document.write(`</br>Solution n°${numero} ${compare} Temps mis : ${new Date().getTime()-thetime} ms</br>`)
         numero++
