@@ -1,11 +1,12 @@
 var ship;
 var asteroids = [];
 var lasers = [];
+var limit = true;
 
 function setup() {
     createCanvas(windowWidth, windowHeight);
     console.log('topkek');
-    window.alert("- Arrow keys or zqsd to move\n- x key to fire\n- c for bombe");
+    window.alert("- Arrow (or zqsd) keys to move\n- x key to fire\n- c key for bombe\n\n(- l key to toggle laser limit)\n(- j and k for unlimited laser)");
     ship = new Ship();
     ship.coloring();
     for (var i = 0; i < 5; i++) {
@@ -45,6 +46,14 @@ function draw() {
                     }
                     asteroids.splice(j, 1);
                     lasers.splice(i, 1);
+					
+					if (asteroids.length < 1) {
+						setTimeout(function (){
+							window.alert("You won !");
+							location.reload();
+						}, 100);
+					}
+					
                     break;
                 }
             }
@@ -54,11 +63,6 @@ function draw() {
     ship.turn();
     ship.update();
     ship.edges();
-
-    if (asteroids.length == 0) {
-        window.alert("You won !");
-        window.location.reload();
-    }
 
     if (keyIsDown(LEFT_ARROW)){
         ship.setRotation(-0.05);
@@ -88,16 +92,14 @@ function draw() {
         ship.slowing(false);
     }
 
-    if (keyIsDown(75)) {
+    if (keyIsDown(75)) { // k
         for (var i = 0; i <= 23; i++) {
-            lasers.push(new Laser(ship.pos, ship.heading+(PI/12)*i));
+            lasers.push(new Laser(ship.pos, ship.heading+(PI/12)*i, limit));
         }
     }
 
-     if (keyIsDown(74)) {
-         lasers.push(new Laser(ship.pos, ship.heading));
-     } else if (keyIsDown(88)) {
-        lasers.push(new Laser(ship.pos, ship.heading));
+    if (keyIsDown(74)) { // j
+         lasers.push(new Laser(ship.pos, ship.heading, limit));
     }
 }
 
@@ -106,14 +108,24 @@ function mouseClicked() {
 }
 
 function keyPressed() {
-    if  (keyCode == 88) { //|| keyCode == ) {
-        lasers.push(new Laser(ship.pos, ship.heading));
+    if (keyCode == 88) { // x
+		lasers.push(new Laser(ship.pos, ship.heading, limit));
     }
-    if (keyIsDown(67)) {
+	
+	if (keyCode == 76) { // l
+		if (limit) {
+			limit = false;
+		} else {
+			limit = true;
+		}
+    }
+
+    if (keyIsDown(67)) { // c
         for (var i = 0; i <= 23; i++) {
-            lasers.push(new Laser(ship.pos, ship.heading+(PI/12)*i));
+            lasers.push(new Laser(ship.pos, ship.heading+(PI/12)*i, limit));
         }
     }
+	
     if (keyCode == CONTROL) {
         ship.coloring();
     }

@@ -1,4 +1,4 @@
-function Laser(spos, angle) {
+function Laser(spos, angle, limit) {
     this.pos = createVector(spos.x, spos.y);
     this.vel = p5.Vector.fromAngle(angle);
     this.vel.mult(10);
@@ -34,27 +34,27 @@ function Laser(spos, angle) {
         return false;
     }
 
-    //this.offscreen = function() {
-    //    if (this.pos.x > width || this.pos.x < 0) {
-    //        return true;
-    //    }
-    //    if (this.pos.y > height || this.pos.y < 0) {
-    //        return true;
-    //    }
-    //    return false;
-    //}
-     this.offscreen = function() {
-         this.r=0
-         if (this.pos.x > width + this.r) {
-             this.pos.x = -this.r;
-         } else if (this.pos.x < -this.r) {
-             this.pos.x = width + this.r;
-         }
-         if (this.pos.y > height + this.r) {
-             this.pos.y = -this.r;
-         } else if (this.pos.y < -this.r) {
-             this.pos.y = height + this.r;
-         }
-         return false;
-     }
+    this.offscreen = function() {
+		if (limit) {
+			if (this.pos.x > width || this.pos.x < 0) {
+				return true;
+			}
+			if (this.pos.y > height || this.pos.y < 0) {
+				return true;
+			}
+		} else {
+			this.r=0
+			if (this.pos.x > width + this.r) {
+				this.pos.x = -this.r;
+			} else if (this.pos.x < -this.r) {
+				this.pos.x = width + this.r;
+			}
+			if (this.pos.y > height + this.r) {
+				this.pos.y = -this.r;
+			} else if (this.pos.y < -this.r) {
+				this.pos.y = height + this.r;
+			}
+		}
+        return false;
+    }
 }
