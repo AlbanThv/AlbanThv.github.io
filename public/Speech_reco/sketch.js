@@ -3,7 +3,8 @@ function setup()
 	noCanvas();
 	
 	let voice = new p5.Speech();
-	voice.speak("Hello everyone");
+	voice.setVoice('Cellos')
+	voice.speak("Salut tout le monde");
 	
 	let lang = 'en-US'//navigator.language || 'fr-FR';
 	let speechRec = new p5.SpeechRec(lang, gotSpeech);
