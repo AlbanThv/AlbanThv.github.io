@@ -1,3 +1,6 @@
+let lang = 'fr-FR'//navigator.language || 'fr-FR';
+var speechRec = new p5.SpeechRec(lang, gotSpeech);
+
 function setup()
 {
 	noCanvas();
