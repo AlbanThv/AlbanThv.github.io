@@ -1,10 +1,12 @@
 function setup()
 {
 	noCanvas();
-	let lang = navigator.language || 'fr-FR';
+	let lang = 'en-US'//navigator.language || 'fr-FR';
 	let speechRec = new p5.SpeechRec(lang, gotSpeech);
-
-	speechRec.start();
+	
+	let continuous = true;
+	let interim = true;
+	speechRec.start(continuous, interim);
 
 	function gotSpeech()
 	{
