@@ -1,5 +1,4 @@
-let lang = 'fr-FR'//navigator.language || 'fr-FR';
-var speechRec = new p5.SpeechRec(lang, gotSpeech);
+
 
 function setup()
 {
@@ -14,13 +13,13 @@ function setup()
 	let continuous = true;
 	let interim = true;
 	speechRec.start(continuous, interim);
+}
 
-	function gotSpeech()
+function gotSpeech()
+{
+	if (speechRec.resultValue)
 	{
-		if (speechRec.resultValue)
-		{
-			createP(speechRec.resultString);
-			console.log(speechRec.resultString);
-		}
+		createP(speechRec.resultString);
+		console.log(speechRec.resultString);
 	}
 }
