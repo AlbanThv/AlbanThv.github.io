@@ -17,7 +17,7 @@ function setup()
 		if (speechRec.resultValue)
 		{
 			createP(speechRec.resultString);
+			console.log(speechRec.resultString);
 		}
-		console.log(speechRec);
 	}
 }
