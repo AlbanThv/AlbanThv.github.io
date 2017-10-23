@@ -15,9 +15,9 @@ function setup()
 	//let lang = 'en-US'//navigator.language || 'fr-FR';
 	speechRec.onResult = gotSpeech;
 	
-	//let continuous = true;
-	//let interim = true;
-	speechRec.start();//continuous, interim);
+	let continuous = true;
+	let interim = true;
+	speechRec.start(continuous, interim);
 	//speechRec.onEnd(background(0, 0, 0);)
 }
 
@@ -29,4 +29,12 @@ function gotSpeech()
 		text(speechRec.resultString, width/2, height/2);
 		console.log(speechRec.resultString);
 	}
+}
+
+function mousePressed()
+{
+	speechRec.onResult = gotSpeech;
+	let continuous = true;
+	let interim = true;
+	speechRec.start(continuous, interim);
 }
