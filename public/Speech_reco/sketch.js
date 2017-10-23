@@ -5,7 +5,7 @@ function setup()
 	createCanvas(400, 200);
 	background(0, 255, 0);
 	fill(0, 0, 0, 255);
-	textSize(32);
+	textSize(16);
 	textAlign(LEFT);
 	text("say something", width/2, height/2);
 	
