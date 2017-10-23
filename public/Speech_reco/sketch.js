@@ -25,6 +25,7 @@ function gotSpeech()
 {
 	if (speechRec.resultValue)
 	{
+		background(0, 255, 0);
 		text(speechRec.resultString, width/2, height/2);
 		console.log(speechRec.resultString);
 	}
