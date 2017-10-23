@@ -8,17 +8,17 @@ function setup()
 	textSize(32);
 	text("say something", width/2, height/2);
 	
-	let voice = new p5.Speech();
-	voice.setVoice('Cellos')
-	voice.speak("Salut tout le monde");
+	//let voice = new p5.Speech();
+	//voice.setVoice('Cellos')
+	//voice.speak("Salut tout le monde");
 	
 	//let lang = 'en-US'//navigator.language || 'fr-FR';
 	speechRec.onResult = gotSpeech;
 	
-	let continuous = true;
-	let interim = true;
-	speechRec.start(continuous, interim);
-	speechRec.onEnd(background(0, 0, 0);)
+	//let continuous = true;
+	//let interim = true;
+	speechRec.start();//continuous, interim);
+	//speechRec.onEnd(background(0, 0, 0);)
 }
 
 function gotSpeech()
