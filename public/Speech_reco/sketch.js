@@ -6,6 +6,7 @@ function setup()
 	background(0, 255, 0);
 	fill(0, 0, 0, 255);
 	textSize(32);
+	textAlign(LEFT);
 	text("say something", width/2, height/2);
 	
 	//let voice = new p5.Speech();
