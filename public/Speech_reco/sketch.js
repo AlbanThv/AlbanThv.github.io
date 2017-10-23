@@ -1,4 +1,4 @@
-var speechRec = new p5.SpeechRec();
+var speechRec = new p5.SpeechRec(); 
 
 function setup()
 {
