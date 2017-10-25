@@ -20,7 +20,7 @@ function setup() {
 		remove("ul1");
 		remove("ul2");
 		console.log(data);
-		document.getElementById("found").innerHTML = `Found ${data[1].length} terms`;
+		document.getElementById("found").innerHTML = `Found ${data[1].length} terms :`;
 		for (var i = 0; i < data[1].length; i++) {
 			li = document.createElement("li");
 			li.innerHTML = `<a href='${data[3][i]}'>${data[1][i]}</a>`
