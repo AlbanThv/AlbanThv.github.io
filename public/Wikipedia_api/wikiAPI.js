@@ -19,6 +19,7 @@ function setup() {
 	function gotData(data) {
 		remove("ul1");
 		remove("ul2");
+		remove("ul3");
 		console.log(data);
 		document.getElementById("found").innerHTML = `Found ${data[1].length} terms :`;
 		for (var i = 0; i < data[1].length; i++) {
