@@ -18,9 +18,9 @@ function setup() {
 	}
 
 	function gotData(data) {
-		remove("ul1");
-		remove("ul2");
-		remove("ul3");
+		removeChildren("ul1");
+		removeChildren("ul2");
+		removeChildren("ul3");
 		console.log(data);
 		for (var i = 0; i < rules.length; i++) {
 			document.styleSheets[0].deleteRule(rules[i]);
@@ -43,7 +43,7 @@ function setup() {
 		}
 	}
 
-	function remove(elementId) {
+	function removeChildren(elementId) {
 		var element = document.getElementById(elementId);
 		while (element.firstChild) {
 			element.removeChild(element.firstChild);
