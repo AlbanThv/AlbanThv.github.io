@@ -8,7 +8,7 @@ function setup() {
 	userInput = select('#userinput');
 	numberInput = select('#numberinput');
 	userInput.changed(goWiki);
-
+	numberInput.changed(goWiki);
 
 	function goWiki() {
 		let term = userInput.value();
