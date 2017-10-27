@@ -3,8 +3,7 @@ var speechRec = new p5.SpeechRec();
 function setup()
 {
 	createCanvas(400, 200);
-	p = document.createElement("p");
-	p.innerHTML = `Click to restart`
+	createP('Click to restart')
 	background(0, 255, 0);
 	fill(0, 0, 0, 255);
 	textSize(16);
