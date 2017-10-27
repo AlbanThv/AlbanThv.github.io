@@ -2,7 +2,8 @@ var speechRec = new p5.SpeechRec();
 
 function setup()
 {
-	createCanvas(400, 200);
+	canvas = createCanvas(400, 200);
+	canvas.position(0, 0);
 	text = createDiv('Click to restart');
   	text.position(20, 220);
 	background(0, 255, 0);
