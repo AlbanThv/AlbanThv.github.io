@@ -1,10 +1,10 @@
-import SpriteSheet from './SpriteSheet.js';
-import { createAnim } from './anim.js';
+import SpriteSheet from "./SpriteSheet.js";
+import { createAnim } from "./anim.js";
 
 export function loadImage(url) {
   return new Promise(resolve => {
     const image = new Image();
-    image.addEventListener('load', () => {
+    image.addEventListener("load", () => {
       resolve(image);
     });
     image.src = url;

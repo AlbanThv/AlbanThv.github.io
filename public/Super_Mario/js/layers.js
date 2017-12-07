@@ -1,13 +1,13 @@
-import TileResolver from './TileResolver.js';
+import TileResolver from "./TileResolver.js";
 
 export function createBackgroundLayer(level, tiles, sprites) {
     const resolver = new TileResolver(tiles);
 
-    const buffer = document.createElement('canvas');
+    const buffer = document.createElement("canvas");
     buffer.width = 256 + 16;
     buffer.height = 240;
 
-    const context = buffer.getContext('2d');
+    const context = buffer.getContext("2d");
 
     function redraw(startIndex, endIndex) {
         context.clearRect(0, 0, buffer.width, buffer.height);
@@ -39,10 +39,10 @@ export function createBackgroundLayer(level, tiles, sprites) {
 }
 
 export function createSpriteLayer(entities, width = 64, height = 64) {
-    const spriteBuffer = document.createElement('canvas');
+    const spriteBuffer = document.createElement("canvas");
     spriteBuffer.width = width;
     spriteBuffer.height = height;
-    const spriteBufferContext = spriteBuffer.getContext('2d');
+    const spriteBufferContext = spriteBuffer.getContext("2d");
 
     return function drawSpriteLayer(context, camera) {
         entities.forEach(entity => {
@@ -71,7 +71,7 @@ export function createCollisionLayer(level) {
     }
 
     return function drawCollision(context, camera) {
-        context.strokeStyle = 'blue';
+        context.strokeStyle = "blue";
         resolvedTiles.forEach(({ x, y }) => {
             context.beginPath();
             context.rect(
@@ -81,7 +81,7 @@ export function createCollisionLayer(level) {
             context.stroke();
         });
 
-        context.strokeStyle = 'red';
+        context.strokeStyle = "red";
         level.entities.forEach(entity => {
             context.beginPath();
             context.rect(
@@ -98,7 +98,7 @@ export function createCollisionLayer(level) {
 
 export function createCameraLayer(cameraToDraw) {
     return function drawCameraRect(context, fromCamera) {
-        context.strokeStyle = 'purple';
+        context.strokeStyle = "purple";
         context.beginPath();
         context.rect(
             cameraToDraw.pos.x - fromCamera.pos.x,

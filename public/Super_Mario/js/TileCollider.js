@@ -1,5 +1,5 @@
-import TileResolver from './TileResolver.js';
-import { Sides } from './Entity.js';
+import TileResolver from "./TileResolver.js";
+import { Sides } from "./Entity.js";
 
 export default class TileCollider {
   constructor(tileMatrix) {
@@ -21,7 +21,7 @@ export default class TileCollider {
       entity.bounds.top, entity.bounds.bottom);
 
     matches.forEach(match => {
-      if (match.tile.type !== 'ground') {
+      if (match.tile.type !== "ground") {
         return;
       }
 
@@ -58,7 +58,7 @@ export default class TileCollider {
       y, y);
 
     matches.forEach(match => {
-      if (match.tile.type !== 'ground') {
+      if (match.tile.type !== "ground") {
         return;
       }
 
