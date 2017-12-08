@@ -4,21 +4,23 @@
     <title>Super Mario</title>
     <link rel="icon" type="image/png" href="./favicon.png">
     <script type="module" src="./js/main.js"></script>
-    <script src="./js/test.js"></script>
-    <!-- <script language="javascript">
-
-        function bodyOnloadHandler() {
-            console.log("body onload");
+    <style>
+        body {
+            background: #000;
+            margin: 0;
         }
 
-        window.onload = function (e) {
-            console.log("window loaded");
-        };
-    </script> -->
+        #screen {
+            display: block;
+            image-rendering: pixelated;
+            height: 100vh;
+            margin: auto;
+        }
+    </style>
 </head>
 
 <body>
-    <canvas id="screen" width="640" height="400" style="zoom: 160%;"></canvas>
+    <canvas id="screen" width="256" height="240"></canvas>
     <div style="position: absolute; left: 480; top: 10;">
         Q, D, Space to move.
         <br>Shift to run
