@@ -16,7 +16,7 @@
 </head>
 
 <body>
-    <div style="position: absolute; padding-left: 620px;">
+    <div style="position: absolute; padding-left: 600px; padding-top: 10px; transform: scale(1.2);">
         <p>
             Map :
             <select id=map>
@@ -31,28 +31,16 @@
             </select>
         </p>
         <p>
-            Pi :
-            <select id=Pi>
-                <option value="Gauche">1π/2</option>
-                <option value="Gauche">90°</option>
-                <option value="Gauche">2π/4</option>
-                <option value="Gauche">Contre 3π/2</option>
-                <option value="Gauche">Contre 270°</option>
-                <option value="Gauche">Contre 6π/4</option>
-
-                <option value="Droite">3π/2</option>
-                <option value="Droite">270°</option>
-                <option value="Droite">6π/4</option>
-                <option value="Droite">Contre 1π/2</option>
-                <option value="Droite">Contre 90°</option>
-                <option value="Droite">Contre 2π/4</option>
-
-                <option value="Envers">2π/2</option>
-                <option value="Envers">180°</option>
-                <option value="Envers">4π/4</option>
-            </select>
+            <form action="" id=Pi>
+                Pi :
+                <br><input id="1" type="radio" name="Pi" value="Gauche">
+                <label for="1">1π/2 &nbsp&nbsp 90°  &nbsp&nbsp&nbsp&nbsp 2π/4 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Contre 3π/2 &nbsp&nbsp Contre 270° &nbsp&nbsp           Contre 6π/4</label>
+                <br><input id="2" type="radio" name="Pi" value="Droite">
+                <label for="2">3π/2 &nbsp&nbsp 270° &nbsp&nbsp           6π/4 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Contre 1π/2 &nbsp&nbsp Contre 90°  &nbsp&nbsp&nbsp&nbsp Contre 2π/4</label>
+                <br><input id="3" type="radio" name="Pi" value="Envers">
+                <label for="3">2π/2 &nbsp&nbsp 180° &nbsp&nbsp           4π/4</label>
+            </form>
         </p>
-
     </div>
 </body>
 
