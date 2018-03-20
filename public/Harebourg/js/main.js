@@ -2,7 +2,7 @@ let tiles = [];
 let tileSize = 30;
 let TilePerso = {x:-1, y:-1}
 let TileCible = {x:-1, y:-1}
-let TileSort = {x:-1, y:-1}
+let TileSort  = {x:-1, y:-1}
 let nileza = "00000000000000000000"
             +"00000001111100000000"
             +"00000221111111100000"
@@ -27,7 +27,7 @@ let nileza = "00000000000000000000"
 ;
 
 function setup() {
-  let cnv = createCanvas(20*30+2, 21*30+2);
+  let cnv = createCanvas(20*tileSize+2, 21*tileSize+2);
   cnv.style('display', 'block');
   let Case = select('#tile').value();
   let Pi = select('#Pi').value();
@@ -99,7 +99,6 @@ function draw() {
     if (tiles[i].gridX == TileSort.x && tiles[i].gridY == TileSort.y) {
       tiles[i].col = color(255,0,255);
     }
-
     tiles[i].show();
   }
 }
