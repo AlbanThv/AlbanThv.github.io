@@ -89,7 +89,7 @@ function draw() {
     }
     if (tiles[i].gridX == TilePerso.x && tiles[i].gridY == TilePerso.y) {
       tiles[i].col = color(0,255,0);
-      if (Case = select('#tile').value() == "Personnage") {
+      if (select('#tile').value() == "Personnage") {
         select('#tile').value("Cible");
       }
     }
