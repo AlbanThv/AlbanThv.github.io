@@ -40,7 +40,6 @@ function setup() {
     }
   }
 
-
 }
 
 function draw() {
@@ -87,6 +86,7 @@ function draw() {
     } else if (nileza[i] == "0") {
       tiles[i].col = color(0);
     }
+
     if (tiles[i].gridX == TilePerso.x && tiles[i].gridY == TilePerso.y) {
       tiles[i].col = color(0,255,0);
       if (select('#tile').value() == "Personnage") {
@@ -99,8 +99,10 @@ function draw() {
     if (tiles[i].gridX == TileSort.x && tiles[i].gridY == TileSort.y) {
       tiles[i].col = color(255,0,255);
     }
+
     tiles[i].show();
   }
+
 }
 
 function mousePressed() {
@@ -136,4 +138,5 @@ function Tile(x, y) {
       }
     }
   }
+
 }
