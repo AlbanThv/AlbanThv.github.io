@@ -154,7 +154,7 @@ function Tile(x, y) {
           && mouseY < (this.y + tileSize))
     if (d) {
       if (Case == "Personnage") {
-        TileCible = {x:-20, y:-20};
+        //TileCible = {x:-20, y:-20};
         select('#tile').value("Cible");
       }
     }
