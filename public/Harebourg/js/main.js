@@ -105,6 +105,9 @@ function mousePressed() {
   for (let i = 0; i < tiles.length; i++) {
     tiles[i].clicked();
   }
+  if (Case = select('#tile').value() == "Personnage") {
+    select('#tile').value("Cible");
+  }
 }
 
 function Tile(x, y) {
