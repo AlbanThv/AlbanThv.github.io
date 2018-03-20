@@ -89,9 +89,6 @@ function draw() {
 
     if (tiles[i].gridX == TilePerso.x && tiles[i].gridY == TilePerso.y) {
       tiles[i].col = color(0,255,0);
-      if (select('#tile').value() == "Personnage") {
-        select('#tile').value("Cible");
-      }
     }
     if (tiles[i].gridX == TileCible.x && tiles[i].gridY == TileCible.y) {
       tiles[i].col = color(255,0,0);
@@ -130,7 +127,8 @@ function Tile(x, y) {
     if (d) {
       if (Case == "Personnage") {
         TilePerso.x = this.gridX;
-        TilePerso.y = this.gridY;
+        TilePerso.y = this.gridY;    
+        select('#tile').value("Cible");
       } else if (Case == "Cible") {
         TileCible.x = this.gridX;
         TileCible.y = this.gridY;
