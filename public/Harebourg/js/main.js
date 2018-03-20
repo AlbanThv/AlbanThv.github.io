@@ -89,6 +89,9 @@ function draw() {
     }
     if (tiles[i].gridX == TilePerso.x && tiles[i].gridY == TilePerso.y) {
       tiles[i].col = color(0,255,0);
+      if (Case = select('#tile').value() == "Personnage") {
+        select('#tile').value("Cible");
+      }
     }
     if (tiles[i].gridX == TileCible.x && tiles[i].gridY == TileCible.y) {
       tiles[i].col = color(255,0,0);
@@ -104,9 +107,6 @@ function draw() {
 function mousePressed() {
   for (let i = 0; i < tiles.length; i++) {
     tiles[i].clicked();
-  }
-  if (Case = select('#tile').value() == "Personnage") {
-    select('#tile').value("Cible");
   }
 }
 
