@@ -29,22 +29,22 @@ let nileza = "00000000000000000000"
 function setup() {
   let cnv = createCanvas(20*tileSize+2, 21*tileSize+2);
   cnv.style('display', 'block');
-  let Case = select('#tile').value();
-  let Pi = select('#Pi').value();
   noStroke();
   background(50);
+
+  let Case = select('#tile').value();
+  let Pi = Array.from(document.getElementsByName("Pi")).find(r => r.checked).value;
 
   for (let y = 2; y < height; y += tileSize) {
     for (let x = 2; x < width; x += tileSize) {
       tiles.push(new Tile(x, y));
     }
   }
-
 }
 
 function draw() {
   Case = select('#tile').value();
-  Pi = select('#Pi').value();
+  Pi = Array.from(document.getElementsByName("Pi")).find(r => r.checked).value;
 
   if (Pi == "Gauche") {
       if (TileCible.x>=TilePerso.x && TileCible.y<=TilePerso.y) {
@@ -102,7 +102,6 @@ function draw() {
 
     tiles[i].show();
   }
-
 }
 
 function mousePressed() {
@@ -138,5 +137,4 @@ function Tile(x, y) {
       }
     }
   }
-
 }
