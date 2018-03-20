@@ -1,8 +1,8 @@
 let tiles = [];
 let tileSize = 30;
-let TilePerso = {x:-1, y:-1}
-let TileCible = {x:-1, y:-1}
-let TileSort  = {x:-1, y:-1}
+let TilePerso = {x:-1, y:-1};
+let TileCible = {x:-1, y:-1};
+let TileSort  = {x:-1, y:-1};
 let nileza = "00000000000000000000"
             +"00000001111100000000"
             +"00000221111111100000"
@@ -126,7 +126,8 @@ function Tile(x, y) {
     if (d) {
       if (Case == "Personnage") {
         TilePerso.x = this.gridX;
-        TilePerso.y = this.gridY;    
+        TilePerso.y = this.gridY;
+        TileCible = {x:-1, y:-1};
         select('#tile').value("Cible");
       } else if (Case == "Cible") {
         TileCible.x = this.gridX;
