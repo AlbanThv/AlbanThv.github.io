@@ -16,29 +16,27 @@
     </style>
 </head>
 
-<body>
+<body oncontextmenu= "return false">
     <div style="position: absolute; padding-left: 600px; padding-top: 10px; transform: scale(1.2);">
+        <h3>Système des PI avec le Comte Harebourg</h3>
         <p>
-            Map :
+            Carte :
             <select id=map>
                 <option value="Nileza">w/ Nileza</option>
             </select>
         </p>
         <p>
-            Case :
-            <select id=tile>
-                <option value="Personnage">Personnage</option>
-                <option value="Cible">Cible</option>
-            </select>
+            Clic Gauche : Choix de la case de la Cible<br>
+            Clic Droit&emsp; : Choix de la case du Personnage
         </p>
         <p>
             Pi :
             <br><input id="radio1" type="radio" name="Pi" value="Gauche" checked>
-            <label for="radio1">1π/2 &nbsp&nbsp 90°  &nbsp&nbsp&nbsp&nbsp 2π/4 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Contre 3π/2 &nbsp&nbsp Contre 270° &nbsp&nbsp           Contre 6π/4</label>
+            <label for="radio1">1π/2 &nbsp 90°  &nbsp&nbsp&nbsp 2π/4 &nbsp&nbsp&nbsp&nbsp&nbsp Contre 3π/2 &nbsp Contre 270° &nbsp           Contre 6π/4</label>
             <br><input id="radio2" type="radio" name="Pi" value="Droite">
-            <label for="radio2">3π/2 &nbsp&nbsp 270° &nbsp&nbsp           6π/4 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Contre 1π/2 &nbsp&nbsp Contre 90°  &nbsp&nbsp&nbsp&nbsp Contre 2π/4</label>
+            <label for="radio2">3π/2 &nbsp 270° &nbsp           6π/4 &nbsp&nbsp&nbsp&nbsp&nbsp Contre 1π/2 &nbsp Contre 90°  &nbsp&nbsp&nbsp Contre 2π/4</label>
             <br><input id="radio3" type="radio" name="Pi" value="Envers">
-            <label for="radio3">2π/2 &nbsp&nbsp 180° &nbsp&nbsp           4π/4</label>
+            <label for="radio3">2π/2 &nbsp 180° &nbsp           4π/4</label>
         </p>
     </div>
 </body>
