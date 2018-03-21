@@ -23,8 +23,7 @@ let nileza = "00000000000000000000"
             +"00000111111111111000"
             +"00000020111111110000"
             +"00000000011111000000"
-            +"00000000000000000000"
-;
+            +"00000000000000000000";
 
 function setup() {
   let cnv = createCanvas(20*tileSize+2, 21*tileSize+2);
@@ -32,7 +31,6 @@ function setup() {
   noStroke();
   background(50);
 
-  let Case = select('#tile').value();
   let Pi = Array.from(document.getElementsByName("Pi")).find(r => r.checked).value;
 
   for (let y = 2; y < height; y += tileSize) {
@@ -43,7 +41,6 @@ function setup() {
 }
 
 function draw() {
-  Case = select('#tile').value();
   Pi = Array.from(document.getElementsByName("Pi")).find(r => r.checked).value;
 
   if (Pi == "Gauche") {
@@ -113,18 +110,12 @@ function mouseDragged() {
   }
 }
 
-function mouseReleased() {
-  for (let i = 0; i < tiles.length; i++) {
-    tiles[i].release();
-  }
-}
-
 function Tile(x, y) {
-  this.gridX = (x-2)/tileSize;
-  this.gridY = (y-2)/tileSize;
   this.x = x;
   this.y = y;
   this.col = color(255,100);
+  this.gridX = (x-2)/tileSize;
+  this.gridY = (y-2)/tileSize;
 
   this.show = function() {
     fill(this.col);
@@ -137,25 +128,13 @@ function Tile(x, y) {
           && mouseY > this.y
           && mouseY < (this.y + tileSize))
     if (d) {
-      if (Case == "Personnage") {
+      if (mouseButton == "right") {
         TilePerso.x = this.gridX;
         TilePerso.y = this.gridY;
-      } else if (Case == "Cible") {
+      }
+      if (mouseButton == "left") {
         TileCible.x = this.gridX;
         TileCible.y = this.gridY;
-      }
-    }
-  }
-
-  this.release = function() {
-    let d = (mouseX > this.x
-          && mouseX < (this.x + tileSize)
-          && mouseY > this.y
-          && mouseY < (this.y + tileSize))
-    if (d) {
-      if (Case == "Personnage") {
-        //TileCible = {x:-20, y:-20};
-        select('#tile').value("Cible");
       }
     }
   }
