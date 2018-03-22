@@ -48,9 +48,6 @@ Carte[2] = "000000000000000000000" //Nileza
           +"000000000011111000000"
           +"000000000000000000000";
 
-
-document.getElementById('change').onclick = changeColor;   
-
 function changeColor() {
   if (document.body.style.color == "black") {
     document.body.style.color = "white";
