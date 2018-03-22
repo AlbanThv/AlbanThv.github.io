@@ -49,6 +49,20 @@ Carte[2] = "000000000000000000000" //Nileza
           +"000000000000000000000";
 
 
+document.getElementById('change').onclick = changeColor;   
+
+function changeColor() {
+  if (document.body.style.color == "black") {
+    document.body.style.color = "white";
+    document.body.style.background = "black";
+  } else {
+    document.body.style.color = "black";
+    document.body.style.background = "white";
+  }
+
+  return false;
+}
+
 function setup() {
   let cnv = createCanvas(mapSize*tileSize+2, mapSize*tileSize+2);
   cnv.style('display', 'block');
