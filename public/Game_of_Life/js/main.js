@@ -91,10 +91,12 @@ function fctplay() {
   } else {
     btnPauseCtx = "Stop";
   }
+  btnPause.blur()
 }
 
 function fctstep() {
   Step = !Step
+  btnStep.blur()
 }
 
 function fctclear() {
@@ -107,6 +109,7 @@ function fctclear() {
   Gen = 0;
   Pause = true;
   btnPauseCtx = "Play";
+  btnClear.blur()
 }
 
 function mousePressed() {
