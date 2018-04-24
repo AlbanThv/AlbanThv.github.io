@@ -24,35 +24,13 @@ function setup() {
   }
 
   btnPause = document.getElementById('pause');
-  btnPause.onclick = function() {
-    Pause = !Pause
-    if (Pause) {
-      btnPauseCtx = "Play";
-    } else {
-      btnPauseCtx = "Stop";
-    }
-    return false;
-  }
+  btnPause.onclick = fctplay;
 
   btnStep = document.getElementById('step');
-  btnStep.onclick = function() {
-    Step = !Step
-    return false;
-  }
+  btnStep.onclick = fctstep;
 
   btnClear = document.getElementById('clear');
-  btnClear.onclick = function() {
-    for (let i = 0; i < tiles.length; i++) {
-      for (let j = 0; j < tiles[i].length; j++) {
-        tiles[i][j].nextStep = 0;
-        tiles[i][j].show();
-      }
-    }
-    Gen = 0;
-    Pause = true;
-    btnPauseCtx = "Play";
-    return false;
-  }
+  btnClear.onclick = fctclear;
 }
 
 function draw() {
@@ -96,12 +74,47 @@ function draw() {
   }
 }
 
+function keyPressed() {
+  if (keyCode === ENTER) {
+    fctplay();
+  } else if (keyCode === 32) {
+    fctstep();
+  } else if (keyCode === BACKSPACE || keyCode === DELETE) {
+    fctclear();
+  }
+}
+
+function fctplay() {
+  Pause = !Pause
+  if (Pause) {
+    btnPauseCtx = "Play";
+  } else {
+    btnPauseCtx = "Stop";
+  }
+}
+
+function fctstep() {
+  Step = !Step
+}
+
+function fctclear() {
+  for (let i = 0; i < tiles.length; i++) {
+    for (let j = 0; j < tiles[i].length; j++) {
+      tiles[i][j].nextStep = 0;
+      tiles[i][j].show();
+    }
+  }
+  Gen = 0;
+  Pause = true;
+  btnPauseCtx = "Play";
+}
+
 function mousePressed() {
-  mouse()
+  mouse();
 }
 
 function mouseDragged() {
-  mouse()
+  mouse();
 }
 
 function mouse() {
