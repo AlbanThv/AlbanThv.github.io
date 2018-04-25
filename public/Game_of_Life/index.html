@@ -14,6 +14,10 @@
             user-select: none;
             color: white;
         }
+        .pos{
+            position: fixed;
+            left: 10px;
+        }
         a:visited {
             color: blue;
         }
@@ -22,10 +26,11 @@
 
 <body oncontextmenu= "return false">
     <div id="buttons">
-        <button type="button" id="pause" style="position: absolute; margin-left: 10px; margin-top: 10px">Play</button>
-        <button type="button" id="step" style="position: absolute; margin-left: 10px; margin-top: 40px">Next step</button>
-        <button type="button" id="clear" style="position: absolute; margin-left: 10px; margin-top: 70px">Clear</button>
-        <button type="button" id="store" style="position: absolute; margin-left: 10px; margin-top: 100px">Store</button>
+        <button type="button" class="pos" id="pause" style="top: 10px;">Play</button>
+        <button type="button" class="pos" id="step" style="top: 40px;">Next step</button>
+        <button type="button" class="pos" id="clear" style="top: 70px;">Clear</button>
+        <button type="button" class="pos" id="store" style="top: 100px;">Store</button>
+        <input type="range" min="1" max="60" value="15" class="pos" id="speed" style="bottom: 5px; width: 400px;">
     </div>
 </body>
 
