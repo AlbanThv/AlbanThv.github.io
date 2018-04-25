@@ -197,8 +197,7 @@ function mouse() {
   }
 }
 
-function store()
-{
+function store() {
     let newTiles = [[]];
     for (let i = 0; i < tiles.length; i++) {
         newTiles[i] = [];
@@ -215,9 +214,9 @@ function store()
     btn.style.marginLeft = "40px";
     btn.style.marginTop = stored.length * 30 + 100 + "px";
     btn.textContent = "Restore " + stored.length;
-    btn.onclick = function()
-    {
+    btn.onclick = function() {
       restore(stored[this.classList["value"]]);
+      this.blur();
     };
 
     del = document.createElement("button");
@@ -227,17 +226,16 @@ function store()
     del.style.marginLeft = "10px";
     del.style.marginTop = stored.length * 30 + 100 + "px";
     del.textContent = "x";
-    del.onclick = function()
-    {
+    del.onclick = function() {
       btnDel(this.classList["value"]);
+      this.blur();
     };
 
     document.getElementById("buttons").appendChild(btn);
     document.getElementById("buttons").appendChild(del);
 }
 
-function restore(storage)
-{
+function restore(storage) {
     let newTiles = [[]];
     for (let i = 0; i < storage.length; i++) {
         newTiles[i] = [];
@@ -248,8 +246,7 @@ function restore(storage)
     tiles = newTiles;
 }
 
-function btnDel(id)
-{
+function btnDel(id) {
   stored[id] = null;
   document.getElementById("buttons").removeChild(document.getElementsByClassName(id)[0]);
   document.getElementById("buttons").removeChild(document.getElementsByClassName(id)[0]);
