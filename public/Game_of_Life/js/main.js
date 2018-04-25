@@ -160,12 +160,12 @@ function fctplay() {
   } else {
     btnPauseCtx = "Stop";
   }
-  btnPause.blur()
+  btnPause.blur();
 }
 
 function fctstep() {
-  Step = !Step
-  btnStep.blur()
+  Step = !Step;
+  btnStep.blur();
 }
 
 function fctclear() {
@@ -178,7 +178,7 @@ function fctclear() {
   Gen = 0;
   Pause = true;
   btnPauseCtx = "Play";
-  btnClear.blur()
+  btnClear.blur();
 }
 
 function mousePressed() {
@@ -233,6 +233,8 @@ function store() {
 
     document.getElementById("buttons").appendChild(btn);
     document.getElementById("buttons").appendChild(del);
+  
+    btnStore.blur();
 }
 
 function restore(storage) {
