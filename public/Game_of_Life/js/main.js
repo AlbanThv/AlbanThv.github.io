@@ -46,17 +46,80 @@ function draw() {
     for (let i = 0; i < tiles.length; i++) {
       for (let j = 0; j < tiles[i].length; j++) {
         let neighbour = 0;
-        if (i != 0 && j != 0 && i != tiles.length-1 && j != tiles[i].length-1) {
-          neighbour =
-            tiles[i-1][j-1].isAlive
-          + tiles[i-1][j].isAlive
-          + tiles[i-1][j+1].isAlive
-          + tiles[i][j-1].isAlive
-          + tiles[i][j+1].isAlive
-          + tiles[i+1][j-1].isAlive
-          + tiles[i+1][j].isAlive
-          + tiles[i+1][j+1].isAlive
+
+        if (i == 0 && j == 0) {
+          tileNO = tiles[tiles.length-1][tiles[i].length-1].isAlive;
+        } else if (i == 0) {
+          tileNO = tiles[tiles.length-1][j-1].isAlive;
+        } else if (j == 0) {
+          tileNO = tiles[i-1][tiles[i].length-1].isAlive;
+        } else {
+          tileNO = tiles[i-1][j-1].isAlive;
         }
+
+        if (i == 0) {
+          tileN = tiles[tiles.length-1][j].isAlive;
+        } else {
+          tileN = tiles[i-1][j].isAlive;
+        }
+
+        if (i == 0 && j == tiles[i].length-1) {
+          tileNE = tiles[tiles.length-1][0].isAlive;
+        } else if (i == 0) {
+          tileNE = tiles[tiles.length-1][j+1].isAlive;
+        } else if (j == tiles[i].length-1) {
+          tileNE = tiles[i-1][0].isAlive;
+        } else {
+          tileNE = tiles[i-1][j+1].isAlive;
+        }
+
+        if (j == 0) {
+          tileO = tiles[i][tiles[i].length-1].isAlive;
+        } else {
+          tileO = tiles[i][j-1].isAlive;
+        }
+
+        if (j == tiles[i].length-1) {
+          tileE = tiles[i][0].isAlive;
+        } else {
+          tileE = tiles[i][j+1].isAlive;
+        }
+
+        if (i == tiles.length-1 && j == 0) {
+          tileSO = tiles[0][tiles[i].length-1].isAlive;
+        } else if (i == tiles.length-1) {
+          tileSO = tiles[0][j-1].isAlive;
+        } else if (j == 0) {
+          tileSO = tiles[i+1][tiles[i].length-1].isAlive;
+        } else {
+          tileSO = tiles[i+1][j-1].isAlive;
+        }
+
+        if (i == tiles.length-1) {
+          tileS = tiles[0][j].isAlive;
+        } else {
+          tileS = tiles[i+1][j].isAlive;
+        }
+
+        if (i == tiles.length-1 && j == tiles[i].length-1) {
+          tileSE = tiles[0][0].isAlive;
+        } else if (i == tiles.length-1) {
+          tileSE = tiles[0][j+1].isAlive;
+        } else if (j == tiles[i].length-1) {
+          tileSE = tiles[i+1][0].isAlive;
+        } else {
+          tileSE = tiles[i+1][j+1].isAlive;
+        }
+
+        neighbour =
+          tileNO
+        + tileN
+        + tileNE
+        + tileO
+        + tileE
+        + tileSO
+        + tileS
+        + tileSE
 
         if (tiles[i][j].isAlive == 0 && neighbour == 3) {
           tiles[i][j].nextStep = 1;
