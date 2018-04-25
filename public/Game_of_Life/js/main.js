@@ -1,5 +1,7 @@
 let tiles = [[]];
 let tileSize = 16;
+let tilesH;
+let tilesL;
 
 let Gen = 0;
 let Pause = true;
@@ -14,17 +16,25 @@ let btnClear;
 let stored = [];
 let btnStore;
 
+let speed;
+let btnSpeed;
+
 function setup() {
-  let cnv = createCanvas(floor((windowWidth-16)/16)*16, floor((windowHeight-16)/16)*16);
+  let cnv = createCanvas(floor((windowWidth-tileSize)/tileSize)*tileSize, floor((windowHeight-tileSize)/tileSize)*tileSize);
   cnv.style('display', 'block');
   // noStroke();
+  strokeWeight(1);
+  stroke(0);
 
   for (let y = tileSize; y < height; y += tileSize) {
-    tiles[y/16-1] = [];
+    tiles[y/tileSize-1] = [];
     for (let x = tileSize; x < width; x += tileSize) {
-      tiles[y/16-1][x/16-1] = new Tile({x, y});
+      tiles[y/tileSize-1][x/tileSize-1] = new Tile({x, y});
     }
   }
+
+  tilesH = tiles.length;
+  tilesL = tiles[0].length;
 
   btnPause = document.getElementById('pause');
   btnPause.onclick = fctplay;
@@ -35,97 +45,30 @@ function setup() {
   btnClear = document.getElementById('clear');
   btnClear.onclick = fctclear;
 
+  btnSpeed = document.getElementById('speed');
+  btnSpeed.oninput = fctspeed;
+  speed = btnSpeed.value;
+
   btnStore = document.getElementById('store');
   btnStore.onclick = store;
-}
 
-function draw() {
-  btnPause.textContent = btnPauseCtx + " (Gen:" + Gen + ")";
-  background(0);
-  for (let i = 0; i < tiles.length; i++) {
-    for (let j = 0; j < tiles[i].length; j++) {
+  for (let i = 0; i < tilesH; i++) {
+    for (let j = 0; j < tilesL; j++) {
       tiles[i][j].show();
     }
   }
+}
+
+function draw() {
+  frameRate(parseInt(speed));
+  // console.log(frameRate(), parseInt(speed))
 
   if (!Pause || Step) {
-    for (let i = 0; i < tiles.length; i++) {
-      for (let j = 0; j < tiles[i].length; j++) {
-        let neighbour = 0;
 
-        if (i == 0 && j == 0) {
-          tileNO = tiles[tiles.length-1][tiles[i].length-1].isAlive;
-        } else if (i == 0) {
-          tileNO = tiles[tiles.length-1][j-1].isAlive;
-        } else if (j == 0) {
-          tileNO = tiles[i-1][tiles[i].length-1].isAlive;
-        } else {
-          tileNO = tiles[i-1][j-1].isAlive;
-        }
+    for (let i = 0; i < tilesH; i++) {
+      for (let j = 0; j < tilesL; j++) {
 
-        if (i == 0) {
-          tileN = tiles[tiles.length-1][j].isAlive;
-        } else {
-          tileN = tiles[i-1][j].isAlive;
-        }
-
-        if (i == 0 && j == tiles[i].length-1) {
-          tileNE = tiles[tiles.length-1][0].isAlive;
-        } else if (i == 0) {
-          tileNE = tiles[tiles.length-1][j+1].isAlive;
-        } else if (j == tiles[i].length-1) {
-          tileNE = tiles[i-1][0].isAlive;
-        } else {
-          tileNE = tiles[i-1][j+1].isAlive;
-        }
-
-        if (j == 0) {
-          tileO = tiles[i][tiles[i].length-1].isAlive;
-        } else {
-          tileO = tiles[i][j-1].isAlive;
-        }
-
-        if (j == tiles[i].length-1) {
-          tileE = tiles[i][0].isAlive;
-        } else {
-          tileE = tiles[i][j+1].isAlive;
-        }
-
-        if (i == tiles.length-1 && j == 0) {
-          tileSO = tiles[0][tiles[i].length-1].isAlive;
-        } else if (i == tiles.length-1) {
-          tileSO = tiles[0][j-1].isAlive;
-        } else if (j == 0) {
-          tileSO = tiles[i+1][tiles[i].length-1].isAlive;
-        } else {
-          tileSO = tiles[i+1][j-1].isAlive;
-        }
-
-        if (i == tiles.length-1) {
-          tileS = tiles[0][j].isAlive;
-        } else {
-          tileS = tiles[i+1][j].isAlive;
-        }
-
-        if (i == tiles.length-1 && j == tiles[i].length-1) {
-          tileSE = tiles[0][0].isAlive;
-        } else if (i == tiles.length-1) {
-          tileSE = tiles[0][j+1].isAlive;
-        } else if (j == tiles[i].length-1) {
-          tileSE = tiles[i+1][0].isAlive;
-        } else {
-          tileSE = tiles[i+1][j+1].isAlive;
-        }
-
-        neighbour =
-          tileNO
-        + tileN
-        + tileNE
-        + tileO
-        + tileE
-        + tileSO
-        + tileS
-        + tileSE
+        let neighbour = getNeighbour(i, j);
 
         if (tiles[i][j].isAlive == 0 && neighbour == 3) {
           tiles[i][j].nextStep = 1;
@@ -139,8 +82,99 @@ function draw() {
     }
 
     Gen++;
+    btnPause.textContent = btnPauseCtx + " (Gen:" + Gen + ")";
+
+    //background(0);
+    for (let i = 0; i < tilesH; i++) {
+      for (let j = 0; j < tilesL; j++) {
+        if (tiles[i][j].isAlive == 1 || tiles[i][j].nextStep == 1 || getNeighbour(i, j) > 0) {
+          tiles[i][j].show();
+        }
+      }
+    }
+
     Step = false;
   }
+}
+
+function getNeighbour(i, j) {
+  let neighbour = 0;
+
+  if (i == 0 && j == 0) {
+    tileNO = tiles[tiles.length-1][tiles[i].length-1].isAlive;
+  } else if (i == 0) {
+    tileNO = tiles[tiles.length-1][j-1].isAlive;
+  } else if (j == 0) {
+    tileNO = tiles[i-1][tiles[i].length-1].isAlive;
+  } else {
+    tileNO = tiles[i-1][j-1].isAlive;
+  }
+
+  if (i == 0) {
+    tileN = tiles[tiles.length-1][j].isAlive;
+  } else {
+    tileN = tiles[i-1][j].isAlive;
+  }
+
+  if (i == 0 && j == tiles[i].length-1) {
+    tileNE = tiles[tiles.length-1][0].isAlive;
+  } else if (i == 0) {
+    tileNE = tiles[tiles.length-1][j+1].isAlive;
+  } else if (j == tiles[i].length-1) {
+    tileNE = tiles[i-1][0].isAlive;
+  } else {
+    tileNE = tiles[i-1][j+1].isAlive;
+  }
+
+  if (j == 0) {
+    tileO = tiles[i][tiles[i].length-1].isAlive;
+  } else {
+    tileO = tiles[i][j-1].isAlive;
+  }
+
+  if (j == tiles[i].length-1) {
+    tileE = tiles[i][0].isAlive;
+  } else {
+    tileE = tiles[i][j+1].isAlive;
+  }
+
+  if (i == tiles.length-1 && j == 0) {
+    tileSO = tiles[0][tiles[i].length-1].isAlive;
+  } else if (i == tiles.length-1) {
+    tileSO = tiles[0][j-1].isAlive;
+  } else if (j == 0) {
+    tileSO = tiles[i+1][tiles[i].length-1].isAlive;
+  } else {
+    tileSO = tiles[i+1][j-1].isAlive;
+  }
+
+  if (i == tiles.length-1) {
+    tileS = tiles[0][j].isAlive;
+  } else {
+    tileS = tiles[i+1][j].isAlive;
+  }
+
+  if (i == tiles.length-1 && j == tiles[i].length-1) {
+    tileSE = tiles[0][0].isAlive;
+  } else if (i == tiles.length-1) {
+    tileSE = tiles[0][j+1].isAlive;
+  } else if (j == tiles[i].length-1) {
+    tileSE = tiles[i+1][0].isAlive;
+  } else {
+    tileSE = tiles[i+1][j+1].isAlive;
+  }
+
+  neighbour =
+    tileNO
+  + tileN
+  + tileNE
+  + tileO
+  + tileE
+  + tileSO
+  + tileS
+  + tileSE;
+
+  return neighbour;
 }
 
 function keyPressed() {
@@ -150,6 +184,26 @@ function keyPressed() {
     fctstep();
   } else if (keyCode === BACKSPACE || keyCode === DELETE) {
     fctclear();
+  }
+}
+
+function mousePressed() {
+  mouse();
+}
+
+function mouseDragged() {
+  mouse();
+}
+
+function mouse() {
+  //background(0);
+  for (let i = 0; i < tilesH; i++) {
+    for (let j = 0; j < tilesL; j++) {
+      tiles[i][j].drag();
+      if (tiles[i][j].isAlive == 1 || tiles[i][j].nextStep == 1 || getNeighbour(i, j) > 0) {
+        tiles[i][j].show();
+      }
+    }
   }
 }
 
@@ -169,8 +223,9 @@ function fctstep() {
 }
 
 function fctclear() {
-  for (let i = 0; i < tiles.length; i++) {
-    for (let j = 0; j < tiles[i].length; j++) {
+  //background(0);
+  for (let i = 0; i < tilesH; i++) {
+    for (let j = 0; j < tilesL; j++) {
       tiles[i][j].nextStep = 0;
       tiles[i][j].show();
     }
@@ -178,30 +233,20 @@ function fctclear() {
   Gen = 0;
   Pause = true;
   btnPauseCtx = "Play";
+  btnPause.textContent = btnPauseCtx;
   btnClear.blur();
 }
 
-function mousePressed() {
-  mouse();
-}
-
-function mouseDragged() {
-  mouse();
-}
-
-function mouse() {
-  for (let i = 0; i < tiles.length; i++) {
-    for (let j = 0; j < tiles[i].length; j++) {
-      tiles[i][j].drag();
-    }
-  }
+function fctspeed() {
+  speed = btnSpeed.value;
+  btnSpeed.blur();
 }
 
 function store() {
     let newTiles = [[]];
-    for (let i = 0; i < tiles.length; i++) {
+    for (let i = 0; i < tilesH; i++) {
         newTiles[i] = [];
-        for (let j = 0; j < tiles[i].length; j++) {
+        for (let j = 0; j < tilesL; j++) {
             newTiles[i][j] = new Tile(tiles[i][j]);
         }
     }
@@ -233,7 +278,7 @@ function store() {
 
     document.getElementById("buttons").appendChild(btn);
     document.getElementById("buttons").appendChild(del);
-  
+
     btnStore.blur();
 }
 
@@ -276,9 +321,9 @@ class Tile {
   show() {
     this.isAlive = this.nextStep;
     if (this.isAlive) {
-      this.col = color(255,0,0,150);
+      this.col = color(200,0,0);
     } else {
-      this.col = color(160,150);
+      this.col = color(100);
     }
     fill(this.col);
     rect(this.x, this.y, tileSize, tileSize);
