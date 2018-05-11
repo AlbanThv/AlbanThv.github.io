@@ -4,6 +4,12 @@ let mapSize = 21;
 let TilePerso = {x:-1, y:-1};
 let TileCible = {x:-mapSize, y:-mapSize};
 let TileSort  = {x:-1, y:-1};
+
+var Personnage;
+function preload() {
+  Personnage = loadImage('Personnage.png');
+}
+
 let Carte = [];
 Carte[1] = "000000000000000000000" //Harebourg
           +"000000001100000000000"
@@ -150,6 +156,7 @@ function draw() {
 
     if (tiles[i].gridX == TilePerso.x && tiles[i].gridY == TilePerso.y) {
       tiles[i].col = color(0,255,0);
+      tiles[i].picture = 1;
     }
     if (tiles[i].gridX == TileCible.x && tiles[i].gridY == TileCible.y) {
       tiles[i].col = color(255,0,0);
@@ -174,19 +181,25 @@ function mouseDragged() {
   }
 }
 
-function Tile(x, y) {
-  this.x = x;
-  this.y = y;
-  this.col = color(255,100);
-  this.gridX = (x-2)/tileSize;
-  this.gridY = (y-2)/tileSize;
-
-  this.show = function() {
-    fill(this.col);
-    rect(this.x, this.y, 28, 28);
+class Tile {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+    this.col = color(255,100);
+    this.gridX = (x-2)/tileSize;
+    this.gridY = (y-2)/tileSize;
+    this.picture = 0;
   }
 
-  this.drag = function() {
+  show() {
+    fill(this.col);
+    rect(this.x, this.y, 28, 28);
+    if(this.picture == 1) {
+      image(Personnage, this.x, this.y, 28, 28);
+    }
+  }
+
+  drag() {
     let d = (mouseX > this.x
           && mouseX < (this.x + tileSize)
           && mouseY > this.y
