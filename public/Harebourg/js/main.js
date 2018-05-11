@@ -7,7 +7,7 @@ let TileSort  = {x:-1, y:-1};
 
 var Personnage;
 function preload() {
-  Personnage = loadImage('Personnage.png');
+  Personnage = loadImage('Ressources/Personnage.png');
 }
 
 let Carte = [];
