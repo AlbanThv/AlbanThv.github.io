@@ -5,9 +5,11 @@ let TilePerso = {x:-1, y:-1};
 let TileCible = {x:-mapSize, y:-mapSize};
 let TileSort  = {x:-1, y:-1};
 
-var Personnage;
+var Personnage, Ennemi, Sort;
 function preload() {
   Personnage = loadImage('Ressources/Personnage.png');
+  Ennemi = loadImage('Ressources/Ennemi.png');
+  Sort = loadImage('Ressources/Sort.png');
 }
 
 let Carte = [];
@@ -199,6 +201,12 @@ class Tile {
     rect(this.x, this.y, 28, 28);
     if(this.picture == 1) {
       image(Personnage, this.x, this.y, 28, 28);
+    }
+    else if(this.picture == 2) {
+      image(Ennemi, this.x, this.y, 28, 28);
+    }
+    else if(this.picture == 3) {
+      image(Sort, this.x, this.y, 28, 28);
     }
   }
 
