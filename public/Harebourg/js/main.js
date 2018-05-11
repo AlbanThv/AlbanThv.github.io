@@ -154,15 +154,18 @@ function draw() {
       tiles[i].col = color(0);
     }
 
+    tiles[i].picture = 0;
     if (tiles[i].gridX == TilePerso.x && tiles[i].gridY == TilePerso.y) {
       tiles[i].col = color(0,255,0);
       tiles[i].picture = 1;
     }
     if (tiles[i].gridX == TileCible.x && tiles[i].gridY == TileCible.y) {
       tiles[i].col = color(255,0,0);
+      tiles[i].picture = 2;
     }
     if (tiles[i].gridX == TileSort.x && tiles[i].gridY == TileSort.y) {
       tiles[i].col = color(255,0,255);
+      tiles[i].picture = 3;
     }
 
     tiles[i].show();
