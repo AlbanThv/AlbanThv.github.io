@@ -151,7 +151,7 @@ function showMap() {
       url += "Sylargh.png";
       break;
     default:
-      url += "attention-auroraire.jpg";
+      url += "Confusion horaire.jpg";
       break;
   }
 
