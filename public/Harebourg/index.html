@@ -14,8 +14,12 @@
             user-select: none;
             color: white;
         }
+        span {
+            color: DodgerBlue;
+            text-decoration: underline;
+        }
         a:visited {
-            color: blue;
+            color: DodgerBlue;
         }
     </style>
 </head>
@@ -24,7 +28,7 @@
     <div style="position: absolute; padding-left: 620px; padding-top: 10px; transform: scale(1.2);">
         <h3 onclick="changeColor()">Système des PI avec le Comte Harebourg</h3>
         <p>
-            <span onclick="showMap()">Carte :</span>
+            <span onclick="showMap()">Carte</span> :
             <select id=map>
                 <option value="1">Harebourg</option>
                 <option value="2">w/ Nileza</option>
@@ -46,7 +50,7 @@
             <br><input id="radio3" type="radio" name="Pi" value="Envers">
             <label for="radio3">2π/2 &nbsp 180° &nbsp           4π/4</label>
         </p>
-        (<a href="https://albanthv.github.io/public/Harebourg/Assets/attention-auroraire.jpg">version Image</a>)
+        (<span onclick='window.open("https://albanthv.github.io/public/Harebourg/Assets/attention-auroraire.jpg", "_blank", "toolbar=no, menubar=no, top=500, left=500, width=400, height=400")'>Version image</span>)
     </div>
 </body>
 
