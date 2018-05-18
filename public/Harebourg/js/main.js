@@ -136,7 +136,7 @@ function showMap() {
   url = "https://albanthv.github.io/public/Harebourg/Assets/";
   switch (CarteIndex) {
     case "1":
-      url += "attention-auroraire.jpg";
+      url += "Harebourg.png";
       break;
     case "2":
       url += "Nileza.png";
