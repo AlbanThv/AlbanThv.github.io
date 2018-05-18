@@ -133,11 +133,32 @@ function changeColor() {
 
 function showMap() {
   CarteIndex = select("#map").value();
-  if (CarteIndex == 1) {
-    window.open("https://albanthv.github.io/public/Harebourg/Assets/Klime.png",
+  url = "https://albanthv.github.io/public/Harebourg/Assets/";
+  switch (CarteIndex) {
+    case 1:
+      url += "attention-auroraire.jpg";
+      break;
+    case 1:
+      url += "Nileza.png";
+      break;
+    case 1:
+      url += "Klime.png";
+      break;
+    case 1:
+      url += "Missiz Frizz.png";
+      break;
+    case 1:
+      url += "Sylargh.png";
+      break;
+
+    default:
+      break;
+  }
+
+  window.open(url,
     "_blank",
     "toolbar=no, menubar=no, top=500, left=500, width=400, height=400");
-  }
+
   return false;
 }
 
