@@ -134,6 +134,7 @@ function changeColor() {
 function showMap() {
   CarteIndex = select("#map").value();
   url = "https://albanthv.github.io/public/Harebourg/Assets/";
+  console.log(CarteIndex);
   switch (CarteIndex) {
     case 1:
       url += "attention-auroraire.jpg";
