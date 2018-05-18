@@ -158,7 +158,7 @@ function showMap() {
 
   window.open(url,
     "_blank",
-    "toolbar=no, menubar=no, top=400, left=400, width=960, height=540");
+    "toolbar=no, menubar=no, top=50, left=100, width=960, height=540");
 
   return false;
 }
