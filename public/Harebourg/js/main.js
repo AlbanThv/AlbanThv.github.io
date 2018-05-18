@@ -131,6 +131,16 @@ function changeColor() {
   return false;
 }
 
+function showMap() {
+  CarteIndex = select("#map").value();
+  if (CarteIndex == 1) {
+    window.open("https://albanthv.github.io/public/Harebourg/Assets/Klime.png",
+    "_blank",
+    "toolbar=no, menubar=no, top=500, left=500, width=400, height=400");
+  }
+  return false;
+}
+
 function setup() {
   let cnv = createCanvas(mapSize*tileSize+2, mapSize*tileSize+2);
   cnv.style('display', 'block');
