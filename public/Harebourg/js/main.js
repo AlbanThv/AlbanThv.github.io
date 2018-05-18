@@ -134,21 +134,20 @@ function changeColor() {
 function showMap() {
   CarteIndex = select("#map").value();
   url = "https://albanthv.github.io/public/Harebourg/Assets/";
-  console.log(CarteIndex);
   switch (CarteIndex) {
-    case 1:
+    case "1":
       url += "attention-auroraire.jpg";
       break;
-    case 2:
+    case "2":
       url += "Nileza.png";
       break;
-    case 3:
+    case "3":
       url += "Klime.png";
       break;
-    case 4:
+    case "4":
       url += "Missiz Frizz.png";
       break;
-    case 5:
+    case "5":
       url += "Sylargh.png";
       break;
     default:
