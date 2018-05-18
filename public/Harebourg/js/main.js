@@ -138,20 +138,20 @@ function showMap() {
     case 1:
       url += "attention-auroraire.jpg";
       break;
-    case 1:
+    case 2:
       url += "Nileza.png";
       break;
-    case 1:
+    case 3:
       url += "Klime.png";
       break;
-    case 1:
+    case 4:
       url += "Missiz Frizz.png";
       break;
-    case 1:
+    case 5:
       url += "Sylargh.png";
       break;
-
     default:
+      url += "attention-auroraire.jpg";
       break;
   }
 
