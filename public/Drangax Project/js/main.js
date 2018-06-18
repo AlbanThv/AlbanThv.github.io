@@ -162,18 +162,18 @@ class Tile {
     switch (this.type) {
       case "0":
         this.col = color(119, 221, 119);
-        image(IMGfloor, this.x * tileSize, this.y * tileSize, tileSize);
+        image(IMGfloor, this.x * tileSize, this.y * tileSize, tileSize, tileSize);
         break;
       case "1":
         this.col = color(131, 105, 83);
-        image(IMGwall, this.x * tileSize, this.y * tileSize, tileSize);
+        image(IMGwall, this.x * tileSize, this.y * tileSize, tileSize, tileSize);
         break;
       case "2":
         this.col = color(255, 90, 90);
         break;
       case "P":
         this.col = color(119, 158, 203);
-        image(IMGplayer, this.x * tileSize, this.y * tileSize, tileSize);
+        image(IMGplayer, this.x * tileSize, this.y * tileSize, tileSize, tileSize);
         break;
       default:
         this.col = color(255);
