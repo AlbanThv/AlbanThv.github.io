@@ -19,6 +19,7 @@ function preload() {
 function setup() {
   let cnv = createCanvas(sceneSize * tileSize, sceneSize * tileSize);
   cnv.style('display', 'block');
+  cnv.style('image-rendering', 'pixelated');
   stroke(0);
   // noStroke();
 
