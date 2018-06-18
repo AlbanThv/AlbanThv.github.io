@@ -204,7 +204,7 @@ class Player {
           BigMap[BigMapX][BigMapY].changeMap("NORTH");
           this.y = sceneSize - 1;
         }
-        else if (this.y > 0 && BigMap[BigMapX][BigMapY].tile(this.x, this.y - 1).isWalkable) {
+        else if (this.y > 0 && BigMap[BigMapX][BigMapY].tile(this.x, this.y - 1) == "0") {
           this.y--;
         }
         break;
@@ -213,7 +213,7 @@ class Player {
           BigMap[BigMapX][BigMapY].changeMap("SOUTH");
           this.y = 0;
         }
-        else if (this.y < sceneSize && BigMap[BigMapX][BigMapY].tile(this.x, this.y + 1).isWalkable) {
+        else if (this.y < sceneSize && BigMap[BigMapX][BigMapY].tile(this.x, this.y + 1) == "0") {
           this.y++;
         }
         break;
@@ -222,7 +222,7 @@ class Player {
           BigMap[BigMapX][BigMapY].changeMap("EST");
           this.x = 0;
         }
-        else if (this.x < sceneSize && BigMap[BigMapX][BigMapY].tile(this.x + 1, this.y).isWalkable) {
+        else if (this.x < sceneSize && BigMap[BigMapX][BigMapY].tile(this.x + 1, this.y) == "0") {
           this.x++;
         }
         break;
@@ -231,7 +231,7 @@ class Player {
           BigMap[BigMapX][BigMapY].changeMap("WEST");
           this.x = sceneSize - 1;
         }
-        else if (this.x > 0 && BigMap[BigMapX][BigMapY].tile(this.x - 1, this.y).isWalkable) {
+        else if (this.x > 0 && BigMap[BigMapX][BigMapY].tile(this.x - 1, this.y) == "0") {
           this.x--;
         }
         break;
