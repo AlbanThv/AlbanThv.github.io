@@ -180,6 +180,11 @@ class Tile {
         break;
     }
 
+    if (ounce > 0) {
+      console.log(this.x, this.y);
+    }
+    ounce--;
+    
     // fill(this.col);
     // rect(this.x * tileSize, this.y * tileSize, this.x * tileSize + tileSize, this.y * tileSize + tileSize);
   }
