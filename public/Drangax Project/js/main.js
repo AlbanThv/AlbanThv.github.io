@@ -61,6 +61,10 @@ function draw() {
     for (let j = 0; j < tiles[0].length; j++) {
       tiles[i][j].type = BigMap[BigMapX][BigMapY].tile(j, i);
 
+      if (BigMap[BigMapX][BigMapY].tile(j, i) == "1") {
+        tiles[i][j].isWalkable = false;
+      }
+
       if (player.x == j && player.y == i) {
         tiles[i][j].type = "P";
       }
@@ -68,12 +72,6 @@ function draw() {
       tiles[i][j].show();
     }
   }
-
-  // if (ounce) {
-  //   console.log(BigMap[BigMapX][BigMapY].scene);
-  //   console.log(tiles);
-  // }
-  // ounce = 0;
 
   coord = text(BigMapX + ", " + BigMapY, 3, 12);
 }
@@ -156,35 +154,38 @@ class Tile {
     this.y = options.y;
     this.type = "0";
     this.col = color(255);
+    this.isWalkable = true;
   }
 
   show() {
-    switch (this.type) {
-      case "0":
-        this.col = color(119, 221, 119);
-        image(IMGfloor, this.x * tileSize, this.y * tileSize, tileSize, tileSize);
-        break;
-      case "1":
-        this.col = color(131, 105, 83);
-        image(IMGwall, this.x * tileSize, this.y * tileSize, tileSize, tileSize);
-        break;
-      case "2":
-        this.col = color(255, 90, 90);
-        break;
-      case "P":
-        this.col = color(119, 158, 203);
-        image(IMGplayer, this.x * tileSize, this.y * tileSize, tileSize, tileSize);
-        break;
-      default:
-        this.col = color(255);
-        break;
+    if (this.isWalkable) {
+      image(IMGfloor, this.x * tileSize, this.y * tileSize, tileSize, tileSize);
+    } else {
+      image(IMGwall, this.x * tileSize, this.y * tileSize, tileSize, tileSize);
     }
 
-    if (ounce > 0) {
-      console.log(this.x, this.y);
+    if (this.type == "P") {
+      image(IMGplayer, this.x * tileSize, this.y * tileSize, tileSize, tileSize);
     }
-    ounce--;
-    
+
+
+    // switch (this.type) {
+    //   case "0":
+    //     this.col = color(119, 221, 119);
+    //     break;
+    //   case "1":
+    //     this.col = color(131, 105, 83);
+    //     break;
+    //   case "2":
+    //     this.col = color(255, 90, 90);
+    //     break;
+    //   case "P":
+    //     this.col = color(119, 158, 203);
+    //     break;
+    //   default:
+    //     this.col = color(255);
+    //     break;
+    // }
     // fill(this.col);
     // rect(this.x * tileSize, this.y * tileSize, this.x * tileSize + tileSize, this.y * tileSize + tileSize);
   }
@@ -203,7 +204,7 @@ class Player {
           BigMap[BigMapX][BigMapY].changeMap("NORTH");
           this.y = sceneSize - 1;
         }
-        else if (this.y > 0 && BigMap[BigMapX][BigMapY].tile(this.x, this.y - 1) == "0") {
+        else if (this.y > 0 && BigMap[BigMapX][BigMapY].tile(this.x, this.y - 1).isWalkable) {
           this.y--;
         }
         break;
@@ -212,7 +213,7 @@ class Player {
           BigMap[BigMapX][BigMapY].changeMap("SOUTH");
           this.y = 0;
         }
-        else if (this.y < sceneSize && BigMap[BigMapX][BigMapY].tile(this.x, this.y + 1) == "0") {
+        else if (this.y < sceneSize && BigMap[BigMapX][BigMapY].tile(this.x, this.y + 1).isWalkable) {
           this.y++;
         }
         break;
@@ -221,7 +222,7 @@ class Player {
           BigMap[BigMapX][BigMapY].changeMap("EST");
           this.x = 0;
         }
-        else if (this.x < sceneSize && BigMap[BigMapX][BigMapY].tile(this.x + 1, this.y) == "0") {
+        else if (this.x < sceneSize && BigMap[BigMapX][BigMapY].tile(this.x + 1, this.y).isWalkable) {
           this.x++;
         }
         break;
@@ -230,7 +231,7 @@ class Player {
           BigMap[BigMapX][BigMapY].changeMap("WEST");
           this.x = sceneSize - 1;
         }
-        else if (this.x > 0 && BigMap[BigMapX][BigMapY].tile(this.x - 1, this.y) == "0") {
+        else if (this.x > 0 && BigMap[BigMapX][BigMapY].tile(this.x - 1, this.y).isWalkable) {
           this.x--;
         }
         break;
