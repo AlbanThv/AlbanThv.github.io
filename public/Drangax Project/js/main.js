@@ -60,7 +60,8 @@ function draw() {
   for (let i = 0; i < tiles.length; i++) {
     for (let j = 0; j < tiles[0].length; j++) {
       tiles[i][j].type = BigMap[BigMapX][BigMapY].tile(j, i);
-
+      
+      tiles[i][j].isWalkable = true;
       if (BigMap[BigMapX][BigMapY].tile(j, i) == "1") {
         tiles[i][j].isWalkable = false;
       }
