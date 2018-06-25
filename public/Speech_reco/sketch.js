@@ -20,9 +20,9 @@ function setup()
 	let lang = 'en-US'//navigator.language || 'fr-FR';
 	speechRec.onResult = gotSpeech;
 	setLang(lang);
-	//let continuous = true;
-	//let interim = true;
-	speechRec.start();//continuous, interim);
+	let continuous = true;
+	let interim = true;
+	speechRec.start(continuous, interim);
 	//speechRec.onEnd(background(0, 0, 0);)
 }
 
@@ -39,5 +39,5 @@ function gotSpeech()
 function mousePressed()
 {
 	background(190, 255, 190);
-	speechRec.start();//continuous, interim);
+	speechRec.start(continuous, interim);
 }
