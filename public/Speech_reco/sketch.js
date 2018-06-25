@@ -17,9 +17,9 @@ function setup()
 	//voice.setVoice('Cellos')
 	//voice.speak("Salut tout le monde");
 	
-	//let lang = 'en-US'//navigator.language || 'fr-FR';
+	let lang = 'en-US'//navigator.language || 'fr-FR';
 	speechRec.onResult = gotSpeech;
-	speechRec.setLang("fr-FR");
+	setLang(lang);
 	//let continuous = true;
 	//let interim = true;
 	speechRec.start();//continuous, interim);
