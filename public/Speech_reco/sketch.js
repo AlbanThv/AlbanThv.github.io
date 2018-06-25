@@ -1,4 +1,6 @@
 let lang = 'en-US'//navigator.language || 'fr-FR';
+let continuous = true;
+let interim = true;
 var speechRec = new p5.SpeechRec(lang);
 var canvas, Div;
 
@@ -19,8 +21,6 @@ function setup()
 	//voice.speak("Salut tout le monde");
 	
 	speechRec.onResult = gotSpeech;
-	let continuous = true;
-	let interim = true;
 	speechRec.start(continuous, interim);
 	//speechRec.onEnd(background(0, 0, 0);)
 }
