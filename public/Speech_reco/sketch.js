@@ -19,7 +19,7 @@ function setup()
 	
 	//let lang = 'en-US'//navigator.language || 'fr-FR';
 	speechRec.onResult = gotSpeech;
-	setLang(fr-FR);
+	speechRec.setLang(fr-FR);
 	//let continuous = true;
 	//let interim = true;
 	speechRec.start();//continuous, interim);
