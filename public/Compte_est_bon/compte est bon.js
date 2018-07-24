@@ -45,6 +45,7 @@ var operation = {
     3: function(a, b) { return parseInt(a) / parseInt(b) },
 };
 
+var fulltime;
 
 function cherche_tout(a, b, c, d, e, f, but, premier) {
     document.write(`Avec <b>${a}</b>, <b>${b}</b>, <b>${c}</b>, <b>${d}</b>, <b>${e}</b>, et <b>${f}</b> je cherche <b>${but}</b> :</br>`)
@@ -56,7 +57,7 @@ function cherche_tout(a, b, c, d, e, f, but, premier) {
     var v=w=x=y=z=0
     var prnt=0
     var thetime = new Date().getTime();
-    var fulltime = thetime;
+    fulltime = thetime;
     precedent=[]
     proche=[-1]
     // document.write(`time= ${thetime}, liste=${liste}, operate=${operate}, solution=${solution}, precedent.slice(-1)[0]=${precedent.slice(-1)[0]} </br></br>`)
