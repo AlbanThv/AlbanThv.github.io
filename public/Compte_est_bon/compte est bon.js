@@ -344,7 +344,7 @@ function afficher(a,b,c,d,e,f,resultat,but,precedent,thetime,premier) {
 
     if (identique==0) {
 	fulltime+=new Date().getTime()-thetime
-        document.write(`</br>Solution n°${numero} ${compare} Temps mis : ${new Date().getTime()-thetime} ms</br>Temps Total : ${new Date().getTime()-fulltime}</br>`)
+        document.write(`</br>Solution n°${numero} ${compare} Temps mis : ${new Date().getTime()-thetime} ms</br>Temps Total : ${fulltime}</br>`)
         numero++
         if (premier==1 && numero%ask == 0) {
             if (confirm(`Voulez-vous afficher la Solution n°${numero} et les ${ask} suivants`)){
