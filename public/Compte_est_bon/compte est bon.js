@@ -57,7 +57,6 @@ function cherche_tout(a, b, c, d, e, f, but, premier) {
     var v=w=x=y=z=0
     var prnt=0
     var thetime = new Date().getTime();
-    fulltime = thetime;
     precedent=[]
     proche=[-1]
     // document.write(`time= ${thetime}, liste=${liste}, operate=${operate}, solution=${solution}, precedent.slice(-1)[0]=${precedent.slice(-1)[0]} </br></br>`)
@@ -344,8 +343,8 @@ function afficher(a,b,c,d,e,f,resultat,but,precedent,thetime,premier) {
     }
 
     if (identique==0) {
+	fulltime+=new Date().getTime()-thetime
         document.write(`</br>Solution n°${numero} ${compare} Temps mis : ${new Date().getTime()-thetime} ms</br>Temps Total : ${new Date().getTime()-fulltime}</br>`)
-	fulltime+=thetime
         numero++
         if (premier==1 && numero%ask == 0) {
             if (confirm(`Voulez-vous afficher la Solution n°${numero} et les ${ask} suivants`)){
