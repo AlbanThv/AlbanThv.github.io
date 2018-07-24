@@ -89,7 +89,7 @@ function cherche_tout(a, b, c, d, e, f, but, premier) {
                 if (prnt==1) {document.write(`v_i : ${liste[li1]} : ${operate[i]} : ${liste2[li2]}  ${v(liste[li1],liste2[li2])}</br>`)}
                 if (( v(liste[li1],liste2[li2])==0 || v(liste[li1],liste2[li2])!=parseInt(v(liste[li1],liste2[li2])) || v(liste[li1],liste2[li2])<0 ) && i<4) {}
                 else if ((i==0 || i==2) && parseInt(liste[li1])>parseInt(liste2[li2])) {}
-		else if (v(liste[li1],liste2[li2])==liste[li1] || v(liste[li1],liste2[li2])==liste2[li2]) {}
+		else if (v(liste[li1],liste2[li2])==parseInt(liste[li1]) || v(liste[li1],liste2[li2])==parseInt(liste2[li2])) {}
                 else{
                     if (v(liste[li1],liste2[li2])==but) {
                         solution.push([])
@@ -124,7 +124,7 @@ function cherche_tout(a, b, c, d, e, f, but, premier) {
                                 if (prnt==1) {document.write(`w_j : ${liste3[li3]} : ${operate[j]} : ${liste4[li4]}  </br>`)}
                                 if (( w(liste3[li3],liste4[li4])==0 || w(liste3[li3],liste4[li4])!=parseInt(w(liste3[li3],liste4[li4])) || w(liste3[li3],liste4[li4])<0 ) && j<4) {}
                                 else if ((j==0 || j==2) && parseInt(liste3[li3])>parseInt(liste4[li4])) {}
-				else if (v(liste3[li3],liste4[li4])==liste3[li3] || v(liste3[li3],liste4[li4])==liste4[li4]) {}
+				else if (v(liste3[li3],liste4[li4])==parseInt(liste3[li3]) || v(liste3[li3],liste4[li4])==parseInt(liste4[li4])) {}
                                 else{
                                     if (w(liste3[li3],liste4[li4])==but) {
                                         solution.push([])
@@ -160,7 +160,7 @@ function cherche_tout(a, b, c, d, e, f, but, premier) {
                                                 if (prnt==1) {document.write(`x_k : ${liste5[li5]} : ${operate[k]} : ${liste6[li6]}  </br>`)}
                                                 if (( x(liste5[li5],liste6[li6])==0 || x(liste5[li5],liste6[li6])!=parseInt(x(liste5[li5],liste6[li6])) || x(liste5[li5],liste6[li6])<0 ) && k<4) {}
                                                 else if ((k==0 || k==2) && parseInt(liste5[li5])>parseInt(liste6[li6])) {}
-						else if (v(liste5[li5],liste6[li6])==liste5[li5] || v(liste5[li5],liste6[li6])==liste6[li6]) {}
+						else if (v(liste5[li5],liste6[li6])==parseInt(liste5[li5]) || v(liste5[li5],liste6[li6])==parseInt(liste6[li6])) {}
                                                 else{
                                                     if (x(liste5[li5],liste6[li6])==but) {
 														solution.push([])
@@ -197,7 +197,7 @@ function cherche_tout(a, b, c, d, e, f, but, premier) {
                                                                 if (prnt==1) {document.write(`y_l : ${liste7[li7]} : ${operate[l]} : ${liste8[li8]}  </br>`)}
                                                                 if (( y(liste7[li7],liste8[li8])==0 || y(liste7[li7],liste8[li8])!=parseInt(y(liste7[li7],liste8[li8])) || y(liste7[li7],liste8[li8])<0 ) && l<4) {}
                                                                 else if ((l==0 || l==2) && parseInt(liste7[li7])>parseInt(liste8[li8])) {}
-								else if (v(liste7[li7],liste8[li8])==liste7[li7] || v(liste7[li7],liste8[li8])==liste8[li8]) {}
+								else if (v(liste7[li7],liste8[li8])==parseInt(liste7[li7]) || v(liste7[li7],liste8[li8])==parseInt(liste8[li8])) {}
                                                                 else{
                                                                     if (y(liste7[li7],liste8[li8])==but)
                                                                         {solution.push([])
@@ -235,7 +235,7 @@ function cherche_tout(a, b, c, d, e, f, but, premier) {
                                                                                 if (prnt==1) {document.write(`z_m : ${liste9[li9]} : ${operate[m]} : ${liste10[li10]}  </br>`)}
                                                                                 if (( z(liste9[li9],liste10[li10])==0 || z(liste9[li9],liste10[li10])!=parseInt(z(liste9[li9],liste10[li10])) || z(liste9[li9],liste10[li10])<0 ) && l<4) {}
                                                                                 else if ((m==0 || m==2) && parseInt(liste9[li9])>parseInt(liste10[li10])) {}
-										else if (v(liste9[li9],liste10[li10])==liste9[li9] || v(liste9[li9],liste10[li10])==liste10[li10]) {}
+										else if (v(liste9[li9],liste10[li10])==parseInt(liste9[li9]) || v(liste9[li9],liste10[li10])==parseInt(liste10[li10])) {}
                                                                                 else{
                                                                                     if (z(liste9[li9],liste10[li10])==but)
                                                                                         {solution.push([])
