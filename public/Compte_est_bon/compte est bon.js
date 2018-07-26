@@ -322,7 +322,7 @@ function afficher(resultat, but, precedent, thetime, premier, level) {
 
     if (identique == 0) {
         fulltime += parseInt(new Date().getTime() - thetime);
-        document.write(`<br>Solution n°${numero} ${compare})`);// Temps mis : ${new Date().getTime() - thetime} ms<br>Temps total : ${fulltime} ms<br>`);
+        document.write(`<br>Solution n°${numero} ${compare}<br>`);// Temps mis : ${new Date().getTime() - thetime} ms<br>Temps total : ${fulltime} ms<br>`);
         if (level < minLevel[0]) {
             minLevel[0] = level;
             minLevel[1] = `<br>Solution la plus courte :<br>Solution n°${numero} ${compare}`;
