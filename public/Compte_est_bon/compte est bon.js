@@ -325,7 +325,7 @@ function afficher(resultat, but, precedent, thetime, premier, level) {
         document.write(`<br>Solution n°${numero} ${compare}`);// Temps mis : ${new Date().getTime() - thetime} ms<br>Temps total : ${fulltime} ms<br>`);
         if (level < minLevel[0]) {
             minLevel[0] = level;
-            minLevel[1] = `<br>Solution la plus courte :<br>Solution n°${numero} ${compare}`;
+            minLevel[1] = `<br>Une des solutions les plus courtes :<br>Solution n°${numero} ${compare}`;
         }
         numero++;
         if (premier == 0 && numero % ask == 0) {
