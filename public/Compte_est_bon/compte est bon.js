@@ -25,7 +25,7 @@ let d = twRequeteVariable("d")
 let e = twRequeteVariable("e")
 let f = twRequeteVariable("f")
 
-let premier = twRequeteVariable("unOUtout")
+let premier = twRequeteVariable("premier")
 let ask = twRequeteVariable("ask")
 
 let operation = {
@@ -56,7 +56,7 @@ function cherche_tout(a, b, c, d, e, f, but, premier) {
             precedent.push(afficher(solution[sol], but, precedent, thetime, premier, 0))
             thetime = new Date().getTime();
             sol += 1
-            if (precedent.slice(-1)[0] == undefined || premier == 0) {
+            if (precedent.slice(-1)[0] == undefined || premier == 1) {
                 console.log("exit 0");
                 return 1
             }
@@ -80,7 +80,7 @@ function cherche_tout(a, b, c, d, e, f, but, premier) {
                         precedent.push(afficher(solution[sol], but, precedent, thetime, premier, 1))
                         thetime = new Date().getTime();
                         sol += 1
-                        if (precedent.slice(-1)[0] == undefined || premier == 0) {
+                        if (precedent.slice(-1)[0] == undefined || premier == 1) {
                             console.log("exit 1");
                             return 1
                         }
@@ -113,7 +113,7 @@ function cherche_tout(a, b, c, d, e, f, but, premier) {
                                         precedent.push(afficher(solution[sol], but, precedent, thetime, premier, 2))
                                         thetime = new Date().getTime();
                                         sol += 1
-                                        if (precedent.slice(-1)[0] == undefined || premier == 0) {
+                                        if (precedent.slice(-1)[0] == undefined || premier == 1) {
                                             console.log("exit 2");
                                             return 1
                                         }
@@ -147,7 +147,7 @@ function cherche_tout(a, b, c, d, e, f, but, premier) {
                                                         precedent.push(afficher(solution[sol], but, precedent, thetime, premier, 3))
                                                         thetime = new Date().getTime();
                                                         sol += 1
-                                                        if (precedent.slice(-1)[0] == undefined || premier == 0) {
+                                                        if (precedent.slice(-1)[0] == undefined || premier == 1) {
                                                             console.log("exit 3");
                                                             return 1
                                                         }
@@ -182,7 +182,7 @@ function cherche_tout(a, b, c, d, e, f, but, premier) {
                                                                         precedent.push(afficher(solution[sol], but, precedent, thetime, premier, 4))
                                                                         thetime = new Date().getTime();
                                                                         sol += 1
-                                                                        if (precedent.slice(-1)[0] == undefined || premier == 0) {
+                                                                        if (precedent.slice(-1)[0] == undefined || premier == 1) {
                                                                             console.log("exit 4");
                                                                             return 1
                                                                         }
@@ -218,7 +218,7 @@ function cherche_tout(a, b, c, d, e, f, but, premier) {
                                                                                         precedent.push(afficher(solution[sol], but, precedent, thetime, premier, 5))
                                                                                         thetime = new Date().getTime();
                                                                                         sol += 1
-                                                                                        if (precedent.slice(-1)[0] == undefined || premier == 0) {
+                                                                                        if (precedent.slice(-1)[0] == undefined || premier == 1) {
                                                                                             console.log("exit 5");
                                                                                             return 1
                                                                                         }
@@ -244,7 +244,7 @@ function cherche_tout(a, b, c, d, e, f, but, premier) {
                                                                                             precedent.push(afficher(solution[sol], but, precedent, thetime, premier, 6))
                                                                                             thetime = new Date().getTime();
                                                                                             sol += 1
-                                                                                            if (precedent.slice(-1)[0] == undefined || premier == 0) {
+                                                                                            if (precedent.slice(-1)[0] == undefined || premier == 1) {
                                                                                                 console.log("exit 6");
                                                                                                 return 1
                                                                                             }
