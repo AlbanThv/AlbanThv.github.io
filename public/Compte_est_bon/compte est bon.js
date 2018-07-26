@@ -322,13 +322,13 @@ function afficher(resultat, but, precedent, thetime, premier, level) {
 
     if (identique == 0) {
         fulltime += parseInt(new Date().getTime() - thetime);
-        document.write(`<br>Solution n°${numero} ${compare} Temps mis : ${new Date().getTime() - thetime} ms<br>Temps total : ${fulltime} ms<br>`);
+        document.write(`<br>Solution n°${numero} ${compare})`);// Temps mis : ${new Date().getTime() - thetime} ms<br>Temps total : ${fulltime} ms<br>`);
         if (level < minLevel[0]) {
             minLevel[0] = level;
             minLevel[1] = `<br>Solution la plus courte :<br>Solution n°${numero} ${compare}`;
         }
         numero++;
-        if (premier == 1 && numero % ask == 0) {
+        if (premier == 0 && numero % ask == 0) {
             if (confirm(`Voulez-vous afficher la Solution n°${numero} et les ${ask} suivants`)) {
                 thetime = new Date().getTime();
                 window.scrollTo(0, document.body.scrollHeight);
