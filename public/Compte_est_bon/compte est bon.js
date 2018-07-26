@@ -287,12 +287,15 @@ function cherche_tout(a, b, c, d, e, f, but, premier) {
         }
         document.write(`Temps mis : ${new Date().getTime() - thetime} ms<br>`)
     }
-    else { document.write("<br>--Fin--<br>") }
+    else {
+        document.write(minLevel[1]);
+        document.write("<br>--Fin--<br>")
+    }
 }
 
 
 let numero = 1
-let minLevel = [7,""];
+let minLevel = [7, ""];
 function afficher(resultat, but, precedent, thetime, premier, level) {
     identique = 0
     if (typeof resultat[0] != "object") {
@@ -322,7 +325,7 @@ function afficher(resultat, but, precedent, thetime, premier, level) {
         document.write(`<br>Solution n°${numero} ${compare} Temps mis : ${new Date().getTime() - thetime} ms<br>Temps total : ${fulltime} ms<br>`);
         if (level < minLevel[0]) {
             minLevel[0] = level;
-            minLevel[1] = `<br>Solution La plus courte :<br>Solution n°${numero} ${compare}`;
+            minLevel[1] = `<br>Solution la plus courte :<br>Solution n°${numero} ${compare}`;
         }
         numero++;
         if (premier == 1 && numero % ask == 0) {
