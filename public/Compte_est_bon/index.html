@@ -117,7 +117,7 @@
         function search(event, number) {
             let ask = 10;
             if (event.shiftKey) {
-                let ask = 1000;
+                ask = 1000;
             }
             window.location = `./resultat.html?but=${document.getElementById("but").value}&a=${document.getElementById("a").value}&b=${document.getElementById("b").value}&c=${document.getElementById("c").value}&d=${document.getElementById("d").value}&e=${document.getElementById("e").value}&f=${document.getElementById("f").value}&ask=${ask}&premier=${number}`
         }
