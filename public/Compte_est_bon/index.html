@@ -1,30 +1,106 @@
 <html>
+
 <head>
     <meta charset="UTF-8">
-    <title>V Git</title>
+    <title>Le compte est bon</title>
     <link rel="icon" type="image/png" href="https://vengeur69.github.io/favicon.png">
-</head>
-<body>
-    <input type="submit" value="Générer des nombres aléatoires" onclick="generate()">
-    <form method="get" action="resultat.html">
-        </br>
-        <input id="but" name="but" type="number" placeholder="but" size=8 autofocus>
-        <p id="number">
-            <input id="a" name="a" type="number" placeholder="a" maxlenght=4 >
-            <input id="b" name="b" type="number" placeholder="b" size=4 >
-            <input id="c" name="c" type="number" placeholder="c" size=4 >
-            <input id="d" name="d" type="number" placeholder="d" size=4 >
-            <input id="e" name="e" type="number" placeholder="e" size=4 >
-            <input id="f" name="f" type="number" placeholder="f" size=4 >
-        </p>
-        <p>
-		<input type="radio" name="unOUtout" value="1">Tout chercher<sup>(⚠️Chrome n'affiche qu'après annulation)</sup>
-		- - - - Chercher par paquets de <input id="ask" name="ask" type="number" value="10" size=4> <sup>(le tout dernier résultats n'est pas affiché)</sup></br>
-		<input type="radio" name="unOUtout" value="0" checked>Chercher le premier resultat
-        <p>
-        <input type="submit" value="Lancer la recherche">
-    </form>
+    <style>
+        #title {
+            font-size: 50px;
+            padding-top: 5px;
+            padding-bottom: 20px;
+        }
 
+        table {
+            border: 20px solid #202020;
+            border-collapse: collapse;
+            width: 600px;
+        }
+
+        th,
+        td {
+            background-color: #515151;
+            text-align: center;
+            vertical-align: top;
+        }
+
+        td {
+            height: 60px;
+        }
+
+        input[type="number"] {
+            font-size: 30px;
+            width: 230px;
+        }
+
+        #generate {
+            font-size: 23px;
+            height: 60px;
+            width: 350px;
+        }
+
+        button {
+            font-size: 23px;
+            height: 60px;
+            width: 210px;
+        }
+    </style>
+</head>
+
+<body>
+    <table>
+        <tr>
+            <th colspan="2">
+                <div id="title">Le compte est Bon</div>
+            </th>
+        </tr>
+        <tr>
+            <td colspan="2" style="padding-bottom: 20px;">
+                <input id="but" type="number" placeholder="But" max=99999 min=0 autofocus>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input id="a" type="number" placeholder="a" max=9999 min=0>
+            </td>
+            <td>
+                <input id="b" type="number" placeholder="b" max=9999 min=0>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input id="c" type="number" placeholder="c" max=9999 min=0>
+            </td>
+            <td>
+                <input id="d" type="number" placeholder="d" max=9999 min=0>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input id="e" type="number" placeholder="e" max=9999 min=0>
+            </td>
+            <td>
+                <input id="f" type="number" placeholder="f" max=9999 min=0>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding-top: 20px; padding-bottom: 20px;">
+                <button type="button" onclick="search(0)">Afficher le 1er resultat</button>
+            </td>
+            <td style="padding-top: 20px; padding-bottom: 20px;">
+                <button type="button" onclick="search(1)">Afficher plusieurs resultats</button>
+            </td>
+        </tr>
+    </table>
+
+    <table style="border: 0px;">
+        <tr>
+            <td style="padding: 20px; background-color: #fff;">
+                <button id="generate" type="button" onclick="generate()">Générer des nombres
+                    <br> aléatoires</button>
+            </td>
+        </tr>
+    </table>
 
     <script>
         function generate() {
@@ -37,6 +113,11 @@
             document.getElementById("e").value = myArray[Math.floor(Math.random() * myArray.length)];
             document.getElementById("f").value = myArray[Math.floor(Math.random() * myArray.length)];
         }
+
+        function search(number) {
+            window.location = `./resultat.html?but=${document.getElementById("but").value}&a=${document.getElementById("a").value}&b=${document.getElementById("b").value}&c=${document.getElementById("c").value}&d=${document.getElementById("d").value}&e=${document.getElementById("e").value}&f=${document.getElementById("f").value}&ask=10&unOUtout=${number}`
+        }
     </script>
 </body>
+
 </html>
