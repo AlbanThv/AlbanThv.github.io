@@ -85,10 +85,10 @@
         </tr>
         <tr>
             <td style="padding-top: 20px; padding-bottom: 20px;">
-                <button type="button" onclick="search(0)">Afficher le 1er resultat</button>
+                <button type="button" onclick="search(event, 1)">Afficher le 1er resultat</button>
             </td>
             <td style="padding-top: 20px; padding-bottom: 20px;">
-                <button type="button" onclick="search(1)">Afficher plusieurs resultats</button>
+                <button type="button" onclick="search(event, 0)">Afficher plusieurs resultats</button>
             </td>
         </tr>
     </table>
@@ -105,7 +105,7 @@
     <script>
         function generate() {
             document.getElementById("but").value = Math.floor((Math.random() * 999) + 1);
-            var myArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 25, 50, 75, 100];
+            let myArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 25, 50, 75, 100];
             document.getElementById("a").value = myArray[Math.floor(Math.random() * myArray.length)];
             document.getElementById("b").value = myArray[Math.floor(Math.random() * myArray.length)];
             document.getElementById("c").value = myArray[Math.floor(Math.random() * myArray.length)];
@@ -114,8 +114,12 @@
             document.getElementById("f").value = myArray[Math.floor(Math.random() * myArray.length)];
         }
 
-        function search(number) {
-            window.location = `./resultat.html?but=${document.getElementById("but").value}&a=${document.getElementById("a").value}&b=${document.getElementById("b").value}&c=${document.getElementById("c").value}&d=${document.getElementById("d").value}&e=${document.getElementById("e").value}&f=${document.getElementById("f").value}&ask=10&unOUtout=${number}`
+        function search(event, number) {
+            let ask = 10;
+            if (e.shiftKey) {
+                let ask = 1000;
+            }
+            window.location = `./resultat.html?but=${document.getElementById("but").value}&a=${document.getElementById("a").value}&b=${document.getElementById("b").value}&c=${document.getElementById("c").value}&d=${document.getElementById("d").value}&e=${document.getElementById("e").value}&f=${document.getElementById("f").value}&ask=${ask}&premier=${number}`
         }
     </script>
 </body>
