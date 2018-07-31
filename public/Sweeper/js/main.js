@@ -46,8 +46,8 @@ function setup() {
   }
 
   while (mines > 0) {
-    x = random(boardSizeX);
-    y = random(boardSizeY);
+    x = parseInt(random(boardSizeX));
+    y = parseInt(random(boardSizeY));
     if (!tiles[x][y].mine) {
       tiles[x][y].mine = true;
       mines--;
