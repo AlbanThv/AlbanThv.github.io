@@ -50,9 +50,9 @@ function setup() {
   while (mines > 0) {
     x = parseInt(random(boardSizeX));
     y = parseInt(random(boardSizeY));
-    console.log(x,y,tiles[x][y],tiles[x][y].mine,mines);
-    if (!tiles[x][y].mine) {
-      tiles[x][y].mine = true;
+    console.log(y,x,tiles[x][y],tiles[x][y].mine,mines);
+    if (!tiles[y][x].mine) {
+      tiles[y][x].mine = true;
       mines--;
     }
   }
@@ -112,6 +112,7 @@ class Tile {
     if (d) {
       if (mouseButton == "right") {
         this.discovered = true;
+        console.log(this.x, this.y);
       }
       if (mouseButton == "left") {
         this.mineGuess = !this.mineGuess;
