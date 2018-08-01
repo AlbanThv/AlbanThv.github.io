@@ -1,6 +1,6 @@
 let boardSizeX = 10;
 let boardSizeY = 10;
-let tiles = [];
+let tiles;
 let tileSize;
 
 let mines = 10;
@@ -21,6 +21,7 @@ function preload() {
 }
 
 function setup() {
+  console.log("Setup begin")
   if (windowHeight / boardSizeY - 0.2 > ((windowWidth - document.getElementById('left').clientWidth * 2.6) / boardSizeX)) {
     tileSize = (windowWidth - document.getElementById('left').clientWidth * 2.6) / boardSizeX;
   } else {
@@ -38,6 +39,7 @@ function setup() {
   restart.onclick = fctRestart;
 
   // Tile Table
+  tiles = [];
   for (let y = 0; y < boardSizeY; y++) {
     tiles[y] = [];
     for (let x = 0; x < boardSizeX; x++) {
