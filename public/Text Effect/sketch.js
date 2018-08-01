@@ -20,8 +20,8 @@ function setup() {
   // fill(255);
   // noStroke();
   // text('train', 100, 200);
-
-  var points = font.textToPoints('Camille', 50, 200, 192, {
+  var word = prompt("Please enter a word", "Camille");
+  var points = font.textToPoints(word, 50, 200, 192, {
     sampleFactor: 0.25
   });
 
