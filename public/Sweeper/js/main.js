@@ -21,7 +21,7 @@ function preload() {
 }
 
 function setup() {
-  console.log("Setup begin")
+  console.log("Setup begin");
   if (windowHeight / boardSizeY - 0.2 > ((windowWidth - document.getElementById('left').clientWidth * 2.6) / boardSizeX)) {
     tileSize = (windowWidth - document.getElementById('left').clientWidth * 2.6) / boardSizeX;
   } else {
@@ -50,6 +50,7 @@ function setup() {
   while (mines > 0) {
     x = parseInt(random(boardSizeX));
     y = parseInt(random(boardSizeY));
+    console.log(x,y,tiles[x][y],tiles[x][y].mine,mines);
     if (!tiles[x][y].mine) {
       tiles[x][y].mine = true;
       mines--;
