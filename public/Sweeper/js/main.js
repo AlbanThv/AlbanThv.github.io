@@ -7,12 +7,13 @@ let Begin = true;
 let mines = 10;
 let time;
 
-let IMGundiscovered, IMGdiscovered, IMGflag, IMGmine, IMGone, IMGtwo, IMGthree, IMGfour, IMGfive, IMGsix, IMGseven, IMGeight;
+let IMGundiscovered, IMGdiscovered, IMGflag, IMGmine, IMGmineClick, IMGone, IMGtwo, IMGthree, IMGfour, IMGfive, IMGsix, IMGseven, IMGeight;
 function preload() {
   IMGundiscovered = loadImage('Ressources/img/undiscovered.png');
   IMGdiscovered = loadImage('Ressources/img/discovered.png');
   IMGflag = loadImage('Ressources/img/flag.png');
   IMGmine = loadImage('Ressources/img/mine.png');
+  IMGmineClick = loadImage('Ressources/img/mineClick.png');
   IMGone = loadImage('Ressources/img/1.png');
   IMGtwo = loadImage('Ressources/img/2.png');
   IMGthree = loadImage('Ressources/img/3.png');
@@ -157,6 +158,7 @@ class Tile {
     this.discovered = false;
     this.mineGuess = false;
     this.mine = false;
+    this.mineClick = false;
     this.neighbour = 0;
   }
 
@@ -177,6 +179,7 @@ class Tile {
           }
           if (this.mine) {
             Fin = true;
+            this.mineClick = true;
             for (let i = 0; i < tiles.length; i++) {
               for (let j = 0; j < tiles[0].length; j++) {
                 if (tiles[i][j].mine) {
@@ -323,7 +326,9 @@ class Tile {
           image(IMGdiscovered, this.x * tileSize, this.y * tileSize, tileSize, tileSize);
           break;
       }
-      if (this.mine) {
+      if (this.mineClick) {
+        image(IMGmineClick, this.x * tileSize, this.y * tileSize, tileSize, tileSize);
+      } else if (this.mine) {
         image(IMGmine, this.x * tileSize, this.y * tileSize, tileSize, tileSize);
       }
     }
