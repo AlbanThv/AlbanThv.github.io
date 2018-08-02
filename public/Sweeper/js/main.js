@@ -144,7 +144,7 @@ function win(notMine) {
   if (notMine == boardSizeX * boardSizeY - mines && !Fin) {
     Fin = true;
     setTimeout(function () {
-      alert("!!! Vous avez gagné !!!")
+      alert("!!! Vous avez gagné !!!\nVous avez mis " + document.getElementById('time').innerHTML + " secondes")
     }, 100);
   }
 }
@@ -177,6 +177,13 @@ class Tile {
           }
           if (this.mine) {
             Fin = true;
+            for (let i = 0; i < tiles.length; i++) {
+              for (let j = 0; j < tiles[0].length; j++) {
+                if (tiles[i][j].mine) {
+                  tiles[i][j].discovered = true;
+                }
+              }
+            }
             setTimeout(function () {
               alert("Vous avez perdu !")
             }, 100);
