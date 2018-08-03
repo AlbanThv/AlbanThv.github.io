@@ -7,6 +7,7 @@ let Begin = true;
 let mines = 10;
 let time;
 let bodyFlag = false;
+let tiles2finish = 0;
 
 let IMGundiscovered, IMGdiscovered, IMGflag, IMGgreenFlag, IMGmine, IMGmineClick, IMGmineWrong;
 let IMGone, IMGtwo, IMGthree, IMGfour, IMGfive, IMGsix, IMGseven, IMGeight;
@@ -105,6 +106,7 @@ function fctRestart() {
   Begin = true;
   bodyFlag = false;
   Fin = false;
+  tiles2finish = 0;
   setup();
 }
 
@@ -163,25 +165,16 @@ function mouseClick(e) {
       if (e.button == 0) {
         presstimer = setTimeout(function () {
           if (!Fin) {
-            let notMine = 0;
             for (let i = 0; i < tiles.length; i++) {
               for (let j = 0; j < tiles[0].length; j++) {
                 tiles[i][j].click(1);
                 tiles[i][j].show();
-                if (tiles[i][j].discovered) {
-                  notMine++;
-                }
               }
-            }
-            if (Fin) {
-              GameOver(false);
-            } else if (notMine == boardSizeX * boardSizeY - mines) {
-              GameOver(true);
             }
             //document.getElementById('GameOver').innerHTML = "success";
             console.log("longpressed");
           }
-        }, 1000);
+        }, 700);
       }
     };
     document.getElementById('canvas').addEventListener("mousedown", start);
@@ -194,26 +187,27 @@ function mouseClick(e) {
   }
 
   if (!Fin) {
-    let notMine = 0;
     for (let i = 0; i < tiles.length; i++) {
       for (let j = 0; j < tiles[0].length; j++) {
         tiles[i][j].click(e.button);
         tiles[i][j].show();
-        if (tiles[i][j].discovered) {
-          notMine++;
-        }
       }
-    }
-    if (Fin) {
-      GameOver(false);
-    } else if (notMine == boardSizeX * boardSizeY - mines) {
-      GameOver(true);
     }
   }
 }
 
-function GameOver(win) {
-  if (win) {
+function GameOver() {
+  if (Fin) {
+    for (let i = 0; i < tiles.length; i++) {
+      for (let j = 0; j < tiles[0].length; j++) {
+        tiles[i][j].show();
+      }
+    }
+    document.getElementById('GameOver').innerHTML = "You lost !";
+    setTimeout(function () {
+      alert("Vous avez perdu !")
+    }, 200);
+  } else if (tiles2finish == boardSizeX * boardSizeY - mines) {
     Fin = true;
     for (let i = 0; i < tiles.length; i++) {
       for (let j = 0; j < tiles[0].length; j++) {
@@ -230,16 +224,6 @@ function GameOver(win) {
       let finalTime = min + (min > 1 ? " minute et " : " minutes et ") + sec + (sec > 1 ? " seconde" : " secondes");
       alert("!!! Vous avez gagné !!!\nVous avez mis " + finalTime);
     }, 100);
-  } else {
-    for (let i = 0; i < tiles.length; i++) {
-      for (let j = 0; j < tiles[0].length; j++) {
-        tiles[i][j].show();
-      }
-    }
-    document.getElementById('GameOver').innerHTML = "You lost !";
-    setTimeout(function () {
-      alert("Vous avez perdu !")
-    }, 200);
   }
 }
 
@@ -301,6 +285,7 @@ class Tile {
     this.y = options.y;
     this.col = color(255);
     this.discovered = false;
+    this.propagate = false;
     this.win = false;
     this.mineGuess = false;
     this.mine = false;
@@ -332,6 +317,7 @@ class Tile {
           }
         } else if (!this.mineGuess) {
           this.discovered = true;
+          tiles2finish++;
           //1er Click
           if (Begin) {
             addMines(this.x, this.y);
@@ -345,12 +331,10 @@ class Tile {
           }
           //Show all empty
           if (this.voisin() == 0) {
-            for (let k = 0; k < boardSizeX; k++) {
-              for (let i = 0; i < tiles.length; i++) {
-                for (let j = 0; j < tiles[0].length; j++) {
-                  tiles[i][j].showEmpty();
-                  tiles[i][j].show();
-                }
+            this.showEmpty();
+            for (let i = 0; i < tiles.length; i++) {
+              for (let j = 0; j < tiles[0].length; j++) {
+                tiles[i][j].show();
               }
             }
           }
@@ -431,16 +415,16 @@ class Tile {
   chord(_j, _i) {
     if (!tiles[_i][_j].mineGuess && !tiles[_i][_j].discovered) {
       tiles[_i][_j].discovered = true;
-      tiles[_i][_j].show();
+      tiles2finish++;
       if (tiles[_i][_j].voisin() == 0) {
-        for (let k = 0; k < boardSizeX; k++) {
-          for (let i = 0; i < tiles.length; i++) {
-            for (let j = 0; j < tiles[0].length; j++) {
-              tiles[i][j].showEmpty();
-              tiles[i][j].show();
-            }
+        tiles[i][j].showEmpty();
+        for (let i = 0; i < tiles.length; i++) {
+          for (let j = 0; j < tiles[0].length; j++) {
+            tiles[i][j].show();
           }
         }
+      } else {
+        tiles[_i][_j].show();
       }
       if (tiles[_i][_j].mine) {
         Fin = true;
@@ -492,56 +476,338 @@ class Tile {
   }
 
   showEmpty() {
-    if (this.voisin() == 0 && this.discovered && !this.mine) {
+    if (this.voisin() == 0 && this.discovered && !this.mine && !this.propagate) {
+      this.propagate = true;
+      let target;
       if (this.x == 0 && this.y == 0) {
-        if (!tiles[this.y][this.x + 1].mineGuess) tiles[this.y][this.x + 1].discovered = true;
-        if (!tiles[this.y + 1][this.x].mineGuess) tiles[this.y + 1][this.x].discovered = true;
-        if (!tiles[this.y + 1][this.x + 1].mineGuess) tiles[this.y + 1][this.x + 1].discovered = true;
+        target = tiles[this.y][this.x + 1];
+        if (!target.mineGuess && !target.discovered) {
+          target.discovered = true;
+          tiles2finish++;
+          if (target.voisin() == 0 && !target.propagate) {
+            target.showEmpty();
+          }
+        }
+        target = tiles[this.y + 1][this.x];
+        if (!target.mineGuess && !target.discovered) {
+          target.discovered = true;
+          tiles2finish++;
+          if (target.voisin() == 0 && !target.propagate) {
+            target.showEmpty();
+          }
+        }
+        target = tiles[this.y + 1][this.x + 1];
+        if (!target.mineGuess && !target.discovered) {
+          target.discovered = true;
+          tiles2finish++;
+          if (target.voisin() == 0 && !target.propagate) {
+            target.showEmpty();
+          }
+        }
       } else if (this.y == boardSizeY - 1 && this.x == 0) {
-        if (!tiles[this.y - 1][this.x].mineGuess) tiles[this.y - 1][this.x].discovered = true;
-        if (!tiles[this.y - 1][this.x + 1].mineGuess) tiles[this.y - 1][this.x + 1].discovered = true;
-        if (!tiles[this.y][this.x + 1].mineGuess) tiles[this.y][this.x + 1].discovered = true;
+        target = tiles[this.y - 1][this.x];
+        if (!target.mineGuess && !target.discovered) {
+          target.discovered = true;
+          tiles2finish++;
+          if (target.voisin() == 0 && !target.propagate) {
+            target.showEmpty();
+          }
+        }
+        target = tiles[this.y - 1][this.x + 1];
+        if (!target.mineGuess && !target.discovered) {
+          target.discovered = true;
+          tiles2finish++;
+          if (target.voisin() == 0 && !target.propagate) {
+            target.showEmpty();
+          }
+        }
+        target = tiles[this.y][this.x + 1];
+        if (!target.mineGuess && !target.discovered) {
+          target.discovered = true;
+          tiles2finish++;
+          if (target.voisin() == 0 && !target.propagate) {
+            target.showEmpty();
+          }
+        }
       } else if (this.y == 0 && this.x == boardSizeX - 1) {
-        if (!tiles[this.y][this.x - 1].mineGuess) tiles[this.y][this.x - 1].discovered = true;
-        if (!tiles[this.y + 1][this.x - 1].mineGuess) tiles[this.y + 1][this.x - 1].discovered = true;
-        if (!tiles[this.y + 1][this.x].mineGuess) tiles[this.y + 1][this.x].discovered = true;
+        target = tiles[this.y][this.x - 1];
+        if (!target.mineGuess && !target.discovered) {
+          target.discovered = true;
+          tiles2finish++;
+          if (target.voisin() == 0 && !target.propagate) {
+            target.showEmpty();
+          }
+        }
+        target = tiles[this.y + 1][this.x - 1];
+        if (!target.mineGuess && !target.discovered) {
+          target.discovered = true;
+          tiles2finish++;
+          if (target.voisin() == 0 && !target.propagate) {
+            target.showEmpty();
+          }
+        }
+        target = tiles[this.y + 1][this.x];
+        if (!target.mineGuess && !target.discovered) {
+          target.discovered = true;
+          tiles2finish++;
+          if (target.voisin() == 0 && !target.propagate) {
+            target.showEmpty();
+          }
+        }
       } else if (this.y == boardSizeY - 1 && this.x == boardSizeX - 1) {
-        if (!tiles[this.y - 1][this.x - 1].mineGuess) tiles[this.y - 1][this.x - 1].discovered = true;
-        if (!tiles[this.y - 1][this.x].mineGuess) tiles[this.y - 1][this.x].discovered = true;
-        if (!tiles[this.y][this.x - 1].mineGuess) tiles[this.y][this.x - 1].discovered = true;
+        target = tiles[this.y - 1][this.x - 1];
+        if (!target.mineGuess && !target.discovered) {
+          target.discovered = true;
+          tiles2finish++;
+          if (target.voisin() == 0 && !target.propagate) {
+            target.showEmpty();
+          }
+        }
+        target = tiles[this.y - 1][this.x];
+        if (!target.mineGuess && !target.discovered) {
+          target.discovered = true;
+          tiles2finish++;
+          if (target.voisin() == 0 && !target.propagate) {
+            target.showEmpty();
+          }
+        }
+        target = tiles[this.y][this.x - 1];
+        if (!target.mineGuess && !target.discovered) {
+          target.discovered = true;
+          tiles2finish++;
+          if (target.voisin() == 0 && !target.propagate) {
+            target.showEmpty();
+          }
+        }
       } else if (this.y == 0) {
-        if (!tiles[this.y][this.x - 1].mineGuess) tiles[this.y][this.x - 1].discovered = true;
-        if (!tiles[this.y][this.x + 1].mineGuess) tiles[this.y][this.x + 1].discovered = true;
-        if (!tiles[this.y + 1][this.x - 1].mineGuess) tiles[this.y + 1][this.x - 1].discovered = true;
-        if (!tiles[this.y + 1][this.x].mineGuess) tiles[this.y + 1][this.x].discovered = true;
-        if (!tiles[this.y + 1][this.x + 1].mineGuess) tiles[this.y + 1][this.x + 1].discovered = true;
+        target = tiles[this.y][this.x - 1];
+        if (!target.mineGuess && !target.discovered) {
+          target.discovered = true;
+          tiles2finish++;
+          if (target.voisin() == 0 && !target.propagate) {
+            target.showEmpty();
+          }
+        }
+        target = tiles[this.y][this.x + 1];
+        if (!target.mineGuess && !target.discovered) {
+          target.discovered = true;
+          tiles2finish++;
+          if (target.voisin() == 0 && !target.propagate) {
+            target.showEmpty();
+          }
+        }
+        target = tiles[this.y + 1][this.x - 1];
+        if (!target.mineGuess && !target.discovered) {
+          target.discovered = true;
+          tiles2finish++;
+          if (target.voisin() == 0 && !target.propagate) {
+            target.showEmpty();
+          }
+        }
+        target = tiles[this.y + 1][this.x];
+        if (!target.mineGuess && !target.discovered) {
+          target.discovered = true;
+          tiles2finish++;
+          if (target.voisin() == 0 && !target.propagate) {
+            target.showEmpty();
+          }
+        }
+        target = tiles[this.y + 1][this.x + 1];
+        if (!target.mineGuess && !target.discovered) {
+          target.discovered = true;
+          tiles2finish++;
+          if (target.voisin() == 0 && !target.propagate) {
+            target.showEmpty();
+          }
+        }
       } else if (this.y == boardSizeY - 1) {
-        if (!tiles[this.y - 1][this.x - 1].mineGuess) tiles[this.y - 1][this.x - 1].discovered = true;
-        if (!tiles[this.y - 1][this.x].mineGuess) tiles[this.y - 1][this.x].discovered = true;
-        if (!tiles[this.y - 1][this.x + 1].mineGuess) tiles[this.y - 1][this.x + 1].discovered = true;
-        if (!tiles[this.y][this.x - 1].mineGuess) tiles[this.y][this.x - 1].discovered = true;
-        if (!tiles[this.y][this.x + 1].mineGuess) tiles[this.y][this.x + 1].discovered = true;
+        target = tiles[this.y - 1][this.x - 1];
+        if (!target.mineGuess && !target.discovered) {
+          target.discovered = true;
+          tiles2finish++;
+          if (target.voisin() == 0 && !target.propagate) {
+            target.showEmpty();
+          }
+        }
+        target = tiles[this.y - 1][this.x];
+        if (!target.mineGuess && !target.discovered) {
+          target.discovered = true;
+          tiles2finish++;
+          if (target.voisin() == 0 && !target.propagate) {
+            target.showEmpty();
+          }
+        }
+        target = tiles[this.y - 1][this.x + 1];
+        if (!target.mineGuess && !target.discovered) {
+          target.discovered = true;
+          tiles2finish++;
+          if (target.voisin() == 0 && !target.propagate) {
+            target.showEmpty();
+          }
+        }
+        target = tiles[this.y][this.x - 1];
+        if (!target.mineGuess && !target.discovered) {
+          target.discovered = true;
+          tiles2finish++;
+          if (target.voisin() == 0 && !target.propagate) {
+            target.showEmpty();
+          }
+        }
+        target = tiles[this.y][this.x + 1];
+        if (!target.mineGuess && !target.discovered) {
+          target.discovered = true;
+          tiles2finish++;
+          if (target.voisin() == 0 && !target.propagate) {
+            target.showEmpty();
+          }
+        }
       } else if (this.x == 0) {
-        if (!tiles[this.y - 1][this.x].mineGuess) tiles[this.y - 1][this.x].discovered = true;
-        if (!tiles[this.y - 1][this.x + 1].mineGuess) tiles[this.y - 1][this.x + 1].discovered = true;
-        if (!tiles[this.y][this.x + 1].mineGuess) tiles[this.y][this.x + 1].discovered = true;
-        if (!tiles[this.y + 1][this.x].mineGuess) tiles[this.y + 1][this.x].discovered = true;
-        if (!tiles[this.y + 1][this.x + 1].mineGuess) tiles[this.y + 1][this.x + 1].discovered = true;
+        target = tiles[this.y - 1][this.x];
+        if (!target.mineGuess && !target.discovered) {
+          target.discovered = true;
+          tiles2finish++;
+          if (target.voisin() == 0 && !target.propagate) {
+            target.showEmpty();
+          }
+        }
+        target = tiles[this.y - 1][this.x + 1];
+        if (!target.mineGuess && !target.discovered) {
+          target.discovered = true;
+          tiles2finish++;
+          if (target.voisin() == 0 && !target.propagate) {
+            target.showEmpty();
+          }
+        }
+        target = tiles[this.y][this.x + 1];
+        if (!target.mineGuess && !target.discovered) {
+          target.discovered = true;
+          tiles2finish++;
+          if (target.voisin() == 0 && !target.propagate) {
+            target.showEmpty();
+          }
+        }
+        target = tiles[this.y + 1][this.x];
+        if (!target.mineGuess && !target.discovered) {
+          target.discovered = true;
+          tiles2finish++;
+          if (target.voisin() == 0 && !target.propagate) {
+            target.showEmpty();
+          }
+        }
+        target = tiles[this.y + 1][this.x + 1];
+        if (!target.mineGuess && !target.discovered) {
+          target.discovered = true;
+          tiles2finish++;
+          if (target.voisin() == 0 && !target.propagate) {
+            target.showEmpty();
+          }
+        }
       } else if (this.x == boardSizeX - 1) {
-        if (!tiles[this.y - 1][this.x - 1].mineGuess) tiles[this.y - 1][this.x - 1].discovered = true;
-        if (!tiles[this.y - 1][this.x].mineGuess) tiles[this.y - 1][this.x].discovered = true;
-        if (!tiles[this.y][this.x - 1].mineGuess) tiles[this.y][this.x - 1].discovered = true;
-        if (!tiles[this.y + 1][this.x - 1].mineGuess) tiles[this.y + 1][this.x - 1].discovered = true;
-        if (!tiles[this.y + 1][this.x].mineGuess) tiles[this.y + 1][this.x].discovered = true;
+        target = tiles[this.y - 1][this.x - 1];
+        if (!target.mineGuess && !target.discovered) {
+          target.discovered = true;
+          tiles2finish++;
+          if (target.voisin() == 0 && !target.propagate) {
+            target.showEmpty();
+          }
+        }
+        target = tiles[this.y - 1][this.x];
+        if (!target.mineGuess && !target.discovered) {
+          target.discovered = true;
+          tiles2finish++;
+          if (target.voisin() == 0 && !target.propagate) {
+            target.showEmpty();
+          }
+        }
+        target = tiles[this.y][this.x - 1];
+        if (!target.mineGuess && !target.discovered) {
+          target.discovered = true;
+          tiles2finish++;
+          if (target.voisin() == 0 && !target.propagate) {
+            target.showEmpty();
+          }
+        }
+        target = tiles[this.y + 1][this.x - 1];
+        if (!target.mineGuess && !target.discovered) {
+          target.discovered = true;
+          tiles2finish++;
+          if (target.voisin() == 0 && !target.propagate) {
+            target.showEmpty();
+          }
+        }
+        target = tiles[this.y + 1][this.x];
+        if (!target.mineGuess && !target.discovered) {
+          target.discovered = true;
+          tiles2finish++;
+          if (target.voisin() == 0 && !target.propagate) {
+            target.showEmpty();
+          }
+        }
       } else {
-        if (!tiles[this.y - 1][this.x - 1].mineGuess) tiles[this.y - 1][this.x - 1].discovered = true;
-        if (!tiles[this.y - 1][this.x].mineGuess) tiles[this.y - 1][this.x].discovered = true;
-        if (!tiles[this.y - 1][this.x + 1].mineGuess) tiles[this.y - 1][this.x + 1].discovered = true;
-        if (!tiles[this.y][this.x - 1].mineGuess) tiles[this.y][this.x - 1].discovered = true;
-        if (!tiles[this.y][this.x + 1].mineGuess) tiles[this.y][this.x + 1].discovered = true;
-        if (!tiles[this.y + 1][this.x - 1].mineGuess) tiles[this.y + 1][this.x - 1].discovered = true;
-        if (!tiles[this.y + 1][this.x].mineGuess) tiles[this.y + 1][this.x].discovered = true;
-        if (!tiles[this.y + 1][this.x + 1].mineGuess) tiles[this.y + 1][this.x + 1].discovered = true;
+        target = tiles[this.y - 1][this.x - 1];
+        if (!target.mineGuess && !target.discovered) {
+          target.discovered = true;
+          tiles2finish++;
+          if (target.voisin() == 0 && !target.propagate) {
+            target.showEmpty();
+          }
+        }
+        target = tiles[this.y - 1][this.x];
+        if (!target.mineGuess && !target.discovered) {
+          target.discovered = true;
+          tiles2finish++;
+          if (target.voisin() == 0 && !target.propagate) {
+            target.showEmpty();
+          }
+        }
+        target = tiles[this.y - 1][this.x + 1];
+        if (!target.mineGuess && !target.discovered) {
+          target.discovered = true;
+          tiles2finish++;
+          if (target.voisin() == 0 && !target.propagate) {
+            target.showEmpty();
+          }
+        }
+        target = tiles[this.y][this.x - 1];
+        if (!target.mineGuess && !target.discovered) {
+          target.discovered = true;
+          tiles2finish++;
+          if (target.voisin() == 0 && !target.propagate) {
+            target.showEmpty();
+          }
+        }
+        target = tiles[this.y][this.x + 1];
+        if (!target.mineGuess && !target.discovered) {
+          target.discovered = true;
+          tiles2finish++;
+          if (target.voisin() == 0 && !target.propagate) {
+            target.showEmpty();
+          }
+        }
+        target = tiles[this.y + 1][this.x - 1];
+        if (!target.mineGuess && !target.discovered) {
+          target.discovered = true;
+          tiles2finish++;
+          if (target.voisin() == 0 && !target.propagate) {
+            target.showEmpty();
+          }
+        }
+        target = tiles[this.y + 1][this.x];
+        if (!target.mineGuess && !target.discovered) {
+          target.discovered = true;
+          tiles2finish++;
+          if (target.voisin() == 0 && !target.propagate) {
+            target.showEmpty();
+          }
+        }
+        target = tiles[this.y + 1][this.x + 1];
+        if (!target.mineGuess && !target.discovered) {
+          target.discovered = true;
+          tiles2finish++;
+          if (target.voisin() == 0 && !target.propagate) {
+            target.showEmpty();
+          }
+        }
       }
     }
   }
@@ -597,5 +863,6 @@ class Tile {
         image(IMGgreenFlag, this.x * tileSize, this.y * tileSize, tileSize, tileSize);
       }
     }
+    GameOver();
   }
 }
