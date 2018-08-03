@@ -244,11 +244,13 @@ function GameOver(win) {
 }
 
 function bodyFlagClick() {
-  bodyFlag = !bodyFlag;
-  if (bodyFlag) {
-    document.body.style.background = "darkred";
-  } else {
-    document.body.style.background = "black";
+  if (!Fin) {
+    bodyFlag = !bodyFlag;
+    if (bodyFlag) {
+      document.body.style.background = "darkred";
+    } else {
+      document.body.style.background = "black";
+    }
   }
 }
 
