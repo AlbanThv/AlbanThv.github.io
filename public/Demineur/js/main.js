@@ -145,6 +145,7 @@ function mouseClick(e) {
         clearTimeout(presstimer);
         presstimer = null;
       }
+      document.getElementById('GameOver').innerHTML = "cancel";
     };
 
     let click = function (e) {
@@ -152,10 +153,12 @@ function mouseClick(e) {
         clearTimeout(presstimer);
         presstimer = null;
       }
+      document.getElementById('GameOver').innerHTML = "click";
     };
 
     let start = function (e) {
       if (e.type === "click" && e.button !== 0) return;
+      document.getElementById('GameOver').innerHTML = "start";
 
       if (e.button == 0) {
         presstimer = setTimeout(function () {
@@ -175,6 +178,7 @@ function mouseClick(e) {
             } else if (notMine == boardSizeX * boardSizeY - mines) {
               GameOver(true);
             }
+            document.getElementById('GameOver').innerHTML = "success";
             console.log("longpressed");
           }
         }, 1000);
