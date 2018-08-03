@@ -205,9 +205,9 @@ function GameOver() {
       }
     }
     document.getElementById('GameOver').innerHTML = "You lost !";
-    setTimeout(function () {
-      alert("Vous avez perdu !")
-    }, 200);
+    //setTimeout(function () {
+      //alert("Vous avez perdu !")
+    //}, 200);
   } else if (tiles2finish == boardSizeX * boardSizeY - mines) {
     Fin = true;
     for (let i = 0; i < tiles.length; i++) {
