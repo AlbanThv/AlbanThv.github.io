@@ -409,6 +409,9 @@ class Tile {
           this.chord(this.x + 1, this.y + 1)
         }
       }
+
+      //Check if game is over
+      GameOver();
     }
   }
 
@@ -863,6 +866,5 @@ class Tile {
         image(IMGgreenFlag, this.x * tileSize, this.y * tileSize, tileSize, tileSize);
       }
     }
-    GameOver();
   }
 }
