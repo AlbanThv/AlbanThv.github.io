@@ -221,7 +221,7 @@ function GameOver() {
     setTimeout(function () {
       let min = ~~(document.getElementById('time').innerHTML / 60);
       let sec = document.getElementById('time').innerHTML % 60;
-      let finalTime = min + (min > 1 ? " minute et " : " minutes et ") + sec + (sec > 1 ? " seconde" : " secondes");
+      let finalTime = min + (min > 1 ? " minutes et " : " minute et ") + sec + (sec > 1 ? " secondes" : " seconde");
       alert("!!! Vous avez gagné !!!\nVous avez mis " + finalTime);
     }, 100);
   }
