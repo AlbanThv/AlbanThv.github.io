@@ -139,7 +139,7 @@ function changePreset() {
 
 function mouseClick(e) {
   //long press
-  if (Begin && e.button == 0) {
+  if (Begin && e.button == 0 && false) {
     let presstimer = null;
 
     let cancel = function (e) {
