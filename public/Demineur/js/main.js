@@ -135,6 +135,7 @@ function changePreset() {
       document.getElementById('left').style.top = "23px";
       break;
   }
+  fctRestart();
 }
 
 function mouseClick(e) {
