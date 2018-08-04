@@ -2,13 +2,14 @@ let boardSizeX = 9;
 let boardSizeY = 9;
 let tiles;
 let tileSize;
-let Fin = false;
 let Begin = true;
+let End = false;
 let mines = 10;
 let time;
 let bodyFlag = false;
 let tiles2finish = 0;
 let WinLoss = [0, 0];
+let presstimer = null;
 
 let IMGundiscovered, IMGdiscovered, IMGflag, IMGgreenFlag, IMGmine, IMGmineClick, IMGmineWrong;
 let IMGone, IMGtwo, IMGthree, IMGfour, IMGfive, IMGsix, IMGseven, IMGeight;
@@ -75,6 +76,7 @@ function setup() {
   document.getElementById('canvas').addEventListener('touchend', mouseUp);
   // document.getElementById('canvas').addEventListener('touchleave', cancel);
   // document.getElementById('canvas').addEventListener('touchcancel', cancel);
+  // document.getElementById('canvas').addEventListener("mouseout", cancel);
 
   for (let i = 0; i < tiles.length; i++) {
     for (let j = 0; j < tiles[0].length; j++) {
@@ -84,7 +86,7 @@ function setup() {
 }
 
 function draw() {
-  if (!Fin && !Begin) {
+  if (!End && !Begin) {
     document.getElementById('time').innerHTML = ~~((Date.now() - time) / 1000);
   }
 }
@@ -112,7 +114,7 @@ function fctRestart() {
   document.getElementById('background').style.background = "black";
   Begin = true;
   bodyFlag = false;
-  Fin = false;
+  End = false;
   tiles2finish = 0;
 
   document.getElementById('hidePreset').style.display = 'table-row';
@@ -163,9 +165,8 @@ function fctOptions() {
   }
 }
 
-let presstimer = null;
 function mouseDown(e) {
-  if (!Begin && !Fin && (e.which == 0 || e.which == 1)) {
+  if (!Begin && !End && (e.which == 0 || e.which == 1)) {
     presstimer = setTimeout(function () {
       for (let i = 0; i < tiles.length; i++) {
         for (let j = 0; j < tiles[0].length; j++) {
@@ -176,6 +177,10 @@ function mouseDown(e) {
           }
         }
       }
+      document.getElementById('background').style.background = "darkred";
+      setTimeout(function () {
+        document.getElementById('background').style.background = "black";
+      }, 200);
       window.navigator.vibrate(200);
     }, 500);
   }
@@ -187,7 +192,7 @@ function mouseUp(e) {
     presstimer = null;
   }
 
-  if (!Fin) {
+  if (!End) {
     for (let i = 0; i < tiles.length; i++) {
       for (let j = 0; j < tiles[0].length; j++) {
         tiles[i][j].click(e.button);
@@ -197,18 +202,16 @@ function mouseUp(e) {
 }
 
 function GameOver() {
-  if (Fin) {
+  if (End) {
     for (let i = 0; i < tiles.length; i++) {
       for (let j = 0; j < tiles[0].length; j++) {
         tiles[i][j].show();
       }
     }
     document.getElementById('GameOver').innerHTML = `Game ${WinLoss[0] + ++WinLoss[1]} Lost<br>Win/Loss: ${WinLoss[0]}/${WinLoss[1]}`;
-    //setTimeout(function () {
-    //alert("Vous avez perdu !")
-    //}, 200);
+    //setTimeout(function () { alert("Vous avez perdu !") }, 200);
   } else if (tiles2finish == boardSizeX * boardSizeY - mines) {
-    Fin = true;
+    End = true;
     for (let i = 0; i < tiles.length; i++) {
       for (let j = 0; j < tiles[0].length; j++) {
         if (tiles[i][j].mine) {
@@ -228,7 +231,7 @@ function GameOver() {
 }
 
 function bodyFlagClick() {
-  if (!Fin) {
+  if (!Begin && !End) {
     bodyFlag = !bodyFlag;
     if (bodyFlag) {
       document.getElementById('background').style.background = "darkred";
@@ -299,7 +302,7 @@ class Tile {
       && mouseY > this.y * tileSize
       && mouseY < (this.y * tileSize + tileSize))
 
-    if (d && !Fin) {
+    if (d && !End) {
       //Left Click
       if (button == 0 && !this.discovered) {
         if (bodyFlag) {
@@ -326,7 +329,7 @@ class Tile {
           }
           //Perdu
           if (this.mine) {
-            Fin = true;
+            End = true;
             this.mineClick = true;
           }
           //Show all empty
@@ -339,7 +342,7 @@ class Tile {
       }
 
       //Right Click
-      if (button == 2 && !this.discovered) {
+      if ((button == 2 || button == undefined && this.mineGuess) && !this.discovered) {
         if (this.mineGuess) {
           this.mineGuess = false;
           document.getElementById('minesLeft').innerHTML = ~~document.getElementById('minesLeft').innerHTML + 1;
@@ -410,7 +413,9 @@ class Tile {
       }
 
       this.show();
+      return true;
     }
+    return false;
   }
 
   chord(_j, _i) {
@@ -423,7 +428,7 @@ class Tile {
       tiles[_i][_j].show();
 
       if (tiles[_i][_j].mine) {
-        Fin = true;
+        End = true;
         tiles[_i][_j].mineClick = true;
       }
     }
@@ -896,7 +901,7 @@ class Tile {
           break;
       }
     }
-    if (Fin) {
+    if (End) {
       if (this.mineClick) {
         image(IMGmineClick, this.x * tileSize, this.y * tileSize, tileSize, tileSize);
       } else if (this.mineGuess && !this.mine) {
