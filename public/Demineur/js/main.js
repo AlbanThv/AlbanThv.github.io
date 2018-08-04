@@ -166,10 +166,10 @@ function fctOptions() {
 let presstimer = null;
 function mouseDown(e) {
   if (!Begin && !Fin) {
-    document.getElementById('GameOver').innerHTML = "down";
+    document.getElementById('GameOver').innerHTML = "down 3";
     presstimer = setTimeout(function () {
-      document.getElementById('GameOver').innerHTML = e.button;
-      console.log(e.button);
+      document.getElementById('GameOver').innerHTML = e.which;
+      console.log(e.which);
       // for (let i = 0; i < tiles.length; i++) {
       //   for (let j = 0; j < tiles[0].length; j++) {
       //     tiles[i][j].click(1);
