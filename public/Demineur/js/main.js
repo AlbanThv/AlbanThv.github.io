@@ -69,8 +69,12 @@ function setup() {
   while (--len > -1) { noEvent[len].addEventListener('click', function (e) { e.stopPropagation() }); }
 
   //click event
-  document.getElementById('canvas').addEventListener('mouseup', mouseUp);
   document.getElementById('canvas').addEventListener("mousedown", mouseDown);
+  document.getElementById('canvas').addEventListener('mouseup', mouseUp);
+  document.getElementById('canvas').addEventListener("touchstart", mouseDown);
+  document.getElementById('canvas').addEventListener("touchend", mouseUp);
+  // document.getElementById('canvas').addEventListener("touchleave", cancel);
+  // document.getElementById('canvas').addEventListener("touchcancel", cancel);
 
   for (let i = 0; i < tiles.length; i++) {
     for (let j = 0; j < tiles[0].length; j++) {
@@ -174,12 +178,8 @@ function mouseDown(e) {
       //   }
       // }
     }, 500);
-    // document.getElementById('canvas').addEventListener("touchstart", start);
     // document.getElementById('canvas').addEventListener("click", click);
     // document.getElementById('canvas').addEventListener("mouseout", cancel);
-    // document.getElementById('canvas').addEventListener("touchend", cancel);
-    // document.getElementById('canvas').addEventListener("touchleave", cancel);
-    // document.getElementById('canvas').addEventListener("touchcancel", cancel);
   }
 }
 
