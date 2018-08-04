@@ -64,17 +64,17 @@ function setup() {
   }
   document.getElementById('minesLeft').innerHTML = mines;
 
-  document.body.addEventListener('click', bodyFlagClick);
+  document.body.addEventListener('mousedown', bodyFlagClick);
   let noEvent = document.querySelectorAll('.noEvent'), len = noEvent.length;
-  while (--len > -1) { noEvent[len].addEventListener('click', function (e) { e.stopPropagation() }); }
+  while (--len > -1) { noEvent[len].addEventListener('mousedown', function (e) { e.stopPropagation() }); }
 
   //click event
-  document.getElementById('canvas').addEventListener("mousedown", mouseDown);
+  document.getElementById('canvas').addEventListener('mousedown', mouseDown);
   document.getElementById('canvas').addEventListener('mouseup', mouseUp);
-  document.getElementById('canvas').addEventListener("touchstart", mouseDown);
-  document.getElementById('canvas').addEventListener("touchend", mouseUp);
-  // document.getElementById('canvas').addEventListener("touchleave", cancel);
-  // document.getElementById('canvas').addEventListener("touchcancel", cancel);
+  document.getElementById('canvas').addEventListener('touchstart', mouseDown);
+  document.getElementById('canvas').addEventListener('touchend', mouseUp);
+  // document.getElementById('canvas').addEventListener('touchleave', cancel);
+  // document.getElementById('canvas').addEventListener('touchcancel', cancel);
 
   for (let i = 0; i < tiles.length; i++) {
     for (let j = 0; j < tiles[0].length; j++) {
@@ -168,8 +168,8 @@ function mouseDown(e) {
   if (!Begin && !Fin) {
     document.getElementById('GameOver').innerHTML = "down";
     presstimer = setTimeout(function () {
-      document.getElementById('GameOver').innerHTML = "success v3";
-      console.log("longpressed");
+      document.getElementById('GameOver').innerHTML = e.button;
+      console.log(e.button);
       // for (let i = 0; i < tiles.length; i++) {
       //   for (let j = 0; j < tiles[0].length; j++) {
       //     tiles[i][j].click(1);
@@ -177,8 +177,6 @@ function mouseDown(e) {
       //   }
       // }
     }, 500);
-    // document.getElementById('canvas').addEventListener("click", click);
-    // document.getElementById('canvas').addEventListener("mouseout", cancel);
   }
 }
 
