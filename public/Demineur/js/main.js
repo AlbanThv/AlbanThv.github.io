@@ -149,27 +149,9 @@ function fctOptions() {
     document.getElementById('restart').innerHTML = "Start";
     Preset = document.getElementById('preset').value;
     for (let el of document.querySelectorAll('.hide')) el.style.display = 'none';
-    switch (Preset) {
-      case "1": //Débutant
-        document.getElementById('rows').value = 9;
-        document.getElementById('columns').value = 9;
-        document.getElementById('mines').value = 10;
-        break;
-      case "2": //Intermédiaire
-        document.getElementById('rows').value = 16;
-        document.getElementById('columns').value = 16;
-        document.getElementById('mines').value = 40;
-        break;
-      case "3": //Expert
-        document.getElementById('rows').value = 24;
-        document.getElementById('columns').value = 24;
-        document.getElementById('mines').value = 99;
-        break;
-      case "4": //Custom
-        for (let el of document.querySelectorAll('.hide')) el.style.display = 'block';
-        break;
+    if (Preset == 4) {
+      for (let el of document.querySelectorAll('.hide')) el.style.display = 'block';
     }
-
   } else { //hide Options
     document.getElementById('hidePreset').style.display = 'none';
     document.getElementById('restart').innerHTML = "Restart";
@@ -180,16 +162,18 @@ function fctOptions() {
 let presstimer = null;
 function mouseDown(e) {
   if (!Begin && e.button == 0 && !Fin) {
+
+    document.getElementById('GameOver').innerHTML = "down";
     presstimer = setTimeout(function () {
+      document.getElementById('GameOver').innerHTML = "success";
+      console.log("longpressed");
       // for (let i = 0; i < tiles.length; i++) {
       //   for (let j = 0; j < tiles[0].length; j++) {
       //     tiles[i][j].click(1);
       //     tiles[i][j].show();
       //   }
       // }
-      document.getElementById('GameOver').innerHTML = "success";
-      console.log("longpressed");
-    }, 700);
+    }, 500);
     // document.getElementById('canvas').addEventListener("touchstart", start);
     // document.getElementById('canvas').addEventListener("click", click);
     // document.getElementById('canvas').addEventListener("mouseout", cancel);
@@ -200,6 +184,7 @@ function mouseDown(e) {
 }
 
 function mouseUp(e) {
+  document.getElementById('GameOver').innerHTML = "up";
   if (presstimer !== null) {
     clearTimeout(presstimer);
     presstimer = null;
