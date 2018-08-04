@@ -165,23 +165,23 @@ function fctOptions() {
 
 let presstimer = null;
 function mouseDown(e) {
-  if (!Begin && !Fin) {
-    document.getElementById('GameOver').innerHTML = "down 3";
+  if (!Begin && !Fin && (e.which == 0 || e.which == 1)) {
     presstimer = setTimeout(function () {
-      document.getElementById('GameOver').innerHTML = e.which;
-      console.log(e.which);
-      // for (let i = 0; i < tiles.length; i++) {
-      //   for (let j = 0; j < tiles[0].length; j++) {
-      //     tiles[i][j].click(1);
-      //     tiles[i][j].show();
-      //   }
-      // }
+      for (let i = 0; i < tiles.length; i++) {
+        for (let j = 0; j < tiles[0].length; j++) {
+          if (tiles[i][j].discovered) {
+            tiles[i][j].click(1);
+          } else {
+            tiles[i][j].click(2);
+          }
+        }
+      }
+      window.navigator.vibrate(200);
     }, 500);
   }
 }
 
 function mouseUp(e) {
-  document.getElementById('GameOver').innerHTML = "up";
   if (presstimer !== null) {
     clearTimeout(presstimer);
     presstimer = null;
