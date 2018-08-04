@@ -69,7 +69,8 @@ function setup() {
   while (--len > -1) { noEvent[len].addEventListener('click', function (e) { e.stopPropagation() }); }
 
   //click event
-  document.getElementById('canvas').addEventListener('mouseup', mouseClick);
+  document.getElementById('canvas').addEventListener('mouseup', mouseUp);
+  document.getElementById('canvas').addEventListener("mousedown", mouseDown);
 
   for (let i = 0; i < tiles.length; i++) {
     for (let j = 0; j < tiles[0].length; j++) {
@@ -176,53 +177,32 @@ function fctOptions() {
   }
 }
 
-function mouseClick(e) {
-  //long press
-  if (Begin && e.button == 0 && false) {
-    let presstimer = null;
+let presstimer = null;
+function mouseDown(e) {
+  if (!Begin && e.button == 0 && !Fin) {
+    presstimer = setTimeout(function () {
+      // for (let i = 0; i < tiles.length; i++) {
+      //   for (let j = 0; j < tiles[0].length; j++) {
+      //     tiles[i][j].click(1);
+      //     tiles[i][j].show();
+      //   }
+      // }
+      document.getElementById('GameOver').innerHTML = "success";
+      console.log("longpressed");
+    }, 700);
+    // document.getElementById('canvas').addEventListener("touchstart", start);
+    // document.getElementById('canvas').addEventListener("click", click);
+    // document.getElementById('canvas').addEventListener("mouseout", cancel);
+    // document.getElementById('canvas').addEventListener("touchend", cancel);
+    // document.getElementById('canvas').addEventListener("touchleave", cancel);
+    // document.getElementById('canvas').addEventListener("touchcancel", cancel);
+  }
+}
 
-    let cancel = function (e) {
-      if (presstimer !== null) {
-        clearTimeout(presstimer);
-        presstimer = null;
-      }
-      //document.getElementById('GameOver').innerHTML = "cancel";
-    };
-
-    let click = function (e) {
-      if (presstimer !== null) {
-        clearTimeout(presstimer);
-        presstimer = null;
-      }
-      //document.getElementById('GameOver').innerHTML = "click";
-    };
-
-    let start = function (e) {
-      if (e.type === "click" && e.button !== 0) return;
-      //document.getElementById('GameOver').innerHTML = "start";
-
-      if (e.button == 0) {
-        presstimer = setTimeout(function () {
-          if (!Fin) {
-            for (let i = 0; i < tiles.length; i++) {
-              for (let j = 0; j < tiles[0].length; j++) {
-                tiles[i][j].click(1);
-                tiles[i][j].show();
-              }
-            }
-            //document.getElementById('GameOver').innerHTML = "success";
-            console.log("longpressed");
-          }
-        }, 700);
-      }
-    };
-    document.getElementById('canvas').addEventListener("mousedown", start);
-    document.getElementById('canvas').addEventListener("touchstart", start);
-    document.getElementById('canvas').addEventListener("click", click);
-    document.getElementById('canvas').addEventListener("mouseout", cancel);
-    document.getElementById('canvas').addEventListener("touchend", cancel);
-    document.getElementById('canvas').addEventListener("touchleave", cancel);
-    document.getElementById('canvas').addEventListener("touchcancel", cancel);
+function mouseUp(e) {
+  if (presstimer !== null) {
+    clearTimeout(presstimer);
+    presstimer = null;
   }
 
   if (!Fin) {
