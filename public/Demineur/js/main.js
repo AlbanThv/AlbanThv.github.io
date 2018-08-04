@@ -165,11 +165,10 @@ function fctOptions() {
 
 let presstimer = null;
 function mouseDown(e) {
-  if (!Begin && e.button == 0 && !Fin) {
-
+  if (!Begin && !Fin) {
     document.getElementById('GameOver').innerHTML = "down";
     presstimer = setTimeout(function () {
-      document.getElementById('GameOver').innerHTML = "success";
+      document.getElementById('GameOver').innerHTML = "success v3";
       console.log("longpressed");
       // for (let i = 0; i < tiles.length; i++) {
       //   for (let j = 0; j < tiles[0].length; j++) {
