@@ -8,6 +8,7 @@ let mines = 10;
 let time;
 let bodyFlag = false;
 let tiles2finish = 0;
+let WinLoss = [0, 0];
 
 let IMGundiscovered, IMGdiscovered, IMGflag, IMGgreenFlag, IMGmine, IMGmineClick, IMGmineWrong;
 let IMGone, IMGtwo, IMGthree, IMGfour, IMGfive, IMGsix, IMGseven, IMGeight;
@@ -30,7 +31,6 @@ function preload() {
 }
 
 function setup() {
-  console.log("Setup begin");
   if (windowHeight / boardSizeY - 0.2 > ((windowWidth - document.getElementById('left').clientWidth * 2.8) / boardSizeX)) {
     tileSize = (windowWidth - document.getElementById('left').clientWidth * 2.8) / boardSizeX;
   } else {
@@ -40,11 +40,13 @@ function setup() {
   let cnv = createCanvas(boardSizeX * tileSize, boardSizeY * tileSize);
   cnv.style('display', 'block');
   cnv.style('image-rendering', 'pixelated');
+  cnv.style('z-index', '1');
   cnv.class('noEvent');
   cnv.id('canvas');
+  frameRate(3);
 
-  let restart = document.getElementById('restart');
-  restart.onclick = fctRestart;
+  document.getElementById('restart').onclick = fctRestart;
+  document.getElementById('options').onclick = fctOptions;
 
   // Tile Table
   tiles = [];
@@ -102,18 +104,21 @@ function fctRestart() {
   mines = document.getElementById('mines').value;
   document.getElementById('time').innerHTML = 0;
   document.getElementById('GameOver').innerHTML = "";
-  document.body.style.background = "black";
+  document.getElementById('background').style.background = "black";
   Begin = true;
   bodyFlag = false;
   Fin = false;
   tiles2finish = 0;
+
+  document.getElementById('hidePreset').style.display = 'table-row';
+  fctOptions();
+
   setup();
 }
 
 function changePreset() {
-  Preset = select('#preset').value();
+  Preset = document.getElementById('preset').value;
   for (let el of document.querySelectorAll('.hide')) el.style.display = 'none';
-  document.getElementById('left').style.top = "10px";
   switch (Preset) {
     case "1": //Débutant
       document.getElementById('rows').value = 9;
@@ -132,10 +137,43 @@ function changePreset() {
       break;
     case "4": //Custom
       for (let el of document.querySelectorAll('.hide')) el.style.display = 'block';
-      document.getElementById('left').style.top = "23px";
       break;
   }
-  fctRestart();
+}
+
+function fctOptions() {
+  //show Options
+  if (document.getElementById('hidePreset').style.display == 'none' || document.getElementById('hidePreset').style.display == '') {
+    document.getElementById('hidePreset').style.display = 'table-row';
+    document.getElementById('restart').innerHTML = "Start";
+    Preset = document.getElementById('preset').value;
+    for (let el of document.querySelectorAll('.hide')) el.style.display = 'none';
+    switch (Preset) {
+      case "1": //Débutant
+        document.getElementById('rows').value = 9;
+        document.getElementById('columns').value = 9;
+        document.getElementById('mines').value = 10;
+        break;
+      case "2": //Intermédiaire
+        document.getElementById('rows').value = 16;
+        document.getElementById('columns').value = 16;
+        document.getElementById('mines').value = 40;
+        break;
+      case "3": //Expert
+        document.getElementById('rows').value = 24;
+        document.getElementById('columns').value = 24;
+        document.getElementById('mines').value = 99;
+        break;
+      case "4": //Custom
+        for (let el of document.querySelectorAll('.hide')) el.style.display = 'block';
+        break;
+    }
+
+  } else { //hide Options
+    document.getElementById('hidePreset').style.display = 'none';
+    document.getElementById('restart').innerHTML = "Restart";
+    for (let el of document.querySelectorAll('.hide')) el.style.display = 'none';
+  }
 }
 
 function mouseClick(e) {
@@ -191,7 +229,6 @@ function mouseClick(e) {
     for (let i = 0; i < tiles.length; i++) {
       for (let j = 0; j < tiles[0].length; j++) {
         tiles[i][j].click(e.button);
-        tiles[i][j].show();
       }
     }
   }
@@ -204,9 +241,9 @@ function GameOver() {
         tiles[i][j].show();
       }
     }
-    document.getElementById('GameOver').innerHTML = "You lost !";
+    document.getElementById('GameOver').innerHTML = `Game ${WinLoss[0] + ++WinLoss[1]} Lost<br>Win/Loss: ${WinLoss[0]}/${WinLoss[1]}`;
     //setTimeout(function () {
-      //alert("Vous avez perdu !")
+    //alert("Vous avez perdu !")
     //}, 200);
   } else if (tiles2finish == boardSizeX * boardSizeY - mines) {
     Fin = true;
@@ -218,7 +255,7 @@ function GameOver() {
         }
       }
     }
-    document.getElementById('GameOver').innerHTML = "You won !";
+    document.getElementById('GameOver').innerHTML = `Game ${++WinLoss[0] + WinLoss[1]} Won<br>Win/Loss: ${WinLoss[0]}/${WinLoss[1]}`;
     setTimeout(function () {
       let min = ~~(document.getElementById('time').innerHTML / 60);
       let sec = document.getElementById('time').innerHTML % 60;
@@ -232,9 +269,9 @@ function bodyFlagClick() {
   if (!Fin) {
     bodyFlag = !bodyFlag;
     if (bodyFlag) {
-      document.body.style.background = "darkred";
+      document.getElementById('background').style.background = "darkred";
     } else {
-      document.body.style.background = "black";
+      document.getElementById('background').style.background = "black";
     }
   }
 }
@@ -333,12 +370,9 @@ class Tile {
           //Show all empty
           if (this.voisin() == 0) {
             this.showEmpty();
-            for (let i = 0; i < tiles.length; i++) {
-              for (let j = 0; j < tiles[0].length; j++) {
-                tiles[i][j].show();
-              }
-            }
           }
+          //Check if game is over
+          GameOver();
         }
       }
 
@@ -409,10 +443,11 @@ class Tile {
           this.chord(this.x, this.y + 1)
           this.chord(this.x + 1, this.y + 1)
         }
+        //Check if game is over
+        GameOver();
       }
 
-      //Check if game is over
-      GameOver();
+      this.show();
     }
   }
 
@@ -421,15 +456,10 @@ class Tile {
       tiles[_i][_j].discovered = true;
       tiles2finish++;
       if (tiles[_i][_j].voisin() == 0) {
-        tiles[i][j].showEmpty();
-        for (let i = 0; i < tiles.length; i++) {
-          for (let j = 0; j < tiles[0].length; j++) {
-            tiles[i][j].show();
-          }
-        }
-      } else {
-        tiles[_i][_j].show();
+        tiles[_i][_j].showEmpty();
       }
+      tiles[_i][_j].show();
+
       if (tiles[_i][_j].mine) {
         Fin = true;
         tiles[_i][_j].mineClick = true;
@@ -484,9 +514,11 @@ class Tile {
       this.propagate = true;
       let target;
       if (this.x == 0 && this.y == 0) {
+        //Coin Haut Gauche
         target = tiles[this.y][this.x + 1];
         if (!target.mineGuess && !target.discovered) {
           target.discovered = true;
+          target.show();
           tiles2finish++;
           if (target.voisin() == 0 && !target.propagate) {
             target.showEmpty();
@@ -495,6 +527,7 @@ class Tile {
         target = tiles[this.y + 1][this.x];
         if (!target.mineGuess && !target.discovered) {
           target.discovered = true;
+          target.show();
           tiles2finish++;
           if (target.voisin() == 0 && !target.propagate) {
             target.showEmpty();
@@ -503,15 +536,18 @@ class Tile {
         target = tiles[this.y + 1][this.x + 1];
         if (!target.mineGuess && !target.discovered) {
           target.discovered = true;
+          target.show();
           tiles2finish++;
           if (target.voisin() == 0 && !target.propagate) {
             target.showEmpty();
           }
         }
       } else if (this.y == boardSizeY - 1 && this.x == 0) {
+        //Coin Bas Gauche
         target = tiles[this.y - 1][this.x];
         if (!target.mineGuess && !target.discovered) {
           target.discovered = true;
+          target.show();
           tiles2finish++;
           if (target.voisin() == 0 && !target.propagate) {
             target.showEmpty();
@@ -520,6 +556,7 @@ class Tile {
         target = tiles[this.y - 1][this.x + 1];
         if (!target.mineGuess && !target.discovered) {
           target.discovered = true;
+          target.show();
           tiles2finish++;
           if (target.voisin() == 0 && !target.propagate) {
             target.showEmpty();
@@ -528,15 +565,18 @@ class Tile {
         target = tiles[this.y][this.x + 1];
         if (!target.mineGuess && !target.discovered) {
           target.discovered = true;
+          target.show();
           tiles2finish++;
           if (target.voisin() == 0 && !target.propagate) {
             target.showEmpty();
           }
         }
       } else if (this.y == 0 && this.x == boardSizeX - 1) {
+        //Coin Haut Droit
         target = tiles[this.y][this.x - 1];
         if (!target.mineGuess && !target.discovered) {
           target.discovered = true;
+          target.show();
           tiles2finish++;
           if (target.voisin() == 0 && !target.propagate) {
             target.showEmpty();
@@ -545,6 +585,7 @@ class Tile {
         target = tiles[this.y + 1][this.x - 1];
         if (!target.mineGuess && !target.discovered) {
           target.discovered = true;
+          target.show();
           tiles2finish++;
           if (target.voisin() == 0 && !target.propagate) {
             target.showEmpty();
@@ -553,15 +594,18 @@ class Tile {
         target = tiles[this.y + 1][this.x];
         if (!target.mineGuess && !target.discovered) {
           target.discovered = true;
+          target.show();
           tiles2finish++;
           if (target.voisin() == 0 && !target.propagate) {
             target.showEmpty();
           }
         }
       } else if (this.y == boardSizeY - 1 && this.x == boardSizeX - 1) {
+        //Coin Bas Droit
         target = tiles[this.y - 1][this.x - 1];
         if (!target.mineGuess && !target.discovered) {
           target.discovered = true;
+          target.show();
           tiles2finish++;
           if (target.voisin() == 0 && !target.propagate) {
             target.showEmpty();
@@ -570,6 +614,7 @@ class Tile {
         target = tiles[this.y - 1][this.x];
         if (!target.mineGuess && !target.discovered) {
           target.discovered = true;
+          target.show();
           tiles2finish++;
           if (target.voisin() == 0 && !target.propagate) {
             target.showEmpty();
@@ -578,15 +623,18 @@ class Tile {
         target = tiles[this.y][this.x - 1];
         if (!target.mineGuess && !target.discovered) {
           target.discovered = true;
+          target.show();
           tiles2finish++;
           if (target.voisin() == 0 && !target.propagate) {
             target.showEmpty();
           }
         }
       } else if (this.y == 0) {
+        //Mur Haut
         target = tiles[this.y][this.x - 1];
         if (!target.mineGuess && !target.discovered) {
           target.discovered = true;
+          target.show();
           tiles2finish++;
           if (target.voisin() == 0 && !target.propagate) {
             target.showEmpty();
@@ -595,6 +643,7 @@ class Tile {
         target = tiles[this.y][this.x + 1];
         if (!target.mineGuess && !target.discovered) {
           target.discovered = true;
+          target.show();
           tiles2finish++;
           if (target.voisin() == 0 && !target.propagate) {
             target.showEmpty();
@@ -603,6 +652,7 @@ class Tile {
         target = tiles[this.y + 1][this.x - 1];
         if (!target.mineGuess && !target.discovered) {
           target.discovered = true;
+          target.show();
           tiles2finish++;
           if (target.voisin() == 0 && !target.propagate) {
             target.showEmpty();
@@ -611,6 +661,7 @@ class Tile {
         target = tiles[this.y + 1][this.x];
         if (!target.mineGuess && !target.discovered) {
           target.discovered = true;
+          target.show();
           tiles2finish++;
           if (target.voisin() == 0 && !target.propagate) {
             target.showEmpty();
@@ -619,15 +670,18 @@ class Tile {
         target = tiles[this.y + 1][this.x + 1];
         if (!target.mineGuess && !target.discovered) {
           target.discovered = true;
+          target.show();
           tiles2finish++;
           if (target.voisin() == 0 && !target.propagate) {
             target.showEmpty();
           }
         }
       } else if (this.y == boardSizeY - 1) {
+        //Mur Bas
         target = tiles[this.y - 1][this.x - 1];
         if (!target.mineGuess && !target.discovered) {
           target.discovered = true;
+          target.show();
           tiles2finish++;
           if (target.voisin() == 0 && !target.propagate) {
             target.showEmpty();
@@ -636,6 +690,7 @@ class Tile {
         target = tiles[this.y - 1][this.x];
         if (!target.mineGuess && !target.discovered) {
           target.discovered = true;
+          target.show();
           tiles2finish++;
           if (target.voisin() == 0 && !target.propagate) {
             target.showEmpty();
@@ -644,6 +699,7 @@ class Tile {
         target = tiles[this.y - 1][this.x + 1];
         if (!target.mineGuess && !target.discovered) {
           target.discovered = true;
+          target.show();
           tiles2finish++;
           if (target.voisin() == 0 && !target.propagate) {
             target.showEmpty();
@@ -652,6 +708,7 @@ class Tile {
         target = tiles[this.y][this.x - 1];
         if (!target.mineGuess && !target.discovered) {
           target.discovered = true;
+          target.show();
           tiles2finish++;
           if (target.voisin() == 0 && !target.propagate) {
             target.showEmpty();
@@ -660,15 +717,18 @@ class Tile {
         target = tiles[this.y][this.x + 1];
         if (!target.mineGuess && !target.discovered) {
           target.discovered = true;
+          target.show();
           tiles2finish++;
           if (target.voisin() == 0 && !target.propagate) {
             target.showEmpty();
           }
         }
       } else if (this.x == 0) {
+        //Mur Gauche
         target = tiles[this.y - 1][this.x];
         if (!target.mineGuess && !target.discovered) {
           target.discovered = true;
+          target.show();
           tiles2finish++;
           if (target.voisin() == 0 && !target.propagate) {
             target.showEmpty();
@@ -677,6 +737,7 @@ class Tile {
         target = tiles[this.y - 1][this.x + 1];
         if (!target.mineGuess && !target.discovered) {
           target.discovered = true;
+          target.show();
           tiles2finish++;
           if (target.voisin() == 0 && !target.propagate) {
             target.showEmpty();
@@ -685,6 +746,7 @@ class Tile {
         target = tiles[this.y][this.x + 1];
         if (!target.mineGuess && !target.discovered) {
           target.discovered = true;
+          target.show();
           tiles2finish++;
           if (target.voisin() == 0 && !target.propagate) {
             target.showEmpty();
@@ -693,6 +755,7 @@ class Tile {
         target = tiles[this.y + 1][this.x];
         if (!target.mineGuess && !target.discovered) {
           target.discovered = true;
+          target.show();
           tiles2finish++;
           if (target.voisin() == 0 && !target.propagate) {
             target.showEmpty();
@@ -701,15 +764,18 @@ class Tile {
         target = tiles[this.y + 1][this.x + 1];
         if (!target.mineGuess && !target.discovered) {
           target.discovered = true;
+          target.show();
           tiles2finish++;
           if (target.voisin() == 0 && !target.propagate) {
             target.showEmpty();
           }
         }
       } else if (this.x == boardSizeX - 1) {
+        //Mur Droite
         target = tiles[this.y - 1][this.x - 1];
         if (!target.mineGuess && !target.discovered) {
           target.discovered = true;
+          target.show();
           tiles2finish++;
           if (target.voisin() == 0 && !target.propagate) {
             target.showEmpty();
@@ -718,6 +784,7 @@ class Tile {
         target = tiles[this.y - 1][this.x];
         if (!target.mineGuess && !target.discovered) {
           target.discovered = true;
+          target.show();
           tiles2finish++;
           if (target.voisin() == 0 && !target.propagate) {
             target.showEmpty();
@@ -726,6 +793,7 @@ class Tile {
         target = tiles[this.y][this.x - 1];
         if (!target.mineGuess && !target.discovered) {
           target.discovered = true;
+          target.show();
           tiles2finish++;
           if (target.voisin() == 0 && !target.propagate) {
             target.showEmpty();
@@ -734,6 +802,7 @@ class Tile {
         target = tiles[this.y + 1][this.x - 1];
         if (!target.mineGuess && !target.discovered) {
           target.discovered = true;
+          target.show();
           tiles2finish++;
           if (target.voisin() == 0 && !target.propagate) {
             target.showEmpty();
@@ -742,15 +811,18 @@ class Tile {
         target = tiles[this.y + 1][this.x];
         if (!target.mineGuess && !target.discovered) {
           target.discovered = true;
+          target.show();
           tiles2finish++;
           if (target.voisin() == 0 && !target.propagate) {
             target.showEmpty();
           }
         }
       } else {
+        //Centre
         target = tiles[this.y - 1][this.x - 1];
         if (!target.mineGuess && !target.discovered) {
           target.discovered = true;
+          target.show();
           tiles2finish++;
           if (target.voisin() == 0 && !target.propagate) {
             target.showEmpty();
@@ -759,6 +831,7 @@ class Tile {
         target = tiles[this.y - 1][this.x];
         if (!target.mineGuess && !target.discovered) {
           target.discovered = true;
+          target.show();
           tiles2finish++;
           if (target.voisin() == 0 && !target.propagate) {
             target.showEmpty();
@@ -767,6 +840,7 @@ class Tile {
         target = tiles[this.y - 1][this.x + 1];
         if (!target.mineGuess && !target.discovered) {
           target.discovered = true;
+          target.show();
           tiles2finish++;
           if (target.voisin() == 0 && !target.propagate) {
             target.showEmpty();
@@ -775,6 +849,7 @@ class Tile {
         target = tiles[this.y][this.x - 1];
         if (!target.mineGuess && !target.discovered) {
           target.discovered = true;
+          target.show();
           tiles2finish++;
           if (target.voisin() == 0 && !target.propagate) {
             target.showEmpty();
@@ -783,6 +858,7 @@ class Tile {
         target = tiles[this.y][this.x + 1];
         if (!target.mineGuess && !target.discovered) {
           target.discovered = true;
+          target.show();
           tiles2finish++;
           if (target.voisin() == 0 && !target.propagate) {
             target.showEmpty();
@@ -791,6 +867,7 @@ class Tile {
         target = tiles[this.y + 1][this.x - 1];
         if (!target.mineGuess && !target.discovered) {
           target.discovered = true;
+          target.show();
           tiles2finish++;
           if (target.voisin() == 0 && !target.propagate) {
             target.showEmpty();
@@ -799,6 +876,7 @@ class Tile {
         target = tiles[this.y + 1][this.x];
         if (!target.mineGuess && !target.discovered) {
           target.discovered = true;
+          target.show();
           tiles2finish++;
           if (target.voisin() == 0 && !target.propagate) {
             target.showEmpty();
@@ -807,6 +885,7 @@ class Tile {
         target = tiles[this.y + 1][this.x + 1];
         if (!target.mineGuess && !target.discovered) {
           target.discovered = true;
+          target.show();
           tiles2finish++;
           if (target.voisin() == 0 && !target.propagate) {
             target.showEmpty();
