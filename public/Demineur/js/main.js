@@ -342,7 +342,7 @@ class Tile {
       }
 
       //Right Click
-      if ((button == 2 || button == undefined && this.mineGuess) && !this.discovered) {
+      if ((button == 2) && !this.discovered) { //|| button == undefined && this.mineGuess
         if (this.mineGuess) {
           this.mineGuess = false;
           document.getElementById('minesLeft').innerHTML = ~~document.getElementById('minesLeft').innerHTML + 1;
