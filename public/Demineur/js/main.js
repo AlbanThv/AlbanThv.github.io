@@ -311,7 +311,6 @@ class Tile {
       && mouseY > this.y * tileSize
       && mouseY < (this.y * tileSize + tileSize))
     if (d && !End) {
-      document.getElementById('GameOver').innerHTML = button;
       //Left Click
       if (button == 0 && !this.discovered) {
         if (bodyFlag) {
