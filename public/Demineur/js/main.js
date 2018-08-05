@@ -10,6 +10,7 @@ let bodyFlag = false;
 let tiles2finish = 0;
 let WinLoss = [0, 0];
 let presstimer = null;
+let longPress = false;
 
 let IMGundiscovered, IMGdiscovered, IMGflag, IMGgreenFlag, IMGmine, IMGmineClick, IMGmineWrong;
 let IMGone, IMGtwo, IMGthree, IMGfour, IMGfive, IMGsix, IMGseven, IMGeight;
@@ -167,13 +168,15 @@ function fctOptions() {
 
 function mouseDown(e) {
   if (!Begin && !End && (e.which == 0 || e.which == 1)) {
+    longPress = false;
     presstimer = setTimeout(function () {
-      for (let i = 0; i < tiles.length; i++) {
+      longPress = true;
+      loop: for (let i = 0; i < tiles.length; i++) {
         for (let j = 0; j < tiles[0].length; j++) {
-          if (tiles[i][j].discovered) {
-            tiles[i][j].click(1);
-          } else {
-            tiles[i][j].click(2);
+          if (tiles[i][j].discovered && tiles[i][j].click(1)) {
+            break loop;
+          } else if (tiles[i][j].click(2)) {
+            break loop;
           }
         }
       }
@@ -191,14 +194,16 @@ function mouseUp(e) {
     clearTimeout(presstimer);
     presstimer = null;
   }
-
-  if (!End) {
-    for (let i = 0; i < tiles.length; i++) {
+  if (!End && !longPress) {
+    loop: for (let i = 0; i < tiles.length; i++) {
       for (let j = 0; j < tiles[0].length; j++) {
-        tiles[i][j].click(e.button);
+        if (tiles[i][j].click(e.button)) {
+          break loop;
+        }
       }
     }
   }
+  longPress = false;
 }
 
 function GameOver() {
@@ -301,8 +306,8 @@ class Tile {
       && mouseX < (this.x * tileSize + tileSize)
       && mouseY > this.y * tileSize
       && mouseY < (this.y * tileSize + tileSize))
-
     if (d && !End) {
+      document.getElementById('GameOver').innerHTML = button;
       //Left Click
       if (button == 0 && !this.discovered) {
         if (bodyFlag) {
@@ -342,7 +347,7 @@ class Tile {
       }
 
       //Right Click
-      if ((button == 2) && !this.discovered) { //|| button == undefined && this.mineGuess
+      if ((button == 2 || this.mineGuess) && !this.discovered) {
         if (this.mineGuess) {
           this.mineGuess = false;
           document.getElementById('minesLeft').innerHTML = ~~document.getElementById('minesLeft').innerHTML + 1;
