@@ -72,9 +72,9 @@ function setup() {
 
   //click event
   document.getElementById('canvas').addEventListener('mousedown', mouseDown);
-  document.getElementById('canvas').addEventListener('mouseup', mouseUp);
   document.getElementById('canvas').addEventListener('touchstart', mouseDown);
-  document.getElementById('canvas').addEventListener('touchend', mouseUp);
+  document.getElementById('canvas').addEventListener('mouseup', mouseUp);
+  // document.getElementById('canvas').addEventListener('touchend', mouseUp);
   // document.getElementById('canvas').addEventListener('touchleave', cancel);
   // document.getElementById('canvas').addEventListener('touchcancel', cancel);
   // document.getElementById('canvas').addEventListener("mouseout", cancel);
