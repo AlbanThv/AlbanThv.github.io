@@ -167,8 +167,8 @@ function fctOptions() {
 }
 
 function mouseDown(e) {
+  longPress = false;
   if (!Begin && !End && (e.which == 0 || e.which == 1)) {
-    longPress = false;
     presstimer = setTimeout(function () {
       longPress = true;
       loop: for (let i = 0; i < tiles.length; i++) {
@@ -183,7 +183,7 @@ function mouseDown(e) {
       document.getElementById('background').style.background = "darkred";
       setTimeout(function () {
         document.getElementById('background').style.background = "black";
-      }, 100);
+      }, 200);
       window.navigator.vibrate(100);
     }, 150);
   }
@@ -207,7 +207,6 @@ function mouseUp(e) {
       }
     }
   }
-  longPress = false;
 }
 
 function GameOver() {
