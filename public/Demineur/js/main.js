@@ -183,9 +183,9 @@ function mouseDown(e) {
       document.getElementById('background').style.background = "darkred";
       setTimeout(function () {
         document.getElementById('background').style.background = "black";
-      }, 200);
+      }, 100);
       window.navigator.vibrate(200);
-    }, 500);
+    }, 150);
   }
 }
 
