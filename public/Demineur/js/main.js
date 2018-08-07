@@ -186,7 +186,7 @@ function mouseDown(e) {
         document.getElementById('background').style.background = "black";
       }, 200);
       window.navigator.vibrate(100);
-    }, 300);
+    }, 400);
   }
 }
 
