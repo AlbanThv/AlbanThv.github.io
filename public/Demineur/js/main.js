@@ -75,9 +75,10 @@ function setup() {
   document.getElementById('canvas').addEventListener('touchstart', mouseDown);
   document.getElementById('canvas').addEventListener('mouseup', mouseUp);
   document.getElementById('canvas').addEventListener('touchend', cancelPress);
-  // document.getElementById('canvas').addEventListener('touchleave', cancel);
-  // document.getElementById('canvas').addEventListener('touchcancel', cancel);
-  // document.getElementById('canvas').addEventListener("mouseout", cancel);
+  
+  document.getElementById('canvas').addEventListener('touchleave', cancelPress);
+  document.getElementById('canvas').addEventListener('touchcancel', cancelPress);
+  document.getElementById('canvas').addEventListener("mouseout", cancelPress);
 
   for (let i = 0; i < tiles.length; i++) {
     for (let j = 0; j < tiles[0].length; j++) {
