@@ -16,6 +16,7 @@ a:visited {
 	padding: 1rem;
 	background-color: #efefef;
 	text-align: center;
+	z-index: 0;
 }
 #footerText {
 	padding-top: 3px;
@@ -24,4 +25,10 @@ a:visited {
 #certificate {
 	float: left;
 	z-index: 1;
+}
+#mamalebg{
+	position: absolute;
+	width: 100%;
+	background: white;
+	z-index: 9999999999999999999999999999999999999999999999999999999999999999999999999999;
 }
