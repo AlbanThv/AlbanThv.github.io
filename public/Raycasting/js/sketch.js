@@ -5,6 +5,11 @@ let walls = [];
 let ray;
 let particle;
 
+let mouseDown = 0;
+
+let xoff = 0;
+let yoff = 100000;
+
 function setup() {
   createCanvas(windowWidth, windowHeight - 4);
   for (let i = 0; i < 5; i++) {
@@ -21,6 +26,13 @@ function setup() {
   walls.push(new Boundary(0, height, 0, 0));
 
   particle = new Particle();
+
+  document.onmousedown = function () {
+    ++mouseDown;
+  };
+  document.onmouseup = function () {
+    --mouseDown;
+  };
 }
 
 function draw() {
@@ -30,7 +42,16 @@ function draw() {
     wall.update(noise(wall.xoff1) * width, noise(wall.yoff1) * height, noise(wall.xoff2) * width, noise(wall.yoff2) * height);
     wall.show();
   }
-  particle.update(mouseX, mouseY);
+
+  if (mouseDown) {
+    particle.update(mouseX, mouseY);
+  } else {
+    particle.update(noise(xoff) * width, noise(yoff) * height);
+    xoff += 0.002;
+    yoff += 0.002;
+  }
+
   particle.show();
   particle.look(walls);
 }
+
