@@ -1,7 +1,8 @@
 class Ray {
-  constructor(pos, angle) {
+  constructor(pos, angle, color) {
     this.pos = pos;
     this.dir = p5.Vector.fromAngle(angle);
+    this.color = color;
     this.u;
   }
 
@@ -11,13 +12,13 @@ class Ray {
     this.dir.normalize();
   }
 
-  show() {
-    stroke(255);
-    push();
-    translate(this.pos.x, this.pos.y);
-    line(0, 0, this.dir.x * 10, this.dir.y * 10);
-    pop();
-  }
+  // show() {
+  //   stroke(255);
+  //   push();
+  //   translate(this.pos.x, this.pos.y);
+  //   line(0, 0, this.dir.x * 10, this.dir.y * 10);
+  //   pop();
+  // }
 
   cast(wall) {
     const x1 = wall.a.x;
@@ -32,6 +33,11 @@ class Ray {
 
     const den = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
     if (den == 0) {
+      return;
+    }
+
+
+    if (this.color != 4 && wall.color == this.color) {
       return;
     }
 

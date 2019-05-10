@@ -1,7 +1,12 @@
 class Boundary {
-  constructor(x1, y1, x2, y2, xoff1, xoffy1, xoffx2, xoffy2) {
+  constructor(x1, y1, x2, y2, color) {
     this.a = createVector(x1, y1);
     this.b = createVector(x2, y2);
+    if (!color) {
+      this.color = random([0, 1, 2, 3]);
+    } else {
+      this.color = color;
+    }
 
     this.xoff1 = random(10000000);
     this.yoff1 = random(10000000);
@@ -20,7 +25,25 @@ class Boundary {
   }
 
   show() {
-    stroke(255);
+    switch (this.color) {
+      case 0:
+        stroke(100);
+        break;
+      case 1:
+        stroke(255, 0, 0);
+        break;
+      case 2:
+        stroke(0, 255, 0);
+        break;
+      case 3:
+        stroke(0, 0, 255);
+        break;
+      default:
+        stroke(0);
+        break;
+    }
+    strokeWeight(4);
     line(this.a.x, this.a.y, this.b.x, this.b.y);
+    strokeWeight(1);
   }
 }
