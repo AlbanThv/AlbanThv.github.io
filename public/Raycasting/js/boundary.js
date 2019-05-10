@@ -42,7 +42,7 @@ class Boundary {
         stroke(0);
         break;
     }
-    strokeWeight(4);
+    strokeWeight(2.5);
     line(this.a.x, this.a.y, this.b.x, this.b.y);
     strokeWeight(1);
   }
