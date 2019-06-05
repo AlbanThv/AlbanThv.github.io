@@ -58,7 +58,11 @@ function sendMessage() {
     username: username.value,
     message: message.value,
   }
-  chat.push(data);
+  if (username.value == "" || message.value == "") {
+    //Invalide
+  } else {
+    chat.push(data);
+  }
 }
 
 function displayTime() {
