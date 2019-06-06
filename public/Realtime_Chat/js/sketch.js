@@ -69,17 +69,25 @@ function displayTime() {
   let str = "";
 
   let currentTime = new Date()
-  let hours = currentTime.getHours()
-  let minutes = currentTime.getMinutes()
-  let seconds = currentTime.getSeconds()
+  let month = currentTime.getMonth() + 1;
+  let day = currentTime.getDate();
+  let hours = currentTime.getHours();
+  let minutes = currentTime.getMinutes();
+  let seconds = currentTime.getSeconds();
 
+  if (month < 10) {
+    month = "0" + month
+  }
+  if (day < 10) {
+    day = "0" + day
+  }
   if (minutes < 10) {
     minutes = "0" + minutes
   }
   if (seconds < 10) {
     seconds = "0" + seconds
   }
-  str += hours + ":" + minutes + ":" + seconds;
 
+  str += day + "/" + month + " " + hours + ":" + minutes + ":" + seconds;
   return str;
 }
