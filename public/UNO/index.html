@@ -21,12 +21,7 @@
     <link rel="stylesheet" href="./css/modal.css">
     <style>
         body {
-            /* background-image: url("./Mosaic1000.gif"); */
-            /* background-size: 300px; */
-            /* background-repeat: repeat; */
-            color: black;
             margin: 0;
-            /* user-select: none; */
         }
 
         /* a:visited {
@@ -66,15 +61,26 @@
 
     <div class="md-overlay"></div>
 
+    <!-- Chatroom -->
+    <div id="chat">
+        <input type="text" id="username" name="username" placeholder="username" required minlength="1">
+        <input type="text" id="message" name="message" placeholder="message" required minlength="1">
+        <input type="button" id="send" value="send">
+        <p>
+            <ul id="chatroom">
+            </ul>
+        </p>
+    </div>
 
-    <!-- oncontextmenu= "return false"> -->
-    <input type="text" id="username" name="username" placeholder="username" required minlength="1">
-    <input type="text" id="message" name="message" placeholder="message" required minlength="1">
-    <input type="button" id="button" value="Send">
-    <p>
-        <ul id="chatroom">
-        </ul>
-    </p>
+    <!-- Hand -->
+    <div id="hand">
+
+    </div>
+
+    <!-- Board -->
+    <div id="board">
+
+    </div>
 </body>
 
 </html>
