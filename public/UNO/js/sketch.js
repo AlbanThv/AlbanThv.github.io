@@ -305,8 +305,8 @@ function gotDataChat(data) {
   let keys = Object.keys(chatlog);
   keys.forEach(e => {
     let timestamp = chatlog[e].timestamp;
-    let username = chatlog[e].username;
-    let message = chatlog[e].message;
+    let username = chatlog[e].username.replace(/<[^>]*>?/gm, '');
+    let message = chatlog[e].message.replace(/<[^>]*>?/gm, '');
     let li = createElement('li', timestamp + " <b>" + username + "</b> : " + message);
     li.class('message')
     li.parent('chatroom');
