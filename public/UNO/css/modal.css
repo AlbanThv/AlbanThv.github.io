@@ -10,7 +10,7 @@
 /* Modal */
 .md-modal {
   margin: auto;
-  position: fixed;
+  position: absolute;
   top: 50px;
   left: 0;
   right: 0;

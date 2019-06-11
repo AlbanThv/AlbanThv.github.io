@@ -13,6 +13,7 @@ window.onload = function () {
       if (document.getElementById("AdaptInput").value != "") {
         Array.from(document.getElementsByClassName('md-modal')).forEach(el => {
           el.classList.remove('md-show');
+          el.style.position = "fixed";
         });
       }
     }, false);
@@ -52,6 +53,7 @@ window.onload = function () {
   const JoinSpec = document.getElementById('JoinSpec');
   CreerBoutton(JoinGame);
   CreerBoutton(JoinSpec);
+  CreerBoutton(document.getElementById('send'));
 
   // Input
   document.getElementById('AdaptInput').addEventListener("input", function () {
@@ -78,4 +80,5 @@ window.onload = function () {
     }
     document.getElementById('AdaptLabel').setAttribute("placeholder", newText);
   });
+
 }
