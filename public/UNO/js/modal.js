@@ -1,12 +1,12 @@
 window.onload = function () {
   // Modal
-  Array.from(document.getElementsByClassName('md-trigger')).forEach(e => {
-    e.addEventListener("click", function () {
-      Array.from(document.getElementsByClassName('md-modal')).forEach(el => {
-        el.classList.add('md-show');
-      });
-    }, false);
-  });
+  // Array.from(document.getElementsByClassName('md-trigger')).forEach(e => {
+  //   e.addEventListener("click", function () {
+  //     Array.from(document.getElementsByClassName('md-modal')).forEach(el => {
+  //       el.classList.add('md-show');
+  //     });
+  //   }, false);
+  // });
 
   Array.from(document.getElementsByClassName('md-close')).forEach(e => {
     e.addEventListener("click", function () {

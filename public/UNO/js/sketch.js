@@ -205,7 +205,6 @@ function setup() {
   Game = createCanvas(windowWidth - document.getElementById('chat').offsetWidth, windowHeight);
   Game.parent("game");
 
-
   // Initialize Firebase
   let firebaseConfig = {
     apiKey: "AIzaSyDsfbJuD-erwKU-4_4iUIsQo0thhNGY-u0",
@@ -238,15 +237,43 @@ function setup() {
 }
 
 function draw() {
+  // frameRate(5)
   background(50);
   stroke(0);
   line(0, 0, Game.width, Game.height);
   hand1.show();
   backCard.show(200, 20);
+
+  let dis = hand1.cards[1].x - hand1.cards[0].x;
+  for (let i = 0; i < hand1.cards.length; i++) {
+    const e = hand1.cards[i];
+    if (i == hand1.cards.length - 1) {
+      e.clicked(dis, true);
+    } else {
+      e.clicked(dis);
+    }
+  }
 }
 
 function mouseClicked() {
-  hand1.cards.push(shuffledDeck.pop());
+
+  // console.log("-------------------------");
+  // let dis = hand1.cards[1].x - hand1.cards[0].x;
+  // for (let i = 0; i < hand1.cards.length; i++) {
+  //   const e = hand1.cards[i];
+  //   if (i == hand1.cards.length - 1) {
+  //     e.clicked(dis, true);
+  //   } else {
+  //     e.clicked(dis);
+  //   }
+  // }
+
+  // add card
+  // hand1.cards.push(shuffledDeck.pop());
+}
+
+function mouseMoved() {
+
 }
 
 class Hand {
@@ -260,10 +287,10 @@ class Hand {
   show() {
     for (let i = 0; i < this.cards.length; i++) {
       if (Game.height < Game.width) {
-        this.cards[i].show(20 + i * Game.width / 30,
+        this.cards[i].show(20 + i * Game.width / 20,
           Game.height - Game.height / 5 - 20);
       } else if (Game.height >= Game.width) {
-        this.cards[i].show(20 + i * Game.width / 30,
+        this.cards[i].show(20 + i * Game.width / 20,
           Game.height - (Game.width) / 5 - 20);
       }
     }
@@ -275,18 +302,46 @@ class Card {
     this.img = img;
     this.col = col;
     this.attr = attr;
+    this.x;
+    this.y;
+    this.w;
+    this.h;
+    this.offsetX = false;
+  }
+
+  clicked(dis, last = false) {
+    let d = dist(mouseX, mouseY, this.x, this.y);
+    if (mouseX - this.x > 0 && mouseY - this.y > 0 && mouseY - this.y < this.h + this.h / 2 + 20) {
+      if (last && mouseX - this.x < this.w) {
+        this.offsetX = true;
+        // this.show(this.x, this.y - 20);
+      } else if (mouseX - this.x < dis) {
+        this.offsetX = true;
+        // this.show(this.x, this.y - 20);
+      }
+    }
   }
 
   show(x, y) {
-    if (Game.height < Game.width) {
-      image(this.img, x, y,
-        (Game.height) / 5 * 0.67,
-        (Game.height) / 5);
-    } else if (Game.height >= Game.width) {
-      image(this.img, x, y,
-        (Game.width) / 5 * 0.67,
-        (Game.width) / 5);
+    this.x = x;
+    this.y = y;
+    if (this.offsetX) {
+      this.y -= this.h / 2;
     }
+    if (Game.height < Game.width) {
+      this.w = Game.height / 5 * 0.67;
+      this.h = Game.height / 5;
+      image(this.img, this.x, this.y,
+        Game.height / 5 * 0.67,
+        Game.height / 5);
+    } else if (Game.height >= Game.width) {
+      this.w = Game.width / 5 * 0.67;
+      this.h = Game.width / 5;
+      image(this.img, this.x, this.y,
+        Game.width / 5 * 0.67,
+        Game.width / 5);
+    }
+    this.offsetX = false;
   }
 }
 
