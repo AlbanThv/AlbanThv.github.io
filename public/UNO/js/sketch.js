@@ -304,9 +304,9 @@ function gotDataChat(data) {
   let chatlog = data.val();
   let keys = Object.keys(chatlog);
   keys.forEach(e => {
-    let timestamp = chatlog[e].timestamp.replace(/<[^>]*>?/gm, '');;
-    let username = chatlog[e].username.replace(/<[^>]*>?/gm, '');;
-    let message = chatlog[e].message.replace(/<[^>]*>?/gm, '');;
+    let timestamp = chatlog[e].timestamp;
+    let username = chatlog[e].username;
+    let message = chatlog[e].message;
     let li = createElement('li', timestamp + " <b>" + username + "</b> : " + message);
     li.class('message')
     li.parent('chatroom');
@@ -322,8 +322,8 @@ function errDataChat(err) {
 function sendMessage() {
   let data = {
     timestamp: timestamp(),
-    username: username.value,
-    message: message.value,
+    username: username.value.replace(/<[^>]*>?/gm, ''),
+    message: message.value.replace(/<[^>]*>?/gm, ''),
   }
   if (username.value != "" && message.value != "") {
     chat.push(data);
