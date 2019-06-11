@@ -11,7 +11,7 @@
 
     <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-database.js"></script>
 
     <!-- Client -->
     <script src="./js/modal.js"></script>
@@ -19,21 +19,13 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="./css/modal.css">
-    <style>
-        body {
-            margin: 0;
-        }
+    <link rel="stylesheet" href="./css/style.css">
 
-        /* a:visited {
-            color: blue;
-        } */
-    </style>
 </head>
 
 <body>
     <!-- Greeting Modal -->
-    <button class="md-trigger" data-modal="modal-12">Show modal</button>
-
+    <!-- <button class="md-trigger" data-modal="modal-12">Show modal</button> -->
     <div class="md-modal md-show md-effect-12">
         <div class="md-content">
             <img id="logo" src="UNO Logo.png" alt="UNO Logo">
@@ -58,29 +50,25 @@
             </div>
         </div>
     </div>
+    <div class="md-overlay"> </div>
 
-    <div class="md-overlay"></div>
+    <!-- Main Game -->
+    <div id="game" class="split"> </div>
 
     <!-- Chatroom -->
-    <div id="chat">
-        <input type="text" id="username" name="username" placeholder="username" required minlength="1">
-        <input type="text" id="message" name="message" placeholder="message" required minlength="1">
-        <input type="button" id="send" value="send">
-        <p>
-            <ul id="chatroom">
-            </ul>
-        </p>
+    <div id="chat" class="split">
+        <ul id="chatroom" class="scrollbar"> </ul>
+        <!-- <input type="text" id="username" name="username" placeholder="username" required minlength="1"> -->
+        <div id="bottomChat">
+            <div id="inputChat">
+                <textarea rows="4" id="message" placeholder="Message" required minlength="1"></textarea>
+            </div>
+            <div id="SendChat">
+                <a id="send" href="#" data-title="Send"></a>
+            </div>
+        </div>
     </div>
 
-    <!-- Hand -->
-    <div id="hand">
-
-    </div>
-
-    <!-- Board -->
-    <div id="board">
-
-    </div>
 </body>
 
 </html>
