@@ -84,34 +84,7 @@ function preload() {
   cardBack = loadImage('./Cards/Wild Back.png');
 }
 
-function setup() {
-  Game = createCanvas(windowWidth - document.getElementById('chat').offsetWidth, windowHeight);
-  Game.parent("game");
-
-
-  // Initialize Firebase
-  let firebaseConfig = {
-    apiKey: "AIzaSyDsfbJuD-erwKU-4_4iUIsQo0thhNGY-u0",
-    authDomain: "uno-game-9b4f4.firebaseapp.com",
-    databaseURL: "https://uno-game-9b4f4.firebaseio.com",
-    projectId: "uno-game-9b4f4",
-    storageBucket: "uno-game-9b4f4.appspot.com",
-    messagingSenderId: "10301819108",
-    appId: "1:10301819108:web:56c13d8741b57ab8"
-  };
-  firebase.initializeApp(firebaseConfig);
-  database = firebase.database();
-
-  // Chat
-  username = document.getElementById('AdaptInput');
-  message = document.getElementById('message');
-  send = document.getElementById('send');
-  send.addEventListener("click", sendMessage);
-
-  chat = database.ref('chat');
-  chat.on('value', gotDataChat, errDataChat);
-
-  // Initialize Game
+function initializeCards() {
   deck.push(new Card(red0, "red", "0"));
   deck.push(new Card(red1, "red", "1"));
   deck.push(new Card(red1, "red", "1"));
@@ -226,10 +199,38 @@ function setup() {
   deck.push(new Card(wildPlus, "wild", "plus"));
 
   backCard = new Card(cardBack, "wild", "back");
+}
 
-  // for (let i = 0; i < newDeck.length; i++) {
-  //   deck[i] = new Card(newDeck[i]);
-  // }
+function setup() {
+  Game = createCanvas(windowWidth - document.getElementById('chat').offsetWidth, windowHeight);
+  Game.parent("game");
+
+
+  // Initialize Firebase
+  let firebaseConfig = {
+    apiKey: "AIzaSyDsfbJuD-erwKU-4_4iUIsQo0thhNGY-u0",
+    authDomain: "uno-game-9b4f4.firebaseapp.com",
+    databaseURL: "https://uno-game-9b4f4.firebaseio.com",
+    projectId: "uno-game-9b4f4",
+    storageBucket: "uno-game-9b4f4.appspot.com",
+    messagingSenderId: "10301819108",
+    appId: "1:10301819108:web:56c13d8741b57ab8"
+  };
+  firebase.initializeApp(firebaseConfig);
+  database = firebase.database();
+
+  // Chat
+  username = document.getElementById('AdaptInput');
+  message = document.getElementById('message');
+  send = document.getElementById('send');
+  send.addEventListener("click", sendMessage);
+
+  chat = database.ref('chat');
+  chat.on('value', gotDataChat, errDataChat);
+
+  // Initialize Cards
+  initializeCards();
+
   shuffledDeck = FYKshuffle(deck);
 
   hand1 = new Hand();
@@ -259,10 +260,10 @@ class Hand {
   show() {
     for (let i = 0; i < this.cards.length; i++) {
       if (Game.height < Game.width) {
-        this.cards[i].show(20 + i * 40,
+        this.cards[i].show(20 + i * Game.width / 30,
           Game.height - Game.height / 5 - 20);
       } else if (Game.height >= Game.width) {
-        this.cards[i].show(20 + i * 40,
+        this.cards[i].show(20 + i * Game.width / 30,
           Game.height - (Game.width) / 5 - 20);
       }
     }
@@ -303,9 +304,9 @@ function gotDataChat(data) {
   let chatlog = data.val();
   let keys = Object.keys(chatlog);
   keys.forEach(e => {
-    let timestamp = chatlog[e].timestamp;
-    let username = chatlog[e].username;
-    let message = chatlog[e].message;
+    let timestamp = chatlog[e].timestamp.replace(/<[^>]*>?/gm, '');;
+    let username = chatlog[e].username.replace(/<[^>]*>?/gm, '');;
+    let message = chatlog[e].message.replace(/<[^>]*>?/gm, '');;
     let li = createElement('li', timestamp + " <b>" + username + "</b> : " + message);
     li.class('message')
     li.parent('chatroom');
