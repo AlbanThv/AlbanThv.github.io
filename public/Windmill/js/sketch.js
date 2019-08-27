@@ -31,7 +31,7 @@ function mouseClick(e) {
 }
 
 function draw() {
-  background(0);
+  background(0, 0, 0, 30);
 
   for (let i = 0; i < points.length; i++) {
     const point = points[i];
@@ -48,5 +48,6 @@ function draw() {
     }
   }
   ray.show();
+  ray.rot(0.1);
 }
 
