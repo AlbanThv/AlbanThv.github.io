@@ -3,6 +3,10 @@
 let points = [];
 let ray;
 
+function preload() {
+  snap = loadSound('assets/snap.mp3');
+}
+
 function setup() {
   let cnv = createCanvas(windowWidth, windowHeight - 4);
   cnv.style('display', 'block');
@@ -10,8 +14,6 @@ function setup() {
   cnv.id('canvas');
   frameRate(60);
   angleMode(DEGREES)
-
-  snap = loadSound('assets/snap.mp3');
 
   document.getElementById('canvas').addEventListener('click', mouseClick);
 
@@ -27,7 +29,19 @@ function setup() {
 }
 
 function mouseClick(e) {
-  points.push(new Point(mouseX, mouseY, points.length));
+  removed = false;
+  for(let i = 0; i< points.length; i++) {
+    const point = points[i];
+    if (abs(point.vect.x - mouseX) < 7 && abs(point.vect.y - mouseY) < 7) {
+      if (!(i == ray.currentPivot || i == ray.previousPivot)) {
+        point.id = -1;
+      }
+      removed = true;
+    }
+  }
+  if (!removed) {
+    points.push(new Point(mouseX, mouseY, points.length));
+  }
 }
 
 function draw() {
@@ -35,19 +49,19 @@ function draw() {
 
   for (let i = 0; i < points.length; i++) {
     const point = points[i];
-
-    if (i != ray.currentPivot && i != ray.previousPivot) {
-      point.show();
-      if (ray.isOnLine(point)) {
-        snap.play();
+    if (point.id >= 0) {
+      if (point.id != ray.currentPivot && point.id != ray.previousPivot) {
+        point.show();
+        if (ray.isOnLine(point)) {
+          snap.play();
+        }
+      } else if (point.id == ray.currentPivot) {
+        points[ray.currentPivot].show(0, 255, 0);
+      } else {
+        points[ray.previousPivot].show(255, 0, 0);
       }
-    } else if (i == ray.currentPivot) {
-      points[ray.currentPivot].show(0, 255, 0);
-    } else {
-      points[ray.previousPivot].show(255, 0, 0);
     }
   }
   ray.show();
   ray.rot(0.1);
 }
-
