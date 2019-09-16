@@ -22,7 +22,7 @@ a:visited {
 	padding-top: 3px;
 }
 
-#certificate {
+.certificate {
 	float: left;
 	z-index: 1;
 }
