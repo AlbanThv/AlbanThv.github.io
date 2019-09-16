@@ -26,11 +26,11 @@ a:visited {
 	float: left;
 	z-index: 1;
 }
-#mamalebg{
+#maellebg{
 	position: absolute;
 	width: 100%;
 	background: white;
-	z-index: 9999999999999999999999999999999999999999999999999999999999999999999999999999;
+	z-index: 10;
 }
 body{
 	margin: 0;
