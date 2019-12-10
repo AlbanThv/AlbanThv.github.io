@@ -12,9 +12,9 @@ function setup() {
 
 count = 0;
 function hexagon(x, y, radius, npoints = 6, offset = 0) {
-  let angle = TWO_PI / npoints;
+  let angle = Math.TWO_PI / npoints;
   beginShape();
-  for (let a = offset; a < TWO_PI; a += angle) {
+  for (let a = offset; a < Math.TWO_PI; a += angle) {
     let sx = x + cos(a) * radius;
     let sy = y + sin(a) * radius;
     vertex(sx, sy);

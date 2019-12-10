@@ -13,7 +13,7 @@ function setup() {
   cnv.style('image-rendering', 'pixelated');
   cnv.id('canvas');
   frameRate(60);
-  angleMode(DEGREES)
+  angleMode(DEGREES);
 
   document.getElementById('canvas').addEventListener('click', mouseClick);
 
@@ -63,5 +63,5 @@ function draw() {
     }
   }
   ray.show();
-  ray.rot(0.1);
+  ray.rot(0.3);
 }

@@ -27,14 +27,18 @@ class Ray {
   }
 
   isOnLine(obj) {
-    let x = obj.vect.x;
-    let y = obj.vect.y;
+    let target = {x: obj.vect.x, y: obj.vect.y};
+    let anchor = {x: this.vect.x, y: this.vect.y};
 
     let m = tan(this.angle);
-    let p = this.vect.y - (m * this.vect.x)
-    let diff = y - (m * x + p);
+    let p = anchor.y - (m * anchor.x);
+    let diff = target.y - (m * target.x + p);
 
-    if (abs(diff) <= 1) {
+    console.log(diff);
+
+    if (abs(diff) <= 5) {
+
+        console.log("im inside", diff);
       if (this.currentPivot == this.previousPivot) {
         this.currentPivot = obj.id;
         obj.number += 1;
@@ -44,7 +48,7 @@ class Ray {
         obj.number += 1;
       }
       // console.log(obj.id);
-      this.newPivot(x, y);
+      this.newPivot(target.x, target.y);
       return true;
     }
   }
