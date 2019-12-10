@@ -11,6 +11,7 @@ export default class Cell {
         this.gridX = newP5.width / 2 + this.w * this.x;
         this.gridY = newP5.height / 2 + this.h * (this.z - this.y);
         Cell.count++;
+
         // this.col = color(255);
     }
 
@@ -20,10 +21,10 @@ export default class Cell {
         this.hexagon(this.gridX, this.gridY, this.size);
     }
 
-    hexagon(x, y, radius, npoints = 6, rotate = Math.PI/6) {
-        let angle = Math.TWO_PI / npoints;
+    hexagon(x, y, radius, npoints = 6, rotate = 0) {
+        let angle = newP5.TWO_PI / npoints;
         newP5.beginShape();
-        for (let a = rotate; a < Math.TWO_PI; a += angle) {
+        for (let a = rotate; a < newP5.TWO_PI; a += angle) {
             let sx = x + Math.cos(a) * radius;
             let sy = y + Math.sin(a) * radius;
             newP5.vertex(sx, sy);
