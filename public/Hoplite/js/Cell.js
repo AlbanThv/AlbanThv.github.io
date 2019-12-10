@@ -1,23 +1,20 @@
 import {newP5} from "./main.js";
 
+let Count = 0;
 export default class Cell {
     constructor(options) {
+        this.id = Count++;
         this.x = options.x;
         this.y = options.y;
         this.z = options.z;
-        this.size = 28;
+        this.size = 35;
         this.w = 2 * this.size * 3 / 4;
         this.h = Math.sqrt(3) * this.size * 0.5;
         this.gridX = newP5.width / 2 + this.w * this.x;
         this.gridY = newP5.height / 2 + this.h * (this.z - this.y);
-        Cell.count++;
-
-        // this.col = color(255);
     }
 
     show() {
-        // fill(this.col);
-        console.log("coucou1");
         this.hexagon(this.gridX, this.gridY, this.size);
     }
 
@@ -32,11 +29,10 @@ export default class Cell {
         // randomly fill a cell in red cuz why not
         Math.floor(newP5.random(5)) === 0 ? newP5.fill(newP5.color(255, 100, 100)) : newP5.fill(newP5.color(100, 100, 100));
         newP5.endShape(newP5.CLOSE);
-
         // number
         newP5.fill(0);
-        newP5.text(Cell.count > 9 ? "" + Cell.count : "0" + Cell.count, x - 6, y + 5);
+        newP5.text(this.id > 9 ? "" + this.id : "0" + this.id, x - 6, y + 5);
+        newP5.fill(newP5.color(100, 255, 100));
+        newP5.text(`${this.x}.${this.y}.${this.z}`, x - 14, y + 20);
     }
 }
-
-Cell.count = 0;
