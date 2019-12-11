@@ -1,15 +1,18 @@
-import { newP5 } from "./main.js";
 import Cell from "./Cell.js";
+import Player from "./Player.js";
 
 export default class Map {
-    constructor() {
+    constructor(ctx) {
+        this.ctx = ctx;
         this.tiles = [];
         this.cellSize = 35;
+        this.player = new Player();
+        this.tilesList = [];
     }
 
     set(_x, _y, _z) {
         if (this.tiles[`${_x},${_y},${_z}`] === undefined) {
-            this.tiles[`${_x},${_y},${_z}`] = new Cell({ x: _x, y: _y, z: _z, size: this.cellSize });
+            this.tiles[`${_x},${_y},${_z}`] = new Cell({ x: _x, y: _y, z: _z, size: this.cellSize, ctx: this.ctx });
         }
     }
 
@@ -17,38 +20,61 @@ export default class Map {
         return this.tiles[`${_x},${_y},${_z}`];
     }
 
-    neighbour(i, j, k) {
+    save() {
+        for (const tile in this.tiles) {
+            if (!this.tiles[tile].void) {
+                this.tilesList[this.tiles[tile].id] = this.tiles[tile];
+            }
+        }
+        // console.log(this.tilesList);
+    }
+
+    setPlayer(_x, _y, _z) {
+        this.tilesList.forEach(tile => {
+            tile.player = false;
+        });
+        this.player.set(this.tiles[`${_x},${_y},${_z}`]);
+        // console.log(this.tiles[`${_x},${_y},${_z}`]);
+    }
+
+    setPath(tiles) {
+        this.tilesList.forEach(tile => {
+            tile.isPath = false;
+        });
+        tiles.forEach(tile => {
+            tile.isPath = true;
+        });
+    }
+
+    generateNeighbour(i, j, k) {
         let neighbourList = [];
-        this.set(i + 1, j, k - 1);
-        neighbourList[0] = this.get(i + 1, j, k - 1);
-        this.set(i + 1, j - 1, k);
-        neighbourList[1] = this.get(i + 1, j - 1, k);
-        this.set(i, j - 1, k + 1);
-        neighbourList[2] = this.get(i, j - 1, k + 1);
-        this.set(i - 1, j, k + 1);
-        neighbourList[3] = this.get(i - 1, j, k + 1);
-        this.set(i - 1, j + 1, k);
-        neighbourList[4] = this.get(i - 1, j + 1, k);
-        this.set(i, j + 1, k - 1);
-        neighbourList[5] = this.get(i, j + 1, k - 1);
+        let neighbourCoords = [
+            [1, 0, -1], [1, -1, 0], [0, -1, 1],
+            [-1, 0, 1], [-1, 1, 0], [0, 1, -1]
+        ]
+        neighbourCoords.forEach(coords => {
+            this.set(i + coords[0], j + coords[1], k + coords[2]);
+            neighbourList.push(this.get(i + coords[0], j + coords[1], k + coords[2]));
+        });
         return neighbourList;
     }
 
     generate(radius = 1, chop = radius + 1, x = 0, y = 0, z = 0) {
         if (radius > 0) {
             radius--;
-            this.neighbour(x, y, z).forEach(el => {
+            this.generateNeighbour(x, y, z).forEach(el => {
                 if (Math.abs(el.x) < chop) {
-                    el.visible = true;
                     this.generate(radius, chop, el.x, el.y, el.z);
+                } else {
+                    el.void = true;
                 }
             });
         }
     }
 
     pixel_to_flat_hex() {
-        let mouseX = newP5.mouseX - newP5.width / 2
-        let mouseY = newP5.mouseY - newP5.height / 2
+        let mouseX = this.ctx.mouseX - this.ctx.width / 2
+        let mouseY = this.ctx.mouseY - this.ctx.height / 2
 
         let q = (2 / 3 * mouseX) / this.cellSize;
         let r = (-1 / 3 * mouseX + Math.sqrt(3) / 3 * mouseY) / this.cellSize;
