@@ -4,15 +4,15 @@ export default class Player {
   }
 
   set(tile) {
-    tile.player = true;
     this.tile = tile;
   }
 
   get() {
-    return this.tiles;
+    return this.tile;
   }
 
   show() {
-    this.tiles.colour()
+    // this.tile.colour()
+      this.tile.hexagon("rgb(170, 170, 50)");
   }
 }

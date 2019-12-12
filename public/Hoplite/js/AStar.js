@@ -31,7 +31,7 @@ const AStar = {
       let currentNode = openList[lowInd];
 
       // End case -- result has been found, return the traced path
-      if (currentNode == end) {
+      if (currentNode === end) {
         let curr = currentNode;
         let ret = [];
         while (curr.AStar_parent) {
@@ -43,7 +43,7 @@ const AStar = {
 
       // Normal case -- move currentNode from open to closed, process each of its neighbors
       openList.splice(lowInd, 1);
-      currentNode.AStar_closed = true;;
+      currentNode.AStar_closed = true;
 
       let neighbors = this.neighbors(map, currentNode);
       for (let i = 0; i < neighbors.length; i++) {

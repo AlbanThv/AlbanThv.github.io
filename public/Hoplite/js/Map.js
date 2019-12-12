@@ -89,8 +89,8 @@ export default class Map {
     }
 
     init(r, chop) {
-        generate(r, chop);
-        save();
+        this.generate(r, chop);
+        this.save();
     }
 
     getNeighbours(tile)
@@ -121,14 +121,5 @@ export default class Map {
         // });
         this.player.set(this.tiles[`${_x},${_y},${_z}`]);
         // console.log(this.tiles[`${_x},${_y},${_z}`]);
-    }
-
-    setPath(tiles) {
-        this.tilesList.forEach(tile => {
-            tile.isPath = false;
-        });
-        tiles.forEach(tile => {
-            tile.isPath = true;
-        });
     }
 }

@@ -26,11 +26,15 @@ const s = (sketch) => {
     sketch.background(50);
     sketch.showFPS();
 
-    map.setPath(path);
-
     map.tilesList.forEach(tile => {
       tile.show();
     });
+
+      path.forEach(tile => {
+          tile.hexagon("rgb(50,50,170)");
+      });
+
+    map.player.show();
   };
 
   sketch.mousePressed = () => {
