@@ -1,5 +1,6 @@
 import Map from "./Map.js";
 import AStar from "./AStar.js";
+import Warrior from "./Warrior.js";
 
 let map;
 let path;
@@ -18,6 +19,9 @@ const s = (sketch) => {
     map.setPlayer(0, -rad + 1, rad - 1);
     map.tilesList[15].wall = false;
 
+    // temporaire
+      map.demons.push(new Warrior(map, map.get(-1, 4, -3)));
+
     path = AStar.search(map, map.tilesList[66], map.tilesList[15]);
     // console.log(path);
   };
@@ -35,6 +39,10 @@ const s = (sketch) => {
       });
 
     map.player.show();
+    map.demons.forEach((e) =>
+    {
+       e.show();
+    });
   };
 
   sketch.mousePressed = () => {
@@ -58,3 +66,8 @@ const s = (sketch) => {
 };
 
 export let newP5 = new p5(s);
+
+function update()
+{
+
+}

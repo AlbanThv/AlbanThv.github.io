@@ -1,5 +1,4 @@
 import Demon from "./Demon.js";
-import Map from "./Map.js";
 
 export default class Warrior extends Demon
 {

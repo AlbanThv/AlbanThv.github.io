@@ -7,6 +7,7 @@ export default class Map {
         this.tiles = [];
         this.cellSize = 35;
         this.player = new Player();
+        this.demons = [];
         this.tilesList = [];
     }
 

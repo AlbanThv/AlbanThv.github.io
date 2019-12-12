@@ -23,4 +23,9 @@ export default class Demon
     {
 
     }
+
+    show()
+    {
+        this.tile.hexagon("rgb(255, 50, 50)");
+    }
 }
