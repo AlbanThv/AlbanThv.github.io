@@ -12,15 +12,14 @@ const s = (sketch) => {
 
     map = new Map(sketch);
     let rad = 5;
-    map.generate(rad, 5);
-    map.save();
-    // make a init funct to englobe generate/save/remove void
+
+    map.init(rad, 5);
 
     map.setPlayer(0, -rad + 1, rad - 1);
     map.tilesList[15].wall = false;
 
     path = AStar.search(map, map.tilesList[66], map.tilesList[15]);
-    console.log(path);
+    // console.log(path);
   };
 
   sketch.draw = () => {
@@ -51,8 +50,7 @@ const s = (sketch) => {
     newP5.fill(newP5.color(200));
     newP5.text(`fps: ${newP5.floor(newP5.getFrameRate())}`, sketch.windowWidth - 50, 20);
     newP5.textSize(12);
-  }
+  };
 };
 
 export let newP5 = new p5(s);
-
