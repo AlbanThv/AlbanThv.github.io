@@ -51,11 +51,33 @@ export default class Map {
         let neighbourCoords = [
             [1, 0, -1], [1, -1, 0], [0, -1, 1],
             [-1, 0, 1], [-1, 1, 0], [0, 1, -1]
-        ]
+        ];
         neighbourCoords.forEach(coords => {
             this.set(i + coords[0], j + coords[1], k + coords[2]);
             neighbourList.push(this.get(i + coords[0], j + coords[1], k + coords[2]));
         });
+        return neighbourList;
+    }
+
+    getNeighbours(tile)
+    {
+        let neighbourList = [];
+        let neighbourCoords = [
+            [1, 0, -1], [1, -1, 0], [0, -1, 1],
+            [-1, 0, 1], [-1, 1, 0], [0, 1, -1]
+        ];
+        neighbourCoords.forEach(coords => {
+            neighbourList.push(map.get(tile.x + coords[0], tile.y + coords[1], tile.z + coords[2]));
+        });
+
+        let index = neighbourList.length - 1;
+        while (index >= 0) {
+            if (neighbourList[index] === undefined) {
+                neighbourList.splice(index, 1);
+            }
+            index--;
+        }
+
         return neighbourList;
     }
 
@@ -73,8 +95,8 @@ export default class Map {
     }
 
     pixel_to_flat_hex() {
-        let mouseX = this.ctx.mouseX - this.ctx.width / 2
-        let mouseY = this.ctx.mouseY - this.ctx.height / 2
+        let mouseX = this.ctx.mouseX - this.ctx.width / 2;
+        let mouseY = this.ctx.mouseY - this.ctx.height / 2;
 
         let q = (2 / 3 * mouseX) / this.cellSize;
         let r = (-1 / 3 * mouseX + Math.sqrt(3) / 3 * mouseY) / this.cellSize;

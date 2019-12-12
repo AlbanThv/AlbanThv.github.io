@@ -21,7 +21,7 @@ const s = (sketch) => {
 
     path = AStar.search(map, map.tilesList[66], map.tilesList[15]);
     console.log(path);
-  }
+  };
 
   sketch.draw = () => {
     sketch.background(50);
@@ -32,19 +32,19 @@ const s = (sketch) => {
     map.tilesList.forEach(tile => {
       tile.show();
     });
-  }
+  };
 
   sketch.mousePressed = () => {
     let tile = map.pixel_to_flat_hex(); // correct out of the map mouse pos
     path = AStar.search(map, map.tilesList[66], tile);
     // tile.colour(170, 50, 170);
-  }
+  };
 
   sketch.mouseDragged = () => {
     let tile = map.pixel_to_flat_hex();
     path = AStar.search(map, map.tilesList[66], tile);
     // tile.colour(170, 50, 170);
-  }
+  };
 
   sketch.showFPS = () => {
     newP5.textSize(15);

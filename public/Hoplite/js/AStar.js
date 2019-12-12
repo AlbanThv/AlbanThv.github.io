@@ -94,7 +94,7 @@ const AStar = {
     let neighbourCoords = [
       [1, 0, -1], [1, -1, 0], [0, -1, 1],
       [-1, 0, 1], [-1, 1, 0], [0, 1, -1]
-    ]
+    ];
     neighbourCoords.forEach(coords => {
       neighbourList.push(map.get(tile.x + coords[0], tile.y + coords[1], tile.z + coords[2]));
     });
