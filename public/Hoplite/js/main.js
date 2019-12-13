@@ -26,8 +26,26 @@ const s = (sketch) => {
     map.setPlayer(0, -rad + 1, rad - 1);
     map.tilesList[15].wall = false;
 
-    // temporaire
-      map.demons.push(new Warrior(map, map.get(-1, 4, -3)));
+      // temporaire
+      let tile;
+      let isNeighbour;
+
+      do
+      {
+        isNeighbour = false;
+        tile = map.tilesList[Math.round(Math.random() * map.tilesList.length)];
+        console.log(tile);
+        if (tile !== undefined)
+        {
+          map.getNeighbours(tile).forEach((neighbour) =>
+            {
+                if (neighbour === map.player.tile)
+                    isNeighbour = true;
+            });
+        }
+      } while(tile === undefined || tile.wall || isNeighbour || tile === map.player.tile);
+
+      map.demons.push(new Warrior(map, tile));
 
     path = AStar.search(map, map.tilesList[66], map.tilesList[15]);
     // console.log(path);
