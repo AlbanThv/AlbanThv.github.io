@@ -58,7 +58,7 @@ export default class Map {
         let neighbourCoords = [
             [1, 0, -1], [1, -1, 0], [0, -1, 1],
             [-1, 0, 1], [-1, 1, 0], [0, 1, -1]
-        ]
+        ];
         neighbourCoords.forEach(coords => {
             this.set(i + coords[0], j + coords[1], k + coords[2]);
             neighbourList.push(this.get(i + coords[0], j + coords[1], k + coords[2]));
@@ -102,7 +102,7 @@ export default class Map {
             [-1, 0, 1], [-1, 1, 0], [0, 1, -1]
         ];
         neighbourCoords.forEach(coords => {
-            neighbourList.push(map.get(tile.x + coords[0], tile.y + coords[1], tile.z + coords[2]));
+            neighbourList.push(this.get(tile.x + coords[0], tile.y + coords[1], tile.z + coords[2]));
         });
 
         let index = neighbourList.length - 1;

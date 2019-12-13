@@ -1,5 +1,3 @@
-import Map from "./Map.js";
-
 export default class Demon
 {
     constructor(map, tile)
@@ -19,9 +17,10 @@ export default class Demon
 
     }
 
-    attack()
+    attack(player)
     {
-
+        player.currentHealth--;
+        player.isAlive();
     }
 
     show()

@@ -9,12 +9,15 @@ export default class Warrior extends Demon
 
     canAttack(player)
     {
+        let found = false;
+
         this.map.getNeighbours(this.tile).forEach((e) =>
         {
             if (e === player.tile)
-                return true;
+                found = true;
+                return;
         });
 
-        return false;
+        return found;
     }
 }

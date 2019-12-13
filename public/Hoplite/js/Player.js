@@ -1,6 +1,8 @@
 export default class Player {
   constructor() {
     this.tile;
+    this.maxHealth = 3;
+    this.currentHealth = 3;
   }
 
   set(tile) {
@@ -13,6 +15,18 @@ export default class Player {
 
   show() {
     // this.tile.colour()
-      this.tile.hexagon("rgb(170, 170, 50)");
+      this.tile.hexagon("rgba(170, 170, 50," + this.currentHealth / this.maxHealth + ")");
+  }
+
+  isAlive()
+  {
+    if (this.currentHealth <= 0)
+    {
+      // launch gameover
+    }
+    else
+    {
+      return true;
+    }
   }
 }

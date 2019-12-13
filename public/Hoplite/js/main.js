@@ -5,6 +5,13 @@ import Warrior from "./Warrior.js";
 let map;
 let path;
 
+// temp
+document.addEventListener("keydown", (ev) =>
+{
+  if (ev.key === " ")
+    update();
+});
+
 const s = (sketch) => {
   sketch.setup = () => {
     let cnv = sketch.createCanvas(sketch.windowWidth, sketch.windowHeight);
@@ -69,5 +76,14 @@ export let newP5 = new p5(s);
 
 function update()
 {
-
+  map.demons.forEach((demon) =>
+  {
+    if (demon.canAttack(map.player))
+      demon.attack(map.player);
+    else
+    {
+      let path = AStar.search(map, demon.tile, map.player.tile);
+      demon.move(path[0]);
+    }
+  });
 }
