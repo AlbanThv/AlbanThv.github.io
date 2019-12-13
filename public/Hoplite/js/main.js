@@ -40,7 +40,7 @@ const s = (sketch) => {
             }
         } while (tile === undefined || tile.wall || isNeighbour || tile === map.player.tile);
 
-        map.demons.push(new Warrior(map, tile));
+        map.demons.push(new Archer(map, tile));
     };
 
     sketch.draw = () => {

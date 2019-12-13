@@ -96,15 +96,15 @@ export default class Map {
 
     generateWall(wallNumber = 3) {
         let walls = [];
-        for (let i = 0; i < this.tilesList.length; i++) {
-            if (this.tilesList[i]) {
-                if (this.tilesList[i] !== this.player.tile && this.ctx.floor(this.ctx.random(10)) === 0 && wallNumber > 0) {
-                    this.tilesList[i].wall = true;
-                    walls.push(this.tilesList[i]);
+        this.tilesList.forEach(tile => {
+                tile.AStar_visited = false;
+                if (tile !== this.player.tile && this.ctx.floor(this.ctx.random(10)) === 0 && wallNumber > 0) {
+                    tile.wall = true;
+                    tile.AStar_visited = true;
+                    walls.push(tile);
                     wallNumber--;
                 }
-            }
-        }
+        });
         walls.forEach(wall => {
             this.generateWallNeighbour(wall, 2);
         });
@@ -113,10 +113,10 @@ export default class Map {
     generateWallNeighbour(wall, chance = 2) {
         this.generateNeighbour(wall.x, wall.y, wall.z).forEach(el => {
             if (el !== this.player.tile && this.ctx.floor(this.ctx.random(chance)) === 0 && !el.AStar_visited && !el.wall) {
-                el.AStar_visited = true;
                 el.wall = true;
                 this.generateWallNeighbour(el, chance * chance);
             }
+            el.AStar_visited = true;
         });
     }
 
