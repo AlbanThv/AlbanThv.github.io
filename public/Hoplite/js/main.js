@@ -1,6 +1,7 @@
 import Map from "./Map.js";
 import AStar from "./AStar.js";
 import Warrior from "./Warrior.js";
+import Archer from "./Archer.js";
 
 let map;
 let path;
@@ -45,7 +46,7 @@ const s = (sketch) => {
         }
       } while(tile === undefined || tile.wall || isNeighbour || tile === map.player.tile);
 
-      map.demons.push(new Warrior(map, tile));
+      map.demons.push(new Archer(map, tile));
 
     path = AStar.search(map, map.tilesList[66], map.tilesList[15]);
     // console.log(path);
@@ -100,8 +101,7 @@ function update()
       demon.attack(map.player);
     else
     {
-      let path = AStar.search(map, demon.tile, map.player.tile);
-      demon.move(path[0]);
+      demon.planMovement();
     }
   });
 }

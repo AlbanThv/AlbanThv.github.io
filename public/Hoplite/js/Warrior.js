@@ -15,9 +15,13 @@ export default class Warrior extends Demon
         {
             if (e === player.tile)
                 found = true;
-                return;
         });
 
         return found;
+    }
+
+    show()
+    {
+        this.tile.hexagon("rgb(20, 20, 20)");
     }
 }

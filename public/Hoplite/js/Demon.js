@@ -1,3 +1,5 @@
+import AStar from "./AStar.js";
+
 export default class Demon
 {
     constructor(map, tile)
@@ -21,6 +23,13 @@ export default class Demon
     {
         player.currentHealth--;
         player.isAlive();
+    }
+
+    planMovement()
+    {
+        let path = AStar.search(this.map, this.tile, this.map.player.tile);
+        if (path[0] !== undefined)
+            this.move(path[0]);
     }
 
     show()
