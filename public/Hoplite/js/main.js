@@ -1,9 +1,8 @@
 import Map from "./Map.js";
-import AStar from "./AStar.js";
 import Warrior from "./Warrior.js";
+import Archer from "./Archer.js";
 
 let map;
-let path;
 
 // temp
 document.addEventListener("keydown", (ev) => {
@@ -26,7 +25,22 @@ const s = (sketch) => {
         map.generateWall();
 
         // temporaire
-        map.demons.push(new Warrior(map, map.get(-1, 4, -3)));
+        let tile;
+        let isNeighbour;
+
+        do {
+            isNeighbour = false;
+            tile = map.tilesList[Math.round(Math.random() * map.tilesList.length)];
+            console.log(tile);
+            if (tile !== undefined) {
+                map.getNeighbours(tile).forEach((neighbour) => {
+                    if (neighbour === map.player.tile)
+                        isNeighbour = true;
+                });
+            }
+        } while (tile === undefined || tile.wall || isNeighbour || tile === map.player.tile);
+
+        map.demons.push(new Warrior(map, tile));
     };
 
     sketch.draw = () => {
@@ -69,11 +83,7 @@ function update() {
         if (demon.canAttack(map.player))
             demon.attack(map.player);
         else {
-            let path = AStar.search(map, demon.tile, map.player.tile);
-            console.log(path);
-            if (path[0]) {
-                demon.move(path[0]);
-            }
+            demon.planMovement();
         }
     });
 }

@@ -11,9 +11,12 @@ export default class Warrior extends Demon {
         this.map.getNeighbours(this.tile).forEach((e) => {
             if (e === player.tile)
                 found = true;
-            return;
         });
 
         return found;
+    }
+
+    show() {
+        this.tile.hexagon("rgb(20, 20, 20)");
     }
 }
