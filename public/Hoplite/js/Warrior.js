@@ -1,21 +1,17 @@
 import Demon from "./Demon.js";
 
-export default class Warrior extends Demon
-{
-    constructor(map, tile)
-    {
+export default class Warrior extends Demon {
+    constructor(map, tile) {
         super(map, tile)
     }
 
-    canAttack(player)
-    {
+    canAttack(player) {
         let found = false;
 
-        this.map.getNeighbours(this.tile).forEach((e) =>
-        {
+        this.map.getNeighbours(this.tile).forEach((e) => {
             if (e === player.tile)
                 found = true;
-                return;
+            return;
         });
 
         return found;

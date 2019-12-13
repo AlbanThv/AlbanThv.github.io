@@ -1,7 +1,5 @@
-export default class Cell
-{
-    constructor(options)
-    {
+export default class Cell {
+    constructor(options) {
         // main parameters
         this.id = Cell.Count === undefined ? Cell.Count = 0 : ++Cell.Count;
         this.ctx = options.ctx;
@@ -19,7 +17,7 @@ export default class Cell
         // misc parameters
         this.color = "rgb(100, 100, 100)";
         this.void = false;
-        this.wall = this.ctx.floor(this.ctx.random(5)) === 0;
+        this.wall = false;
 
         // A* parameters
         this.AStar_f = 0;
@@ -31,22 +29,18 @@ export default class Cell
         this.AStar_parent = null;
     }
 
-    show()
-    {
-        if (this.wall)
-        {
-            this.colour(170, 50, 50);
+    show() {
+        if (this.wall) {
+            this.color = `rgb(170, 50, 50)`;
         }
         this.hexagon();
     }
 
-    hexagon(color = this.color, x = this.gridX, y = this.gridY, size = this.size, npoints = 6, rotate = 0)
-    {
+    hexagon(color = this.color, x = this.gridX, y = this.gridY, size = this.size, npoints = 6, rotate = 0) {
         let angle = this.ctx.TWO_PI / npoints;
         this.ctx.fill(this.ctx.color(color));
         this.ctx.beginShape();
-        for (let a = rotate; a < this.ctx.TWO_PI; a += angle)
-        {
+        for (let a = rotate; a < this.ctx.TWO_PI; a += angle) {
             let sx = x + Math.cos(a) * size;
             let sy = y + Math.sin(a) * size;
             this.ctx.vertex(sx, sy);
@@ -60,8 +54,7 @@ export default class Cell
         this.ctx.text(`${this.x}.${this.y}.${this.z}`, x - 14, y + 20);
     }
 
-    colour(r = 255, g = r, b = r)
-    {
-        this.color = `rgb(${r}, ${g}, ${b})`;
+    colour(r = 255, g = r, b = r, a = 1) {
+        this.color = `rgba(${r}, ${g}, ${b}, ${a})`;
     }
 }

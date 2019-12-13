@@ -5,15 +5,15 @@ export default class Map {
     constructor(ctx) {
         this.ctx = ctx;
         this.tiles = [];
+        this.tilesList = [];
         this.cellSize = 35;
         this.player = new Player();
         this.demons = [];
-        this.tilesList = [];
     }
 
     set(_x, _y, _z) {
         if (this.tiles[`${_x},${_y},${_z}`] === undefined) {
-            this.tiles[`${_x},${_y},${_z}`] = new Cell({ x: _x, y: _y, z: _z, size: this.cellSize, ctx: this.ctx });
+            this.tiles[`${_x},${_y},${_z}`] = new Cell({x: _x, y: _y, z: _z, size: this.cellSize, ctx: this.ctx});
         }
     }
 
@@ -94,8 +94,33 @@ export default class Map {
         this.save();
     }
 
-    getNeighbours(tile)
-    {
+    generateWall(wallNumber = 3) {
+        let walls = [];
+        for (let i = 0; i < this.tilesList.length; i++) {
+            if (this.tilesList[i]) {
+                if (this.tilesList[i] !== this.player.tile && this.ctx.floor(this.ctx.random(10)) === 0 && wallNumber > 0) {
+                    this.tilesList[i].wall = true;
+                    walls.push(this.tilesList[i]);
+                    wallNumber--;
+                }
+            }
+        }
+        walls.forEach(wall => {
+            this.generateWallNeighbour(wall, 2);
+        });
+    }
+
+    generateWallNeighbour(wall, chance = 2) {
+        this.generateNeighbour(wall.x, wall.y, wall.z).forEach(el => {
+            if (el !== this.player.tile && this.ctx.floor(this.ctx.random(chance)) === 0 && !el.AStar_visited && !el.wall) {
+                el.AStar_visited = true;
+                el.wall = true;
+                this.generateWallNeighbour(el, chance * chance);
+            }
+        });
+    }
+
+    getNeighbours(tile) {
         let neighbourList = [];
         let neighbourCoords = [
             [1, 0, -1], [1, -1, 0], [0, -1, 1],
@@ -117,10 +142,6 @@ export default class Map {
     }
 
     setPlayer(_x, _y, _z) {
-        // this.tilesList.forEach(tile => {
-        //     tile.player = false;
-        // });
         this.player.set(this.tiles[`${_x},${_y},${_z}`]);
-        // console.log(this.tiles[`${_x},${_y},${_z}`]);
     }
 }

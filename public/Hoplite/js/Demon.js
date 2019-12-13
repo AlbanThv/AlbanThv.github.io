@@ -1,30 +1,24 @@
-export default class Demon
-{
-    constructor(map, tile)
-    {
+export default class Demon {
+    constructor(map, tile) {
         this.map = map;
         this.tile = tile;
         this.skin = null;
     }
 
-    move(tile)
-    {
+    move(tile) {
         this.tile = tile;
     }
 
-    canAttack(player)
-    {
+    canAttack(player) {
 
     }
 
-    attack(player)
-    {
+    attack(player) {
         player.currentHealth--;
         player.isAlive();
     }
 
-    show()
-    {
+    show() {
         this.tile.hexagon("rgb(255, 50, 50)");
     }
 }
