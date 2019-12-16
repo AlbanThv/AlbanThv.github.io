@@ -6,7 +6,7 @@ export default class Map {
         this.ctx = ctx;
         this.tiles = [];
         this.tilesList = [];
-        this.cellSize = 35;
+        this.cellSize = this.ctx.windowWidth < this.ctx.windowHeight ? this.ctx.windowWidth/9/(4/5)/2 : Math.floor(this.ctx.windowHeight/11/Math.sqrt(3));
         this.player = new Player();
         this.demons = [];
     }
@@ -17,8 +17,8 @@ export default class Map {
         }
     }
 
-    get(_x, _y, _z) {
-        return this.tiles[`${_x},${_y},${_z}`];
+    get(x, y, z) {
+        return this.tiles[`${x},${y},${z}`];
     }
 
     pixel_to_flat_hex() {
@@ -141,7 +141,7 @@ export default class Map {
         return neighbourList;
     }
 
-    setPlayer(_x, _y, _z) {
-        this.player.set(this.tiles[`${_x},${_y},${_z}`]);
+    setPlayer(x, y, z) {
+        this.player.set(this.tiles[`${x},${y},${z}`]);
     }
 }
