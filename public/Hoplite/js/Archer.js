@@ -16,7 +16,10 @@ export default class Archer extends Demon
             let z = this.tile.z;
 
             if (this.map.get(x + i, -(x+i)-z, z) === player.tile || this.map.get(x - i, -(x-i)-z, z) === player.tile || this.map.get(x, y + i, -x-(y+i)) === player.tile || this.map.get(x, y - i, -x-(y-i)) === player.tile || this.map.get(-y-(z+i), y, z + i) === player.tile || this.map.get(-y-(z-i), y, z - i) === player.tile)
+            {
+                console.log("hit");
                 return true;
+            }
         }
 
         return false;

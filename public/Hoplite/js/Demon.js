@@ -23,7 +23,7 @@ export default class Demon {
 
     planMovement() {
         let path = AStar.search(this.map, this.tile, this.map.player.tile);
-        console.log(path);
+        // console.log(path);
         if (path[0]) {
             this.move(path[0]);
         }

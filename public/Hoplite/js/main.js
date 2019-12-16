@@ -60,8 +60,14 @@ const s = (sketch) => {
     sketch.mousePressed = () => {
         let tile = map.pixel_to_flat_hex(); // correct out of the map mouse pos
         if (tile) {
-            console.log(tile);
+            // console.log(tile);
         }
+        map.getNeighbours(map.player.tile).forEach(nextTile => {
+            if (tile && !tile.wall && tile === nextTile) {
+                map.player.set(tile);
+                update();
+            }
+        });
     };
 
     sketch.mouseDragged = () => {
