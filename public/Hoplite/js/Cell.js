@@ -11,8 +11,8 @@ export default class Cell {
         // drawing parameters
         this.w = 2 * this.size * 3 / 4;
         this.h = Math.sqrt(3) * this.size * 0.5;
-        this.gridX = this.ctx.width / 2 + this.w * this.x;
-        this.gridY = this.ctx.height / 2 + this.h * (this.z - this.y);
+        this.gridX = this.ctx.canvas.width / 2 + this.w * this.x;
+        this.gridY = this.ctx.canvas.height / 2 + this.h * (this.z - this.y);
 
         // misc parameters
         this.color = "rgb(100, 100, 100)";
@@ -37,21 +37,22 @@ export default class Cell {
     }
 
     hexagon(color = this.color, x = this.gridX, y = this.gridY, size = this.size, npoints = 6, rotate = 0) {
-        let angle = this.ctx.TWO_PI / npoints;
-        this.ctx.fill(this.ctx.color(color));
-        this.ctx.beginShape();
-        for (let a = rotate; a < this.ctx.TWO_PI; a += angle) {
+        let angle = (2 * Math.PI) / npoints;
+        this.ctx.beginPath();
+        this.ctx.fillStyle = color;
+        for (let a = rotate; a < 2 * Math.PI; a += angle) {
             let sx = x + Math.cos(a) * size;
             let sy = y + Math.sin(a) * size;
-            this.ctx.vertex(sx, sy);
+            this.ctx.lineTo(sx, sy);
         }
-        this.ctx.endShape(this.ctx.CLOSE);
+        this.ctx.fill();
+        this.ctx.stroke();
 
-        // number
-        this.ctx.fill(0);
-        this.ctx.text(this.id > 9 ? "" + this.id : "0" + this.id, x - 6, y + 5);
-        this.ctx.fill(this.ctx.color(100, 255, 100));
-        this.ctx.text(`${this.x}.${this.y}.${this.z}`, x - 14, y + 20);
+        // numbers
+        this.ctx.fillStyle = `rgb(0,0,0)`;
+        this.ctx.fillText(this.id > 9 ? "" + this.id : "0" + this.id, x - 6, y + 5);
+        this.ctx.fillStyle = `rgb(100, 255, 100)`;
+        this.ctx.fillText(`${this.x}.${this.y}.${this.z}`, x - 14, y + 20);
     }
 
     colour(r = 255, g = r, b = r, a = 1) {

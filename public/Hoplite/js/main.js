@@ -1,51 +1,68 @@
 import Map from "./Map.js";
 import Warrior from "./Warrior.js";
 import Archer from "./Archer.js";
+import Timer from "./Timer.js";
 
 let map;
 
-// temp
-document.addEventListener("keydown", (ev) => {
-    if (ev.key === " ")
-        update();
-});
+async function main(canvas) {
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
-const s = (sketch) => {
-    sketch.setup = () => {
-        let cnv = sketch.createCanvas(sketch.windowWidth, sketch.windowHeight);
-        cnv.style('display', 'block');
-        sketch.frameRate(60);
+    map = new Map(ctx);
+    let rad = 5;
 
-        map = new Map(sketch);
-        let rad = 5;
+    map.init(rad, 5);
 
-        map.init(rad, 5);
+    map.setPlayer(0, -rad + 1, rad - 1);
+    map.generateWall();
 
-        map.setPlayer(0, -rad + 1, rad - 1);
-        map.generateWall();
+    document.addEventListener("click", mousePressed);
 
-        // temporaire
-        let tile;
-        let isNeighbour;
+    // temporaire
+    document.addEventListener("keydown", (ev) => {
+        if (ev.key === " ") {
+            //passer son tour
+            update();
+        }
+    });
 
-        do {
-            isNeighbour = false;
-            tile = map.tilesList[Math.round(Math.random() * map.tilesList.length)];
-            console.log(tile);
-            if (tile !== undefined) {
-                map.getNeighbours(tile).forEach((neighbour) => {
-                    if (neighbour === map.player.tile)
-                        isNeighbour = true;
-                });
-            }
-        } while (tile === undefined || tile.wall || isNeighbour || tile === map.player.tile);
+    let tile;
+    let isNeighbour;
+    do {
+        isNeighbour = false;
+        tile = map.tilesList[Math.round(Math.random() * map.tilesList.length)];
+        // console.log(tile);
+        if (tile !== undefined) {
+            map.getNeighbours(tile).forEach((neighbour) => {
+                if (neighbour === map.player.tile)
+                    isNeighbour = true;
+            });
+        }
+    } while (tile === undefined || tile.wall || isNeighbour || tile === map.player.tile);
 
-        map.demons.push(new Archer(map, tile));
-    };
+    map.demons.push(new Archer(map, tile));
 
-    sketch.draw = () => {
-        sketch.background(50);
-        sketch.showFPS();
+    // ===========
+
+    const timer = new Timer(1 / 60);
+    timer.update = function update(deltaTime) {
+        draw(ctx);
+    }
+    timer.start();
+
+    function showFPS (fps) {
+        ctx.font = "15px sans-serif";
+        ctx.fillStyle = `rgb(200,200,200)`;
+        ctx.fillText(`fps: ${Math.floor(fps)}`, ctx.canvas.width - 50, 20);
+        ctx.font = "12px sans-serif";
+    }
+
+    function draw (ctx) {
+        ctx.fillStyle = `rgb(200,200,200)`;
+        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        showFPS(timer.fps);
 
         map.tilesList.forEach(tile => {
             tile.show();
@@ -55,13 +72,15 @@ const s = (sketch) => {
         map.demons.forEach((e) => {
             e.show();
         });
-    };
+    }
 
-    sketch.mousePressed = () => {
-        let tile = map.pixel_to_flat_hex(); // correct out of the map mouse pos
-        if (tile) {
+    function mousePressed(e) {
+        // correct out of the map mouse pos
+        // or do if(tile)
+        let tile = map.pixel_to_flat_hex(e);
+        // if (tile) {
             // console.log(tile);
-        }
+        // }
         map.getNeighbours(map.player.tile).forEach(nextTile => {
             if (tile && !tile.wall && tile === nextTile) {
                 map.player.set(tile);
@@ -70,26 +89,20 @@ const s = (sketch) => {
         });
     };
 
-    sketch.mouseDragged = () => {
+    function mouseDragged() {
         // let tile = map.pixel_to_flat_hex();
     };
 
-    sketch.showFPS = () => {
-        newP5.textSize(15);
-        newP5.fill(newP5.color(200));
-        newP5.text(`fps: ${newP5.floor(newP5.getFrameRate())}`, sketch.windowWidth - 50, 20);
-        newP5.textSize(12);
-    };
+    function update() {
+        map.demons.forEach((demon) => {
+            if (demon.canAttack(map.player))
+                demon.attack(map.player);
+            else {
+                demon.planMovement();
+            }
+        });
+    }
 };
 
-export let newP5 = new p5(s);
-
-function update() {
-    map.demons.forEach((demon) => {
-        if (demon.canAttack(map.player))
-            demon.attack(map.player);
-        else {
-            demon.planMovement();
-        }
-    });
-}
+const canvas = document.getElementById("screen");
+main(canvas);

@@ -3,9 +3,10 @@
     <head>
         <title>Hoplite</title>
         <link rel="icon" type="image/png" href="./favicon.png">
+        <!-- <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' /> -->
         <style>
             body {
-                background: #111;
+                background: rgb(30, 30, 30);
                 margin: 0;
                 user-select: none;
                 color: white;
@@ -13,13 +14,18 @@
             a:visited {
                 color: blue;
             }
+            #screen {
+                display: block;
+                margin: auto;
+                /* image-rendering: pixelated; */
+            }
         </style>
     </head>
 
     <body oncontextmenu="return false">
-
+        <canvas id="screen"></canvas>
         <footer>
-            <script type="module" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.10.2/p5.min.js"></script>
+            <!-- <script type="module" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.10.2/p5.min.js"></script> -->
             <script type="module" src="js/main.js"></script>
         </footer>
     </body>

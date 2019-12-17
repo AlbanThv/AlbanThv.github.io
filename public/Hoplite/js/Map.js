@@ -6,7 +6,7 @@ export default class Map {
         this.ctx = ctx;
         this.tiles = [];
         this.tilesList = [];
-        this.cellSize = this.ctx.windowWidth < this.ctx.windowHeight ? this.ctx.windowWidth/9/(4/5)/2 : Math.floor(this.ctx.windowHeight/11/Math.sqrt(3));
+        this.cellSize = this.ctx.canvas.width < this.ctx.canvas.height ? this.ctx.canvas.width/9/(4/5)/2 : Math.floor(this.ctx.canvas.height/11/Math.sqrt(3));
         this.player = new Player();
         this.demons = [];
     }
@@ -21,9 +21,9 @@ export default class Map {
         return this.tiles[`${x},${y},${z}`];
     }
 
-    pixel_to_flat_hex() {
-        let mouseX = this.ctx.mouseX - this.ctx.width / 2;
-        let mouseY = this.ctx.mouseY - this.ctx.height / 2;
+    pixel_to_flat_hex(e) {
+        let mouseX = e.x - this.ctx.canvas.width / 2;
+        let mouseY = e.y - this.ctx.canvas.height / 2;
 
         let q = (2 / 3 * mouseX) / this.cellSize;
         let r = (-1 / 3 * mouseX + Math.sqrt(3) / 3 * mouseY) / this.cellSize;
@@ -98,7 +98,7 @@ export default class Map {
         let walls = [];
         this.tilesList.forEach(tile => {
                 tile.AStar_visited = false;
-                if (tile !== this.player.tile && this.ctx.floor(this.ctx.random(10)) === 0 && wallNumber > 0) {
+                if (tile !== this.player.tile && Math.floor(Math.random() * Math.floor(10)) === 0 && wallNumber > 0) {
                     tile.wall = true;
                     tile.AStar_visited = true;
                     walls.push(tile);
@@ -112,7 +112,7 @@ export default class Map {
 
     generateWallNeighbour(wall, chance = 2) {
         this.generateNeighbour(wall.x, wall.y, wall.z).forEach(el => {
-            if (el !== this.player.tile && this.ctx.floor(this.ctx.random(chance)) === 0 && !el.AStar_visited && !el.wall) {
+            if (el !== this.player.tile && Math.floor(Math.random() * Math.floor(chance)) === 0 && !el.AStar_visited && !el.wall) {
                 el.wall = true;
                 this.generateWallNeighbour(el, chance * chance);
             }
