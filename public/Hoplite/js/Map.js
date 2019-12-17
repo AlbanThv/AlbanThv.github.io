@@ -73,6 +73,7 @@ export default class Map {
                 if (Math.abs(el.x) < chop) {
                     this.generate(radius, chop, el.x, el.y, el.z);
                 } else {
+                    // delete this.tiles[el];
                     el.void = true;
                 }
             });
@@ -143,5 +144,15 @@ export default class Map {
 
     setPlayer(x, y, z) {
         this.player.set(this.tiles[`${x},${y},${z}`]);
+    }
+
+    isDemon(tile) {
+        let found = false;
+        this.demons.forEach(demon => {
+            if (tile === demon.tile) {
+                found = true;
+            }
+        });
+        return found;
     }
 }

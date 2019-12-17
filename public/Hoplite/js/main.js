@@ -18,6 +18,7 @@ async function main(canvas) {
     map.setPlayer(0, -rad + 1, rad - 1);
     map.generateWall();
 
+    // console.log(map.get(4, 2, -6).hexagon("rgb(50, 50, 200)"));
     document.addEventListener("click", mousePressed);
 
     // temporaire
@@ -28,22 +29,8 @@ async function main(canvas) {
         }
     });
 
-    let tile;
-    let isNeighbour;
-    do {
-        isNeighbour = false;
-        tile = map.tilesList[Math.round(Math.random() * map.tilesList.length)];
-        // console.log(tile);
-        if (tile !== undefined) {
-            map.getNeighbours(tile).forEach((neighbour) => {
-                if (neighbour === map.player.tile)
-                    isNeighbour = true;
-            });
-        }
-    } while (tile === undefined || tile.wall || isNeighbour || tile === map.player.tile);
-
-    map.demons.push(new Archer(map, tile));
-
+    map.demons.push(new Archer(map, newTile()));
+    map.demons.push(new Archer(map, newTile()));
     // ===========
 
     const timer = new Timer(1 / 60);
@@ -52,14 +39,14 @@ async function main(canvas) {
     }
     timer.start();
 
-    function showFPS (fps) {
+    function showFPS(fps) {
         ctx.font = "15px sans-serif";
         ctx.fillStyle = `rgb(200,200,200)`;
         ctx.fillText(`fps: ${Math.floor(fps)}`, ctx.canvas.width - 50, 20);
         ctx.font = "12px sans-serif";
     }
 
-    function draw (ctx) {
+    function draw(ctx) {
         ctx.fillStyle = `rgb(200,200,200)`;
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
         showFPS(timer.fps);
@@ -78,9 +65,9 @@ async function main(canvas) {
         // correct out of the map mouse pos
         // or do if(tile)
         let tile = map.pixel_to_flat_hex(e);
-        // if (tile) {
-            // console.log(tile);
-        // }
+        if (tile) {
+            console.log(tile);
+        }
         map.getNeighbours(map.player.tile).forEach(nextTile => {
             if (tile && !tile.wall && tile === nextTile) {
                 map.player.set(tile);
@@ -95,12 +82,32 @@ async function main(canvas) {
 
     function update() {
         map.demons.forEach((demon) => {
-            if (demon.canAttack(map.player))
+            if (demon.canAttack(map.player)) {
                 demon.attack(map.player);
-            else {
-                demon.planMovement();
             }
+            demon.planMovement();
         });
+    }
+
+    function newTile() {
+        let tile;
+        let badTile;
+        do {
+            badTile = false;
+            tile = map.tilesList[Math.round(Math.random() * map.tilesList.length)];
+            // console.log(tile);
+            if (tile !== undefined) {
+                map.getNeighbours(tile).forEach((neighbour) => {
+                    if (neighbour === map.player.tile) {
+                        badTile = true;
+                    }
+                });
+            }
+            if (tile === undefined || tile.wall || tile === map.player.tile || map.isDemon(tile)) {
+                badTile = true;
+            }
+        } while (badTile);
+        return tile;
     }
 };
 

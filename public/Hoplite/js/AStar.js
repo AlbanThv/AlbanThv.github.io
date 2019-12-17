@@ -47,7 +47,7 @@ const AStar = {
             openList.splice(lowInd, 1);
             currentNode.AStar_closed = true;
 
-            let neighbors = this.neighbors(map, currentNode);
+            let neighbors = this.neighbors(map, currentNode, start);
             for (let i = 0; i < neighbors.length; i++) {
                 let neighbor = neighbors[i];
 
@@ -90,7 +90,7 @@ const AStar = {
         return Math.max(Math.abs(a.x - b.x), Math.abs(a.y - b.y), Math.abs(a.z - b.z));
     },
 
-    neighbors: function (map, tile) {
+    neighbors: function (map, tile, start) {
         let neighbourList = [];
         let neighbourCoords = [
             [1, 0, -1], [1, -1, 0], [0, -1, 1],
@@ -104,6 +104,16 @@ const AStar = {
         while (index >= 0) {
             if (neighbourList[index] === undefined) {
                 neighbourList.splice(index, 1);
+            }
+            index--;
+        }
+
+        index = neighbourList.length - 1;
+        while (index >= 0) {
+            if (start !== neighbourList[index]) {
+                if (map.isDemon(neighbourList[index])) {
+                    neighbourList.splice(index, 1);
+                }
             }
             index--;
         }

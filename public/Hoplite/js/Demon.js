@@ -1,9 +1,9 @@
 import AStar from "./AStar.js";
 
 export default class Demon {
-    constructor(map, tile)
-    {
+    constructor(map, tile) {
         this.map = map;
+        this.id = Demon.Count === undefined ? Demon.Count = 0 : ++Demon.Count;
         this.tile = tile;
         this.skin = null;
     }
@@ -24,6 +24,7 @@ export default class Demon {
     planMovement() {
         let path = AStar.search(this.map, this.tile, this.map.player.tile);
         // console.log(path);
+        path.pop();
         if (path[0]) {
             this.move(path[0]);
         }
