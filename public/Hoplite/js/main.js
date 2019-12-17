@@ -69,7 +69,7 @@ async function main(canvas) {
             console.log(tile);
         }
         map.getNeighbours(map.player.tile).forEach(nextTile => {
-            if (tile && !tile.wall && tile === nextTile) {
+            if (tile && !tile.wall && tile === nextTile && !map.isDemon(nextTile)) {
                 map.player.set(tile);
                 update();
             }
