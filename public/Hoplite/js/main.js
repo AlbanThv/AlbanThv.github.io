@@ -70,7 +70,7 @@ async function main(canvas) {
             // console.log(tile);
         }
         map.getNeighbours(map.player.tile).forEach(nextTile => {
-            if (map.isClean(nextTile)) {
+            if (tile === nextTile && map.isClean(nextTile)) {
                 map.demons.forEach(demon => {
                     map.player.canAttack(demon).forEach(killingTile => {
                         if (killingTile === tile) {
