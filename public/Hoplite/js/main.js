@@ -70,7 +70,7 @@ async function main(canvas) {
             // console.log(tile);
         }
         map.getNeighbours(map.player.tile).forEach(nextTile => {
-            if (Map.isClean(nextTile)) {
+            if (map.isClean(nextTile)) {
                 map.demons.forEach(demon => {
                     map.player.canAttack(demon).forEach(killingTile => {
                         if (killingTile === tile) {
@@ -105,7 +105,7 @@ async function main(canvas) {
             badTile = false;
             tile = map.tilesList[Math.round(Math.random() * map.tilesList.length)];
             // console.log(tile);
-            if (Map.isClean(tile)) {
+            if (map.isClean(tile)) {
                 map.getNeighbours(tile).forEach((neighbour) => {
                     if (neighbour === map.player.tile) {
                         badTile = true;

@@ -111,7 +111,7 @@ const AStar = {
         index = neighbourList.length - 1;
         while (index >= 0) {
             if (start !== neighbourList[index]) {
-                if (!Map.isClean(neighbourList[index])) {
+                if (!map.isClean(neighbourList[index])) {
                     neighbourList.splice(index, 1);
                 }
             }

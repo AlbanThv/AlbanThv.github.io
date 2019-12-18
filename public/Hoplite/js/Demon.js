@@ -47,7 +47,6 @@ export default class Demon {
 
         attackPositions.forEach(v => {
             if (v) {
-                console.log(AStar.search(this.map, this.tile, v))
                 paths.push(AStar.search(this.map, this.tile, v));
             }
         });

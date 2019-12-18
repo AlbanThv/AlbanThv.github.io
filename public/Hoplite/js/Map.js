@@ -146,7 +146,7 @@ export default class Map {
         this.player = new Player(this, this.tiles[`${x},${y},${z}`]);
     }
 
-    static isClean(tile)
+    isClean(tile)
     {
         return !(tile === undefined || !tile instanceof Cell || tile.wall || tile.isOccupied || tile.lava);
     }
