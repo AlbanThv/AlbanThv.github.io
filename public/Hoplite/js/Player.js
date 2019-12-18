@@ -4,6 +4,7 @@ export default class Player {
         this.tile = tile;
         this.maxHealth = 3;
         this.currentHealth = 3;
+        this.tile.isOccupied = true;
     }
 
     move(tile) {

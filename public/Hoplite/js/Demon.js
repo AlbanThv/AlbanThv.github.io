@@ -24,6 +24,7 @@ export default class Demon {
 
     canAttack() {
         let attackPositions = this.getAttackPositions();
+        console.log(this.tile, attackPositions);
         let returnValue = false;
 
         attackPositions.forEach((attackPosition) =>
@@ -35,10 +36,10 @@ export default class Demon {
         return returnValue;
     }
 
-    attack(player) {
-        player.currentHealth--;
+    attack() {
+        this.map.player.currentHealth--;
         // console.log("hit");
-        player.isAlive();
+        this.map.player.isAlive();
     }
 
     planMovement() {

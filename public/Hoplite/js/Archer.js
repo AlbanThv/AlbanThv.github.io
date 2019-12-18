@@ -22,7 +22,7 @@ export default class Archer extends Demon {
                 [-y - (z - i), y, z - i]
             ];
             for (let j = 0; j < coords.length; j++) {
-                if (this.map.isClean(this.map.get(coords[j][0], coords[j][1], coords[j][2])))
+                if (this.map.isClean(this.map.get(coords[j][0], coords[j][1], coords[j][2]), this))
                     attackPositions.push(this.map.tilesList[this.map.get(coords[j][0], coords[j][1], coords[j][2]).id]);
             }
         }

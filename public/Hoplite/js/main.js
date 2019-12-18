@@ -91,10 +91,13 @@ async function main(canvas) {
 
     function update() {
         map.demons.forEach((demon) => {
-            if (demon.canAttack(map.player)) {
-                demon.attack(map.player);
+            console.log(demon.canAttack());
+            if (demon.canAttack()) {
+                demon.attack();
             }
-            demon.planMovement();
+            else{
+                demon.planMovement();
+            }
         });
     }
 

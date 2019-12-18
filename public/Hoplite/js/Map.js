@@ -146,8 +146,8 @@ export default class Map {
         this.player = new Player(this, this.tiles[`${x},${y},${z}`]);
     }
 
-    isClean(tile)
+    isClean(tile, observer = null)
     {
-        return !(tile === undefined || !tile instanceof Cell || tile.wall || tile.isOccupied || tile.lava);
+        return observer !== null && tile === observer.tile || !(tile === undefined || !tile instanceof Cell || tile.wall || tile.isOccupied || tile.lava);
     }
 }
