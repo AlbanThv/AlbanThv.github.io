@@ -24,7 +24,6 @@ export default class Demon {
 
     canAttack() {
         let attackPositions = this.getAttackPositions();
-        console.log(this.tile, attackPositions);
         let returnValue = false;
 
         attackPositions.forEach((attackPosition) =>

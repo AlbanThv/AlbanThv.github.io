@@ -75,6 +75,7 @@ async function main(canvas) {
                     map.player.canAttack(demon).forEach(killingTile => {
                         if (killingTile === tile) {
                             // console.log(map.demons[map.demons.findIndex(element => element.id === demon.id)]);
+                            demon.tile.isOccupied = false;
                             map.demons.splice(map.demons.findIndex(element => element.id === demon.id), 1);
                         }
                     });
@@ -91,7 +92,6 @@ async function main(canvas) {
 
     function update() {
         map.demons.forEach((demon) => {
-            console.log(demon.canAttack());
             if (demon.canAttack()) {
                 demon.attack();
             }
