@@ -3,8 +3,7 @@ import Demon from "./Demon.js";
 
 export default class Archer extends Demon {
     constructor(map, tile) {
-        super(map, tile)
-        this.smallest;
+        super(map, tile);
     }
 
     // newVision() {
@@ -35,10 +34,10 @@ export default class Archer extends Demon {
     //     return vision;
     // }
 
-    newObjective(tile) {
-        let x = tile.x;
-        let y = tile.y;
-        let z = tile.z;
+    getAttackPositions() {
+        let x = this.map.player.tile.x;
+        let y = this.map.player.tile.y;
+        let z = this.map.player.tile.z;
         let objective = [];
         let coords = [];
         for (let i = 2; i < 7; i++) {
@@ -63,51 +62,6 @@ export default class Archer extends Demon {
             }
         }
         return objective;
-    }
-
-    canAttack(player) {
-        let found = false;
-        let vision = this.newObjective(this.tile);
-        vision.forEach(v => {
-            if (v === player.tile) {
-                found = true;
-            }
-        });
-        return found;
-    }
-
-    planMovement() {
-        let paths = [];
-        let objective = this.newObjective(this.map.player.tile);
-        objective.forEach(v => {
-            if (v) {
-                paths.push(AStar.search(this.map, this.tile, v));
-            }
-        });
-
-        let vision = this.newObjective(this.tile);
-        vision.forEach(v => {
-            if (v === this.map.player.tile) {
-                // console.log("I can hit");
-                paths.unshift([])
-            }
-        });
-
-        let small = paths[0].length;
-        let smallest = paths[0];
-        for (let i = 0; i < paths.length - 1; i++) {
-            if (paths[i]) {
-                if (small > paths[i].length) {
-                    small = paths[i].length;
-                    smallest = paths[i];
-                }
-            }
-        }
-        this.smallest = smallest;
-
-        if (this.smallest[0]) {
-            this.move(this.smallest[0]);
-        }
     }
 
     show() {

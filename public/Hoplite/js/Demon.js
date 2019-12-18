@@ -14,8 +14,23 @@ export default class Demon {
         this.tile = tile;
     }
 
-    canAttack(player) {
+    // Returns all the cells from where the demon can attack the player
+    getAttackPositions()
+    {
+        return [];
+    }
 
+    canAttack(player) {
+        let attackPositions = this.getAttackPositions();
+        let returnValue = false;
+
+        attackPositions.forEach((attackPosition) =>
+        {
+            if (this.tile === attackPosition)
+                returnValue = true;
+        });
+
+        return returnValue;
     }
 
     attack(player) {
@@ -25,11 +40,28 @@ export default class Demon {
     }
 
     planMovement() {
-        let path = AStar.search(this.map, this.tile, this.map.player.tile);
-        // console.log(path);
-        path.pop();
-        if (path[0]) {
-            this.move(path[0]);
+        let attackPositions = this.getAttackPositions();
+        let paths = [];
+
+        attackPositions.forEach(v => {
+            if (v) {
+                paths.push(AStar.search(this.map, this.tile, v));
+            }
+        });
+
+        let small = paths[0].length;
+        let smallest = paths[0];
+        for (let i = 0; i < paths.length - 1; i++) {
+            if (paths[i]) {
+                if (small > paths[i].length) {
+                    small = paths[i].length;
+                    smallest = paths[i];
+                }
+            }
+        }
+
+        if (smallest) {
+            this.move(smallest[0]);
         }
     }
 

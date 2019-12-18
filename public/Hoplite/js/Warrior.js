@@ -5,15 +5,9 @@ export default class Warrior extends Demon {
         super(map, tile)
     }
 
-    canAttack(player) {
-        let found = false;
-
-        this.map.getNeighbours(this.tile).forEach((e) => {
-            if (e === player.tile)
-                found = true;
-        });
-
-        return found;
+    getAttackPositions()
+    {
+        return this.map.getNeighbours(this.map.player.tile);
     }
 
     show() {
