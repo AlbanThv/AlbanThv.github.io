@@ -18,6 +18,7 @@ export default class Demon {
 
     attack(player) {
         player.currentHealth--;
+        // console.log("hit");
         player.isAlive();
     }
 

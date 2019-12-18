@@ -118,15 +118,15 @@ const AStar = {
             index--;
         }
 
-        index = neighbourList.length - 1;
-        while (index >= 0) {
-            if (start !== neighbourList[index]) {
-                if (neighbourList[index] === map.player.tile) {
-                    neighbourList.splice(index, 1);
-                }
-            }
-            index--;
-        }
+        // index = neighbourList.length - 1;
+        // while (index >= 0) {
+        //     if (start !== neighbourList[index]) {
+        //         if (neighbourList[index] === map.player.tile) {
+        //             neighbourList.splice(index, 1);
+        //         }
+        //     }
+        //     index--;
+        // }
 
         return neighbourList;
     }

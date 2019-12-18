@@ -1,5 +1,6 @@
 export default class Player {
-    constructor() {
+    constructor(map) {
+        this.map = map;
         this.tile;
         this.maxHealth = 3;
         this.currentHealth = 3;
@@ -9,9 +10,29 @@ export default class Player {
         this.tile = tile;
     }
 
-    get() {
-        return this.tile;
+    canAttack(demon) {
+        let adjacent = false;
+        let killingTile = [];
+        this.map.getNeighbours(demon.tile).forEach(tile => {
+            if (this.tile === tile) {
+                adjacent = true;
+            }
+        });
+        if (adjacent) {
+            this.map.getNeighbours(demon.tile).forEach(demonNei => {
+                this.map.getNeighbours(this.tile).forEach(myNei => {
+                    if (demonNei === myNei) {
+                        killingTile.push(myNei);
+                    }
+                });
+            });
+        }
+        return killingTile;
     }
+
+    // get() {
+    //     return this.tile;
+    // }
 
     show() {
         // this.tile.colour()

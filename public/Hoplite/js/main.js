@@ -1,7 +1,7 @@
+import Timer from "./Timer.js";
 import Map from "./Map.js";
 import Warrior from "./Warrior.js";
 import Archer from "./Archer.js";
-import Timer from "./Timer.js";
 
 let map;
 
@@ -31,6 +31,7 @@ async function main(canvas) {
 
     map.demons.push(new Archer(map, newTile()));
     map.demons.push(new Archer(map, newTile()));
+    map.demons.push(new Warrior(map, newTile()));
     // ===========
 
     const timer = new Timer(1 / 60);
@@ -66,10 +67,18 @@ async function main(canvas) {
         // or do if(tile)
         let tile = map.pixel_to_flat_hex(e);
         if (tile) {
-            console.log(tile);
+            // console.log(tile);
         }
         map.getNeighbours(map.player.tile).forEach(nextTile => {
             if (tile && !tile.wall && tile === nextTile && !map.isDemon(nextTile)) {
+                map.demons.forEach(demon => {
+                    map.player.canAttack(demon).forEach(killingTile => {
+                        if (killingTile === tile) {
+                            // console.log(map.demons[map.demons.findIndex(element => element.id === demon.id)]);
+                            map.demons.splice(map.demons.findIndex(element => element.id === demon.id), 1);
+                        }
+                    });
+                });
                 map.player.set(tile);
                 update();
             }

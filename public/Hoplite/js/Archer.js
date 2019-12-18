@@ -7,33 +7,33 @@ export default class Archer extends Demon {
         this.smallest;
     }
 
-    newVision() {
-        let x = this.tile.x;
-        let y = this.tile.y;
-        let z = this.tile.z;
-        let vision = [];
-        for (let i = 2; i < 7; i++) {
-            if (this.map.get(x + i, -(x + i) - z, z)) {
-                vision.push(this.map.tilesList[this.map.get(x + i, -(x + i) - z, z).id]);
-            }
-            if (this.map.get(x - i, -(x - i) - z, z)) {
-                vision.push(this.map.tilesList[this.map.get(x - i, -(x - i) - z, z).id]);
-            }
-            if (this.map.get(x, y + i, -x - (y + i))) {
-                vision.push(this.map.tilesList[this.map.get(x, y + i, -x - (y + i)).id]);
-            }
-            if (this.map.get(x, y - i, -x - (y - i))) {
-                vision.push(this.map.tilesList[this.map.get(x, y - i, -x - (y - i)).id]);
-            }
-            if (this.map.get(-y - (z + i), y, z + i)) {
-                vision.push(this.map.tilesList[this.map.get(-y - (z + i), y, z + i).id]);
-            }
-            if (this.map.get(-y - (z - i), y, z - i)) {
-                vision.push(this.map.tilesList[this.map.get(-y - (z - i), y, z - i).id]);
-            }
-        }
-        return vision;
-    }
+    // newVision() {
+    //     let x = this.tile.x;
+    //     let y = this.tile.y;
+    //     let z = this.tile.z;
+    //     let vision = [];
+    //     for (let i = 2; i < 7; i++) {
+    //         if (this.map.get(x + i, -(x + i) - z, z)) {
+    //             vision.push(this.map.tilesList[this.map.get(x + i, -(x + i) - z, z).id]);
+    //         }
+    //         if (this.map.get(x - i, -(x - i) - z, z)) {
+    //             vision.push(this.map.tilesList[this.map.get(x - i, -(x - i) - z, z).id]);
+    //         }
+    //         if (this.map.get(x, y + i, -x - (y + i))) {
+    //             vision.push(this.map.tilesList[this.map.get(x, y + i, -x - (y + i)).id]);
+    //         }
+    //         if (this.map.get(x, y - i, -x - (y - i))) {
+    //             vision.push(this.map.tilesList[this.map.get(x, y - i, -x - (y - i)).id]);
+    //         }
+    //         if (this.map.get(-y - (z + i), y, z + i)) {
+    //             vision.push(this.map.tilesList[this.map.get(-y - (z + i), y, z + i).id]);
+    //         }
+    //         if (this.map.get(-y - (z - i), y, z - i)) {
+    //             vision.push(this.map.tilesList[this.map.get(-y - (z - i), y, z - i).id]);
+    //         }
+    //     }
+    //     return vision;
+    // }
 
     newObjective(tile) {
         let x = tile.x;
@@ -66,14 +66,14 @@ export default class Archer extends Demon {
     }
 
     canAttack(player) {
+        let found = false;
         let vision = this.newObjective(this.tile);
         vision.forEach(v => {
             if (v === player.tile) {
-                console.log("hit");
-                return true;
+                found = true;
             }
         });
-        return false;
+        return found;
     }
 
     planMovement() {
@@ -88,7 +88,7 @@ export default class Archer extends Demon {
         let vision = this.newObjective(this.tile);
         vision.forEach(v => {
             if (v === this.map.player.tile) {
-                console.log("I can hit");
+                // console.log("I can hit");
                 paths.unshift([])
             }
         });
