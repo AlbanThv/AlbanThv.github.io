@@ -6,9 +6,11 @@ export default class Demon {
         this.id = Demon.Count === undefined ? Demon.Count = 0 : ++Demon.Count;
         this.tile = tile;
         this.skin = null;
+        this.tile.isOccupied = true;
     }
 
     move(tile) {
+        // console.log(this.tile.isOccupied, tile.isOccupied)
         this.tile.isOccupied = false;
         tile.isOccupied = true;
         this.tile = tile;
@@ -17,7 +19,7 @@ export default class Demon {
     // Returns all the cells from where the demon can attack the player
     getAttackPositions()
     {
-        return [];
+        return [this.tile];
     }
 
     canAttack(player) {
@@ -45,6 +47,7 @@ export default class Demon {
 
         attackPositions.forEach(v => {
             if (v) {
+                console.log(AStar.search(this.map, this.tile, v))
                 paths.push(AStar.search(this.map, this.tile, v));
             }
         });
@@ -60,7 +63,7 @@ export default class Demon {
             }
         }
 
-        if (smallest) {
+        if (smallest && smallest.length !== 0) {
             this.move(smallest[0]);
         }
     }

@@ -110,11 +110,11 @@ const AStar = {
 
         index = neighbourList.length - 1;
         while (index >= 0) {
-            if (start !== neighbourList[index]) {
-                if (map.isDemon(neighbourList[index])) {
+            // if (start !== neighbourList[index]) {
+                if (neighbourList[index].isOccupied) {
                     neighbourList.splice(index, 1);
                 }
-            }
+            // }
             index--;
         }
 
