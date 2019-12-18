@@ -146,13 +146,8 @@ export default class Map {
         this.player = new Player(this, this.tiles[`${x},${y},${z}`]);
     }
 
-    isDemon(tile) {
-        let found = false;
-        this.demons.forEach(demon => {
-            if (tile === demon.tile) {
-                found = true;
-            }
-        });
-        return found;
+    static isClean(tile)
+    {
+        return !(tile === undefined || !tile instanceof Cell || tile.wall || tile.isOccupied || tile.lava);
     }
 }

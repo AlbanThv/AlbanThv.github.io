@@ -30,9 +30,8 @@ async function main(canvas) {
     });
 
     map.demons.push(new Archer(map, newTile()));
-    // map.demons.push(new Archer(map, newTile()));
-    // map.demons.push(new Warrior(map, newTile()));
-
+    map.demons.push(new Archer(map, newTile()));
+    map.demons.push(new Warrior(map, newTile()));
     // ===========
 
     const timer = new Timer(1 / 60);
@@ -71,7 +70,7 @@ async function main(canvas) {
             // console.log(tile);
         }
         map.getNeighbours(map.player.tile).forEach(nextTile => {
-            if (tile && !tile.wall && tile === nextTile && !map.isDemon(nextTile)) {
+            if (Map.isClean(nextTile)) {
                 map.demons.forEach(demon => {
                     map.player.canAttack(demon).forEach(killingTile => {
                         if (killingTile === tile) {
@@ -106,14 +105,15 @@ async function main(canvas) {
             badTile = false;
             tile = map.tilesList[Math.round(Math.random() * map.tilesList.length)];
             // console.log(tile);
-            if (tile !== undefined) {
+            if (Map.isClean(tile)) {
                 map.getNeighbours(tile).forEach((neighbour) => {
                     if (neighbour === map.player.tile) {
                         badTile = true;
                     }
                 });
             }
-            if (tile === undefined || tile.wall || tile === map.player.tile || map.isDemon(tile)) {
+            else
+            {
                 badTile = true;
             }
         } while (badTile);

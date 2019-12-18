@@ -22,7 +22,7 @@ export default class Demon {
         return [this.tile];
     }
 
-    canAttack(player) {
+    canAttack() {
         let attackPositions = this.getAttackPositions();
         let returnValue = false;
 
