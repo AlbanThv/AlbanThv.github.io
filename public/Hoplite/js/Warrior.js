@@ -11,7 +11,7 @@ export default class Warrior extends Demon {
 
         this.map.getNeighbours(this.map.player.tile).forEach((neighbour) =>
         {
-            if (this.map.isClean(neighbour))
+            if (this.map.isClean(neighbour, this))
                 attackPositions.push(neighbour);
         });
 
