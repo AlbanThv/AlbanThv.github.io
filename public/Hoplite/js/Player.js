@@ -7,6 +7,8 @@ export default class Player {
     }
 
     set(tile) {
+        this.tile.isOccupied = false;
+        tile.isOccupied = true;
         this.tile = tile;
     }
 

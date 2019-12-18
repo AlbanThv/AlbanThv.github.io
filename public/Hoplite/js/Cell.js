@@ -18,6 +18,7 @@ export default class Cell {
         this.color = "rgb(100, 100, 100)";
         this.void = false;
         this.wall = false;
+        this.isOccupied = false;
 
         // A* parameters
         this.AStar_f = 0;

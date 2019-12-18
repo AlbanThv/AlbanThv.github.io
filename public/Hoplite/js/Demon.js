@@ -9,6 +9,8 @@ export default class Demon {
     }
 
     move(tile) {
+        this.tile.isOccupied = false;
+        tile.isOccupied = true;
         this.tile = tile;
     }
 

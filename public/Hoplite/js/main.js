@@ -32,12 +32,17 @@ async function main(canvas) {
     map.demons.push(new Archer(map, newTile()));
     map.demons.push(new Archer(map, newTile()));
     map.demons.push(new Warrior(map, newTile()));
+
+    map.demons.forEach((demon) =>
+    {
+        demon.tile.isOccupied = true;
+    });
     // ===========
 
     const timer = new Timer(1 / 60);
     timer.update = function update(deltaTime) {
         draw(ctx);
-    }
+    };
     timer.start();
 
     function showFPS(fps) {
@@ -83,11 +88,11 @@ async function main(canvas) {
                 update();
             }
         });
-    };
+    }
 
     function mouseDragged() {
         // let tile = map.pixel_to_flat_hex();
-    };
+    }
 
     function update() {
         map.demons.forEach((demon) => {
@@ -118,7 +123,7 @@ async function main(canvas) {
         } while (badTile);
         return tile;
     }
-};
+}
 
 const canvas = document.getElementById("screen");
 main(canvas);
