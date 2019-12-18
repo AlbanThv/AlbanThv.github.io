@@ -7,7 +7,7 @@ export default class Map {
         this.tiles = [];
         this.tilesList = [];
         this.cellSize = this.ctx.canvas.width < this.ctx.canvas.height ? this.ctx.canvas.width/9/(4/5)/2 : Math.floor(this.ctx.canvas.height/11/Math.sqrt(3));
-        this.player = new Player(this);
+        this.player;
         this.demons = [];
     }
 
@@ -142,8 +142,8 @@ export default class Map {
         return neighbourList;
     }
 
-    setPlayer(x, y, z) {
-        this.player.set(this.tiles[`${x},${y},${z}`]);
+    createPlayer(x, y, z) {
+        this.player = new Player(this, this.tiles[`${x},${y},${z}`]);
     }
 
     isDemon(tile) {

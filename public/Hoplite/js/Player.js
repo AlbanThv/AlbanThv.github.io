@@ -1,12 +1,12 @@
 export default class Player {
-    constructor(map) {
+    constructor(map, tile) {
         this.map = map;
-        this.tile;
+        this.tile = tile;
         this.maxHealth = 3;
         this.currentHealth = 3;
     }
 
-    set(tile) {
+    move(tile) {
         this.tile = tile;
     }
 

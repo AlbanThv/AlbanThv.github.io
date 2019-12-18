@@ -15,7 +15,7 @@ async function main(canvas) {
 
     map.init(rad, 5);
 
-    map.setPlayer(0, -rad + 1, rad - 1);
+    map.createPlayer(0, -rad + 1, rad - 1);
     map.generateWall();
 
     // console.log(map.get(4, 2, -6).hexagon("rgb(50, 50, 200)"));
@@ -79,7 +79,7 @@ async function main(canvas) {
                         }
                     });
                 });
-                map.player.set(tile);
+                map.player.move(tile);
                 update();
             }
         });
