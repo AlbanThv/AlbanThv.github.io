@@ -115,27 +115,27 @@ export default class Map {
         this.save();
     }
 
-    generateWall(wallNumber = 3) {
-        let walls = [];
+    generateLava(lavaNumber = 3) {
+        let lavas = [];
         this.tilesList.forEach(tile => {
             tile.AStar_visited = false;
-            if (tile !== this.player.tile && Math.floor(Math.random() * Math.floor(10)) === 0 && wallNumber > 0) {
-                tile.wall = true;
+            if (tile !== this.player.tile && Math.floor(Math.random() * Math.floor(10)) === 0 && lavaNumber > 0) {
+                tile.lava = true;
                 tile.AStar_visited = true;
-                walls.push(tile);
-                wallNumber--;
+                lavas.push(tile);
+                lavaNumber--;
             }
         });
-        walls.forEach(wall => {
-            this.generateWallNeighbour(wall, 2);
+        lavas.forEach(lava => {
+            this.generateLavaNeighbour(lava, 2);
         });
     }
 
-    generateWallNeighbour(wall, chance = 2) {
-        this.generateNeighbour(wall.x, wall.y, wall.z).forEach(el => {
-            if (el !== this.player.tile && Math.floor(Math.random() * Math.floor(chance)) === 0 && !el.AStar_visited && !el.wall) {
-                el.wall = true;
-                this.generateWallNeighbour(el, chance * chance);
+    generateLavaNeighbour(lava, chance = 2) {
+        this.generateNeighbour(lava.x, lava.y, lava.z).forEach(el => {
+            if (el !== this.player.tile && Math.floor(Math.random() * Math.floor(chance)) === 0 && !el.AStar_visited && !el.lava) {
+                el.lava = true;
+                this.generateLavaNeighbour(el, chance * chance);
             }
             el.AStar_visited = true;
         });
@@ -168,5 +168,9 @@ export default class Map {
 
     isClean(tile, observer = null) {
         return observer !== null && tile === observer.tile || !(tile === undefined || !tile instanceof Cell || tile.wall || tile.isOccupied || tile.lava);
+    }
+
+    isObstacle(tile, observer = null) {
+        return observer !== null && tile === observer.tile || !(tile === undefined || !tile instanceof Cell || tile.wall || tile.isOccupied);
     }
 }

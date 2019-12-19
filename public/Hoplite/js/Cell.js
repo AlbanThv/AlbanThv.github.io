@@ -32,7 +32,7 @@ export default class Cell {
     }
 
     show() {
-        if (this.wall) {
+        if (this.lava) {
             this.color = `rgb(170, 50, 50)`;
         }
         this.hexagon();

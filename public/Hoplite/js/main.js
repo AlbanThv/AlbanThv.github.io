@@ -16,7 +16,7 @@ async function main(canvas) {
     map.init(rad, 5);
 
     map.createPlayer(0, -rad + 1, rad - 1);
-    map.generateWall();
+    map.generateLava();
 
     // console.log(map.get(4, 2, -6).hexagon("rgb(50, 50, 200)"));
     document.addEventListener("click", mousePressed);

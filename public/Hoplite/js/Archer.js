@@ -30,7 +30,7 @@ export default class Archer extends Demon {
                         line = this.map.cube_line(this.map.tilesList[this.map.get(coords[j][0], coords[j][1], coords[j][2]).id], this.map.player.tile);
                         line.pop();
                         line.forEach(tile => {
-                            if (!this.map.isClean(tile, this)) {
+                            if (!this.map.isObstacle(tile, this)) {
                                 ldv = false;
                             }
                         });
