@@ -68,6 +68,11 @@ async function main(canvas) {
         map.demons.forEach((e) => {
             e.show();
         });
+
+        // comment archer L 29 for wtf moment
+        // for (const tile in map.tiles) {
+        //     map.tiles[tile].hexagon("rgb(0,0,255)");
+        // }
     }
 
     function mousePressed(e) {
