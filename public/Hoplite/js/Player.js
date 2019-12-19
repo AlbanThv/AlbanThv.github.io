@@ -39,7 +39,7 @@ export default class Player {
 
     show() {
         // this.tile.colour()
-        this.tile.hexagon("rgba(170, 170, 50," + this.currentHealth / this.maxHealth + ")");
+        this.tile.hexagon("rgba(170, 170, 50," + this.currentHealth / this.maxHealth + ")", this.currentHealth, "rgb(200, 50, 50)");
     }
 
     isAlive() {

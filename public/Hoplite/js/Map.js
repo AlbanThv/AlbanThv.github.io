@@ -141,22 +141,40 @@ export default class Map {
         });
     }
 
-    getNeighbours(tile) {
+    getNeighbours(tile, clean = false) {
         let neighbourList = [];
         let neighbourCoords = [
             [1, 0, -1], [1, -1, 0], [0, -1, 1],
             [-1, 0, 1], [-1, 1, 0], [0, 1, -1]
         ];
         neighbourCoords.forEach(coords => {
-            neighbourList.push(this.get(tile.x + coords[0], tile.y + coords[1], tile.z + coords[2]));
+            if (this.get(tile.x + coords[0], tile.y + coords[1], tile.z + coords[2])) {
+                if (this.tilesList[this.get(tile.x + coords[0], tile.y + coords[1], tile.z + coords[2]).id]) {
+                    neighbourList.push(this.tilesList[this.get(tile.x + coords[0], tile.y + coords[1], tile.z + coords[2]).id]);
+                }
+            }
         });
 
-        let index = neighbourList.length - 1;
-        while (index >= 0) {
-            if (neighbourList[index] === undefined) {
-                neighbourList.splice(index, 1);
+        // with Line 152
+        // if (this.tilesList[this.get(tile.x + coords[0], tile.y + coords[1], tile.z + coords[2]).id])
+        // code under is not needed ?
+        //
+        // let index = neighbourList.length - 1;
+        // while (index >= 0) {
+        //     if (neighbourList[index] === undefined) {
+        //         neighbourList.splice(index, 1);
+        //     }
+        //     index--;
+        // }
+        //
+        if (clean) {
+            let index = neighbourList.length - 1;
+            while (index >= 0) {
+                if (!this.isClean(neighbourList[index])) {
+                    neighbourList.splice(index, 1);
+                }
+                index--;
             }
-            index--;
         }
 
         return neighbourList;

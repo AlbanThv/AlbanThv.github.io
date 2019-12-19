@@ -25,7 +25,7 @@ export default class Archer extends Demon {
             ];
             for (let j = 0; j < coords.length; j++) {
                 ldv = true;
-                if (this.map.isClean(this.map.get(coords[j][0], coords[j][1], coords[j][2]), this)) { // Sometimes let non existant tile pass
+                if (this.map.isClean(this.map.get(coords[j][0], coords[j][1], coords[j][2]), this)) { // Sometimes let non-existant tile pass
                     if (this.map.isClean(this.map.tilesList[this.map.get(coords[j][0], coords[j][1], coords[j][2]).id], this)) {
                         line = this.map.cube_line(this.map.tilesList[this.map.get(coords[j][0], coords[j][1], coords[j][2]).id], this.map.player.tile);
                         line.pop();
@@ -45,6 +45,6 @@ export default class Archer extends Demon {
     }
 
     show() {
-        this.tile.hexagon("rgb(100, 200, 100)", this.id);
+        Demon.prototype.show.call(this, "rgb(50, 150, 50)");
     }
 }

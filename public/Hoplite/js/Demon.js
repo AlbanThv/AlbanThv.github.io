@@ -34,7 +34,9 @@ export default class Demon {
     }
 
     attack() {
-        this.map.player.currentHealth--;
+        if (this.map.player.currentHealth > 0) {
+            this.map.player.currentHealth--;
+        }
         // console.log("hit");
         this.map.player.isAlive();
     }
@@ -68,11 +70,16 @@ export default class Demon {
 
         if (smallest && smallest.length !== 0) {
             this.move(smallest[0]);
+        } else { // no paths -> moves randomly
+            let randomTile = this.map.getNeighbours(this.tile, true);
+            if (randomTile.length !== 0) {
+                this.move(randomTile[Math.floor(Math.random() * Math.floor(randomTile.length))]);
+            }
         }
-        // if no paths should move randomly
+
     }
 
-    show() {
-        this.tile.hexagon("rgb(255, 0, 0)");
+    show(color = "rgb(255, 0, 0)") {
+        this.tile.hexagon(color, this.id, "rgb(100, 50, 100)");
     }
 }

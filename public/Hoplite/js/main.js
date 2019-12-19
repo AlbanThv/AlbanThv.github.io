@@ -29,15 +29,13 @@ async function main(canvas) {
         }
     });
 
+
     map.demons.push(new Archer(map, newTile()));
     map.demons.push(new Archer(map, newTile()));
-    map.demons.push(new Archer(map, newTile()));
-    map.demons.push(new Archer(map, newTile()));
-    map.demons.push(new Archer(map, newTile()));
-    map.demons.push(new Archer(map, newTile()));
-    // map.demons.push(new Warrior(map, newTile()));
-    // map.demons.push(new Warrior(map, newTile()));
-    // map.demons.push(new Warrior(map, newTile()));
+
+    map.demons.push(new Warrior(map, newTile()));
+    map.demons.push(new Warrior(map, newTile()));
+    map.demons.push(new Warrior(map, newTile()));
 
 
     map.cube_line(map.demons[0].tile, map.player.tile);

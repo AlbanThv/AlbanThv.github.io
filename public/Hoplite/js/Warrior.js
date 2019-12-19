@@ -16,6 +16,6 @@ export default class Warrior extends Demon {
     }
 
     show() {
-        this.tile.hexagon("rgb(50, 50, 50)", this.id);
+        Demon.prototype.show.call(this, "rgb(50, 50, 50)");
     }
 }
