@@ -45,6 +45,6 @@ export default class Archer extends Demon {
     }
 
     show() {
-        this.tile.hexagon("rgb(100, 200, 100)");
+        this.tile.hexagon("rgb(100, 200, 100)", this.id);
     }
 }

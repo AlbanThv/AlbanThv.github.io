@@ -38,13 +38,15 @@ export default class Cell {
         this.hexagon();
     }
 
-    hexagon(color = this.color, x = this.gridX, y = this.gridY, size = this.size, npoints = 6, rotate = 0) {
-        let angle = (2 * Math.PI) / npoints;
+    hexagon(color = this.color, text) {
+        let angle = (2 * Math.PI) / 6;
+        let x = this.gridX;
+        let y = this.gridY;
         this.ctx.beginPath();
         this.ctx.fillStyle = color;
-        for (let a = rotate; a < 2 * Math.PI; a += angle) {
-            let sx = x + Math.cos(a) * size;
-            let sy = y + Math.sin(a) * size;
+        for (let a = 0; a < 2 * Math.PI; a += angle) {
+            let sx = x + Math.cos(a) * this.size;
+            let sy = y + Math.sin(a) * this.size;
             this.ctx.lineTo(sx, sy);
         }
         this.ctx.fill();
@@ -55,6 +57,10 @@ export default class Cell {
         this.ctx.fillText(this.id > 9 ? "" + this.id : "0" + this.id, x - 6, y + 5);
         this.ctx.fillStyle = `rgb(100, 255, 100)`;
         this.ctx.fillText(`${this.x}.${this.y}.${this.z}`, x - 14, y + 20);
+        if (text >= 0) {
+            this.ctx.fillStyle = `rgb(255,255,255)`;
+            this.ctx.fillText(text > 9 ? "" + text : "0" + text, x - 6, y - 9);
+        }
     }
 
     colour(r = 255, g = r, b = r, a = 1) {

@@ -17,17 +17,15 @@ export default class Demon {
     }
 
     // Returns all the cells from where the demon can attack the player
-    getAttackPositions()
-    {
-        return [this.tile];
+    getAttackPositions() {
+        return [];
     }
 
     canAttack() {
         let attackPositions = this.getAttackPositions();
         let returnValue = false;
 
-        attackPositions.forEach((attackPosition) =>
-        {
+        attackPositions.forEach((attackPosition) => {
             if (this.tile === attackPosition)
                 returnValue = true;
         });
@@ -51,12 +49,18 @@ export default class Demon {
             }
         });
 
-        let small = paths[0].length;
+        let index = paths.length - 1;
+        while (index >= 0) {
+            if (paths[index].length === 0) {
+                paths.splice(index, 1);
+            }
+            index--;
+        }
+
         let smallest = paths[0];
         for (let i = 0; i < paths.length - 1; i++) {
             if (paths[i]) {
-                if (small > paths[i].length) {
-                    small = paths[i].length;
+                if (smallest.length > paths[i].length) {
                     smallest = paths[i];
                 }
             }
@@ -65,9 +69,10 @@ export default class Demon {
         if (smallest && smallest.length !== 0) {
             this.move(smallest[0]);
         }
+        // if no paths should move randomly
     }
 
     show() {
-        this.tile.hexagon("rgb(255, 50, 50)");
+        this.tile.hexagon("rgb(255, 0, 0)");
     }
 }
