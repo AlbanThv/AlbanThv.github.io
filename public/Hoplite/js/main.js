@@ -30,9 +30,13 @@ async function main(canvas) {
     });
 
     map.demons.push(new Archer(map, newTile()));
-    map.demons.push(new Archer(map, newTile()));
+    // map.demons.push(new Archer(map, newTile()));
     map.demons.push(new Warrior(map, newTile()));
+
+
+    map.cube_line(map.demons[0].tile, map.player.tile);
     // ===========
+
 
     const timer = new Timer(1 / 60);
     timer.update = function update(deltaTime) {
@@ -65,7 +69,7 @@ async function main(canvas) {
     function mousePressed(e) {
         // correct out of the map mouse pos
         // or do if(tile)
-        let tile = map.pixel_to_flat_hex(e);
+        let tile = map.mouse_to_coords(e);
         if (tile) {
             // console.log(tile);
         }
@@ -86,16 +90,15 @@ async function main(canvas) {
         });
     }
 
-    function mouseDragged() {
-        // let tile = map.pixel_to_flat_hex();
+    function mouseDragged(e) {
+        mousePressed(e);
     }
 
     function update() {
         map.demons.forEach((demon) => {
             if (demon.canAttack()) {
                 demon.attack();
-            }
-            else{
+            } else {
                 demon.planMovement();
             }
         });
@@ -114,9 +117,7 @@ async function main(canvas) {
                         badTile = true;
                     }
                 });
-            }
-            else
-            {
+            } else {
                 badTile = true;
             }
         } while (badTile);

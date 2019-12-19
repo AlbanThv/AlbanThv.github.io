@@ -6,7 +6,7 @@ export default class Map {
         this.ctx = ctx;
         this.tiles = [];
         this.tilesList = [];
-        this.cellSize = this.ctx.canvas.width < this.ctx.canvas.height ? this.ctx.canvas.width/9/(4/5)/2 : Math.floor(this.ctx.canvas.height/11/Math.sqrt(3));
+        this.cellSize = this.ctx.canvas.width < this.ctx.canvas.height ? this.ctx.canvas.width / 9 / (4 / 5) / 2 : Math.floor(this.ctx.canvas.height / 11 / Math.sqrt(3));
         this.player;
         this.demons = [];
     }
@@ -21,7 +21,7 @@ export default class Map {
         return this.tiles[`${x},${y},${z}`];
     }
 
-    pixel_to_flat_hex(e) {
+    mouse_to_coords(e) {
         let mouseX = e.x - this.ctx.canvas.width / 2;
         let mouseY = e.y - this.ctx.canvas.height / 2;
 
@@ -51,6 +51,26 @@ export default class Map {
             rz = -rx - ry;
         }
         return this.tiles[`${rx},${ry},${rz}`];
+    }
+
+    cube_distance(tileA, tileB) { //// heuristics : use manhattan distances  ////
+        return Math.max(Math.abs(tileA.x - tileB.x), Math.abs(tileA.y - tileB.y), Math.abs(tileA.z - tileB.z));
+    }
+
+    cube_lerp(tileA, tileB, t) {
+        let x = tileA.x + (tileB.x - tileA.x) * t;
+        let y = tileA.y + (tileB.y - tileA.y) * t;
+        let z = tileA.z + (tileB.z - tileA.z) * t;
+        return this.cube_round(x, y, z);
+    }
+
+    cube_line(tileA, tileB,) {
+        let N = this.cube_distance(tileA, tileB);
+        let results = [];
+        for (let i = 0; i <= N; i++) {
+            results.push(this.cube_lerp(tileA, tileB, 1.0 / N * i));
+        }
+        return results
     }
 
     generateNeighbour(i, j, k) {
@@ -98,13 +118,13 @@ export default class Map {
     generateWall(wallNumber = 3) {
         let walls = [];
         this.tilesList.forEach(tile => {
-                tile.AStar_visited = false;
-                if (tile !== this.player.tile && Math.floor(Math.random() * Math.floor(10)) === 0 && wallNumber > 0) {
-                    tile.wall = true;
-                    tile.AStar_visited = true;
-                    walls.push(tile);
-                    wallNumber--;
-                }
+            tile.AStar_visited = false;
+            if (tile !== this.player.tile && Math.floor(Math.random() * Math.floor(10)) === 0 && wallNumber > 0) {
+                tile.wall = true;
+                tile.AStar_visited = true;
+                walls.push(tile);
+                wallNumber--;
+            }
         });
         walls.forEach(wall => {
             this.generateWallNeighbour(wall, 2);
@@ -146,8 +166,7 @@ export default class Map {
         this.player = new Player(this, this.tiles[`${x},${y},${z}`]);
     }
 
-    isClean(tile, observer = null)
-    {
+    isClean(tile, observer = null) {
         return observer !== null && tile === observer.tile || !(tile === undefined || !tile instanceof Cell || tile.wall || tile.isOccupied || tile.lava);
     }
 }

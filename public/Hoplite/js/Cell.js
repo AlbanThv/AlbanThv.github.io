@@ -1,12 +1,12 @@
 export default class Cell {
-    constructor(options) {
+    constructor(args) {
         // main parameters
         this.id = Cell.Count === undefined ? Cell.Count = 0 : ++Cell.Count;
-        this.ctx = options.ctx;
-        this.x = options.x;
-        this.y = options.y;
-        this.z = options.z;
-        this.size = options.size;
+        this.ctx = args.ctx;
+        this.x = args.x;
+        this.y = args.y;
+        this.z = args.z;
+        this.size = args.size;
 
         // drawing parameters
         this.w = 2 * this.size * 3 / 4;
