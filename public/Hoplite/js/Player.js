@@ -5,6 +5,7 @@ export default class Player {
         this.maxHealth = 3;
         this.currentHealth = 3;
         this.tile.isOccupied = true;
+        this.hasSpear = true;
     }
 
     move(tile) {
@@ -30,7 +31,28 @@ export default class Player {
                 });
             });
         }
+        else if (this.hasSpear)
+        {
+            if (this.map.get(this.tile.x + 2, this.tile.y - 2, this.tile.z) === demon.tile)
+                killingTile.push(this.map.get(this.tile.x + 1, this.tile.y - 1, this.tile.z));
+            else if (this.map.get(this.tile.x - 2, this.tile.y + 2, this.tile.z) === demon.tile)
+                killingTile.push(this.map.get(this.tile.x - 1, this.tile.y + 1, this.tile.z));
+            else if (this.map.get(this.tile.x, this.tile.y + 2, this.tile.z - 2) === demon.tile)
+                killingTile.push(this.map.get(this.tile.x, this.tile.y + 1, this.tile.z - 1));
+            else if (this.map.get(this.tile.x, this.tile.y - 2, this.tile.z + 2) === demon.tile)
+                killingTile.push(this.map.get(this.tile.x, this.tile.y - 1, this.tile.z + 1));
+            else if (this.map.get(this.tile.x - 2, this.tile.y, this.tile.z + 2) === demon.tile)
+                killingTile.push(this.map.get(this.tile.x - 1, this.tile.y, this.tile.z + 1));
+            else if (this.map.get(this.tile.x + 2, this.tile.y, this.tile.z - 2) === demon.tile)
+                killingTile.push(this.map.get(this.tile.x + 1, this.tile.y, this.tile.z - 1));
+        }
         return killingTile;
+    }
+
+    attack(demon)
+    {
+        demon.tile.isOccupied = false;
+        demon.isAlive = false;
     }
 
     show() {

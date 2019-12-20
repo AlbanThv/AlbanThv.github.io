@@ -78,9 +78,7 @@ async function main(canvas) {
                 map.demons.forEach(demon => {
                     map.player.canAttack(demon).forEach(killingTile => {
                         if (killingTile === tile) {
-                            // console.log(map.demons[map.demons.findIndex(element => element.id === demon.id)]);
-                            demon.tile.isOccupied = false;
-                            map.demons.splice(map.demons.findIndex(element => element.id === demon.id), 1);
+                            map.player.attack(demon);
                         }
                     });
                 });
@@ -96,7 +94,11 @@ async function main(canvas) {
 
     function update() {
         map.demons.forEach((demon) => {
-            if (demon.canAttack()) {
+            if (!demon.isAlive)
+            {
+                map.demons.splice(map.demons.findIndex(element => element.id === demon.id), 1);
+            }
+            else if (demon.canAttack()) {
                 demon.attack();
             } else {
                 demon.planMovement();

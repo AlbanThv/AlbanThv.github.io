@@ -7,6 +7,7 @@ export default class Demon {
         this.tile = tile;
         this.skin = null;
         this.tile.isOccupied = true;
+        this.isAlive = true;
     }
 
     move(tile) {
