@@ -53,10 +53,10 @@ export default class Cell {
         this.ctx.stroke();
 
         // numbers
-        // this.ctx.fillStyle = `rgb(0,0,0)`;
-        // this.ctx.fillText(this.id > 9 ? "" + this.id : "0" + this.id, x - 6, y + 5);
-        // this.ctx.fillStyle = `rgb(100, 255, 100)`;
-        // this.ctx.fillText(`${this.x}.${this.y}.${this.z}`, x - 14, y + 20);
+        this.ctx.fillStyle = `rgb(0,0,0)`;
+        this.ctx.fillText(this.id > 9 ? "" + this.id : "0" + this.id, x - 6, y + 5);
+        this.ctx.fillStyle = `rgb(100, 255, 100)`;
+        this.ctx.fillText(`${this.x}.${this.y}.${this.z}`, x - 14, y + 20);
         if (text >= 0) {
             this.ctx.fillStyle = textcolor;
             this.ctx.fillText(text > 9 ? "" + text : "0" + text, x - 6, y - 9);

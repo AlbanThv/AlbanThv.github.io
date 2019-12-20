@@ -14,11 +14,9 @@ async function main(canvas) {
     let rad = 5;
 
     map.init(rad, 5);
-
     map.createPlayer(0, -rad + 1, rad - 1);
     map.generateLava();
 
-    // console.log(map.get(4, 2, -6).hexagon("rgb(50, 50, 200)"));
     document.addEventListener("click", mousePressed);
 
     // temporaire
@@ -37,8 +35,6 @@ async function main(canvas) {
     map.demons.push(new Warrior(map, newTile()));
     map.demons.push(new Warrior(map, newTile()));
 
-
-    map.cube_line(map.demons[0].tile, map.player.tile);
     // ===========
 
 
@@ -68,11 +64,6 @@ async function main(canvas) {
         map.demons.forEach((e) => {
             e.show();
         });
-
-        // comment archer L 29 for wtf moment
-        // for (const tile in map.tiles) {
-        //     map.tiles[tile].hexagon("rgb(0,0,255)");
-        // }
     }
 
     function mousePressed(e) {
@@ -100,7 +91,7 @@ async function main(canvas) {
     }
 
     function mouseDragged(e) {
-        mousePressed(e);
+        // mousePressed(e);
     }
 
     function update() {
@@ -119,7 +110,6 @@ async function main(canvas) {
         do {
             badTile = false;
             tile = map.tilesList[Math.round(Math.random() * map.tilesList.length)];
-            // console.log(tile);
             if (map.isClean(tile)) {
                 map.getNeighbours(tile).forEach((neighbour) => {
                     if (neighbour === map.player.tile) {

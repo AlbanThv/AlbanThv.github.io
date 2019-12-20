@@ -73,28 +73,27 @@ export default class Map {
         return results
     }
 
-    generateNeighbour(i, j, k) {
+    generateNeighbour(i, j, k, radius = 1, chopX = radius + 1, chopY = radius + 1, chopZ = radius + 1 ) {
         let neighbourList = [];
         let neighbourCoords = [
             [1, 0, -1], [1, -1, 0], [0, -1, 1],
             [-1, 0, 1], [-1, 1, 0], [0, 1, -1]
         ];
         neighbourCoords.forEach(coords => {
-            this.set(i + coords[0], j + coords[1], k + coords[2]);
-            neighbourList.push(this.get(i + coords[0], j + coords[1], k + coords[2]));
+            if (Math.abs(i + coords[0]) < chopX && Math.abs(j + coords[1]) < chopY && Math.abs(k + coords[2]) < chopZ) {
+                this.set(i + coords[0], j + coords[1], k + coords[2]);
+                neighbourList.push(this.get(i + coords[0], j + coords[1], k + coords[2]));
+            }
         });
         return neighbourList;
     }
 
-    generate(radius = 1, chop = radius + 1, x = 0, y = 0, z = 0) {
+    generate(radius = 1, chopX = radius + 1, chopY = radius + 1, chopZ = radius + 1, x = 0, y = 0, z = 0) {
         if (radius > 0) {
             radius--;
-            this.generateNeighbour(x, y, z).forEach(el => {
-                if (Math.abs(el.x) < chop) {
-                    this.generate(radius, chop, el.x, el.y, el.z);
-                } else {
-                    // delete this.tiles[el];
-                    el.void = true;
+            this.generateNeighbour(x, y, z, radius, chopX, chopY, chopZ).forEach(el => {
+                if (Math.abs(el.x) < chopX && Math.abs(el.y) < chopY && Math.abs(el.z) < chopZ) {
+                    this.generate(radius, chopX, chopY, chopZ, el.x, el.y, el.z);
                 }
             });
         }
@@ -102,11 +101,7 @@ export default class Map {
 
     save() {
         for (const tile in this.tiles) {
-            if (this.tiles[tile].void) {
-                delete this.tiles[tile];
-            } else {
-                this.tilesList[this.tiles[tile].id] = this.tiles[tile];
-            }
+            this.tilesList[this.tiles[tile].id] = this.tiles[tile];
         }
     }
 
@@ -149,24 +144,10 @@ export default class Map {
         ];
         neighbourCoords.forEach(coords => {
             if (this.get(tile.x + coords[0], tile.y + coords[1], tile.z + coords[2])) {
-                if (this.tilesList[this.get(tile.x + coords[0], tile.y + coords[1], tile.z + coords[2]).id]) {
-                    neighbourList.push(this.tilesList[this.get(tile.x + coords[0], tile.y + coords[1], tile.z + coords[2]).id]);
-                }
+                neighbourList.push(this.tilesList[this.get(tile.x + coords[0], tile.y + coords[1], tile.z + coords[2]).id]);
             }
         });
 
-        // with Line 152
-        // if (this.tilesList[this.get(tile.x + coords[0], tile.y + coords[1], tile.z + coords[2]).id])
-        // code under is not needed ?
-        //
-        // let index = neighbourList.length - 1;
-        // while (index >= 0) {
-        //     if (neighbourList[index] === undefined) {
-        //         neighbourList.splice(index, 1);
-        //     }
-        //     index--;
-        // }
-        //
         if (clean) {
             let index = neighbourList.length - 1;
             while (index >= 0) {
@@ -188,7 +169,7 @@ export default class Map {
         return observer !== null && tile === observer.tile || !(tile === undefined || !tile instanceof Cell || tile.wall || tile.isOccupied || tile.lava);
     }
 
-    isObstacle(tile, observer = null) {
+    isObstacle(tile, observer = null) { // Ldv Obstruction
         return observer !== null && tile === observer.tile || !(tile === undefined || !tile instanceof Cell || tile.wall || tile.isOccupied);
     }
 }

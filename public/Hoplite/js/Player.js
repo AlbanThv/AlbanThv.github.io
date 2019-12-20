@@ -33,12 +33,7 @@ export default class Player {
         return killingTile;
     }
 
-    // get() {
-    //     return this.tile;
-    // }
-
     show() {
-        // this.tile.colour()
         this.tile.hexagon("rgba(170, 170, 50," + this.currentHealth / this.maxHealth + ")", this.currentHealth, "rgb(200, 50, 50)");
     }
 

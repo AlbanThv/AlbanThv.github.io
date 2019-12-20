@@ -100,14 +100,6 @@ const AStar = {
             neighbourList.push(map.get(tile.x + coords[0], tile.y + coords[1], tile.z + coords[2]));
         });
 
-        // let index = neighbourList.length - 1;
-        // while (index >= 0) {
-        //     if (neighbourList[index] === undefined) {
-        //         neighbourList.splice(index, 1);
-        //     }
-        //     index--;
-        // }
-
         let index = neighbourList.length - 1;
         while (index >= 0) {
             if (start !== neighbourList[index]) {
