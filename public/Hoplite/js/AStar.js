@@ -6,7 +6,7 @@ const AStar = {
                 cell.AStar_g = 0;
                 cell.AStar_h = 0;
                 cell.AStar_visited = false;
-                cell.AStar_closed = cell.wall || cell.isOccupied || cell.lava;
+                cell.AStar_closed = cell.isWall || cell.isOccupied || cell.isLava;
                 cell.AStar_debug = "";
                 cell.AStar_parent = null;
             }

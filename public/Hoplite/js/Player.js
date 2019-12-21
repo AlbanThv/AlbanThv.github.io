@@ -16,7 +16,7 @@ export default class Player {
 
     canAttack(demon) {
         let adjacent = false;
-        let killingTile = [];
+        let killingTiles = [];
         this.map.getNeighbours(demon.tile).forEach(tile => {
             if (this.tile === tile) {
                 adjacent = true;
@@ -26,7 +26,7 @@ export default class Player {
             this.map.getNeighbours(demon.tile).forEach(demonNei => {
                 this.map.getNeighbours(this.tile).forEach(myNei => {
                     if (demonNei === myNei) {
-                        killingTile.push(myNei);
+                        killingTiles.push(myNei);
                     }
                 });
             });
@@ -34,19 +34,29 @@ export default class Player {
         else if (this.hasSpear)
         {
             if (this.map.get(this.tile.x + 2, this.tile.y - 2, this.tile.z) === demon.tile)
-                killingTile.push(this.map.get(this.tile.x + 1, this.tile.y - 1, this.tile.z));
+                killingTiles.push(this.map.get(this.tile.x + 1, this.tile.y - 1, this.tile.z));
             else if (this.map.get(this.tile.x - 2, this.tile.y + 2, this.tile.z) === demon.tile)
-                killingTile.push(this.map.get(this.tile.x - 1, this.tile.y + 1, this.tile.z));
+                killingTiles.push(this.map.get(this.tile.x - 1, this.tile.y + 1, this.tile.z));
             else if (this.map.get(this.tile.x, this.tile.y + 2, this.tile.z - 2) === demon.tile)
-                killingTile.push(this.map.get(this.tile.x, this.tile.y + 1, this.tile.z - 1));
+                killingTiles.push(this.map.get(this.tile.x, this.tile.y + 1, this.tile.z - 1));
             else if (this.map.get(this.tile.x, this.tile.y - 2, this.tile.z + 2) === demon.tile)
-                killingTile.push(this.map.get(this.tile.x, this.tile.y - 1, this.tile.z + 1));
+                killingTiles.push(this.map.get(this.tile.x, this.tile.y - 1, this.tile.z + 1));
             else if (this.map.get(this.tile.x - 2, this.tile.y, this.tile.z + 2) === demon.tile)
-                killingTile.push(this.map.get(this.tile.x - 1, this.tile.y, this.tile.z + 1));
+                killingTiles.push(this.map.get(this.tile.x - 1, this.tile.y, this.tile.z + 1));
             else if (this.map.get(this.tile.x + 2, this.tile.y, this.tile.z - 2) === demon.tile)
-                killingTile.push(this.map.get(this.tile.x + 1, this.tile.y, this.tile.z - 1));
+                killingTiles.push(this.map.get(this.tile.x + 1, this.tile.y, this.tile.z - 1));
         }
-        return killingTile;
+
+
+        let index = killingTiles.length - 1;
+        while (index >= 0) {
+            if (killingTiles[index].isOccupied || killingTiles[index].isLava) {
+                killingTiles.splice(index, 1);
+            }
+            index--;
+        }
+
+        return killingTiles;
     }
 
     attack(demon)

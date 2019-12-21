@@ -115,7 +115,7 @@ export default class Map {
         this.tilesList.forEach(tile => {
             tile.AStar_visited = false;
             if (tile !== this.player.tile && Math.floor(Math.random() * Math.floor(10)) === 0 && lavaNumber > 0) {
-                tile.lava = true;
+                tile.isLava = true;
                 tile.AStar_visited = true;
                 lavas.push(tile);
                 lavaNumber--;
@@ -128,8 +128,8 @@ export default class Map {
 
     generateLavaNeighbour(lava, chance = 2) {
         this.generateNeighbour(lava.x, lava.y, lava.z).forEach(el => {
-            if (el !== this.player.tile && Math.floor(Math.random() * Math.floor(chance)) === 0 && !el.AStar_visited && !el.lava) {
-                el.lava = true;
+            if (el !== this.player.tile && Math.floor(Math.random() * Math.floor(chance)) === 0 && !el.AStar_visited && !el.isLava) {
+                el.isLava = true;
                 this.generateLavaNeighbour(el, chance * chance);
             }
             el.AStar_visited = true;
@@ -166,10 +166,10 @@ export default class Map {
     }
 
     isClean(tile, observer = null) {
-        return observer !== null && tile === observer.tile || !(tile === undefined || !tile instanceof Cell || tile.wall || tile.isOccupied || tile.lava);
+        return observer !== null && tile === observer.tile || !(tile === undefined || !tile instanceof Cell || tile.isWall || tile.isOccupied || tile.isLava);
     }
 
     isObstacle(tile, observer = null) { // Ldv Obstruction
-        return observer !== null && tile === observer.tile || !(tile === undefined || !tile instanceof Cell || tile.wall || tile.isOccupied);
+        return observer !== null && tile === observer.tile || !(tile === undefined || !tile instanceof Cell || tile.isWall || tile.isOccupied);
     }
 }

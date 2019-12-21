@@ -16,9 +16,9 @@ export default class Cell {
 
         // misc parameters
         this.color = "rgb(100, 100, 100)";
-        this.void = false;
-        this.wall = false;
-        this.lava = false;
+        // this.void = false;
+        this.isWall = false;
+        this.isLava = false;
         this.isOccupied = false;
 
         // A* parameters
@@ -32,7 +32,7 @@ export default class Cell {
     }
 
     show() {
-        if (this.lava) {
+        if (this.isLava) {
             this.color = `rgb(170, 50, 50)`;
         }
         this.hexagon();

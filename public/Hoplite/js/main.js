@@ -5,7 +5,7 @@ import Archer from "./Archer.js";
 
 let map;
 
-async function main(canvas) {
+function main(canvas) {
     const ctx = canvas.getContext("2d");
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -64,6 +64,12 @@ async function main(canvas) {
         map.demons.forEach((e) => {
             e.show();
         });
+
+        map.demons.forEach(demon => {
+            map.player.canAttack(demon).forEach(killingTile => {
+                killingTile.hexagon("rgba(0,0,255,0.2)")
+            });
+        });
     }
 
     function mousePressed(e) {
@@ -74,18 +80,18 @@ async function main(canvas) {
             // console.log(tile);
         }
         map.getNeighbours(map.player.tile).forEach(nextTile => {
-            if (tile === nextTile && map.isClean(nextTile)) { // verifie que le joueur click z coter du perso
+            if (tile === nextTile && map.isClean(nextTile)) { // Vérifie que le joueur clic à côté du perso
                 map.demons.forEach(demon => {
                     map.player.canAttack(demon).forEach(killingTile => {
-                        // console.log(killingTile, demon);
+                        // console.log(demon, killingTile);
                         if (killingTile === tile) {
                             map.player.attack(demon);
                         }
                     });
                 });
-                console.log(map.demons);
                 map.player.move(tile);
                 update();
+                console.log(map.demons);
             }
         });
     }
@@ -95,12 +101,19 @@ async function main(canvas) {
     }
 
     function update() {
-        map.demons.forEach((demon) => {
-            if (!demon.isAlive)
-            {
-                map.demons.splice(map.demons.findIndex(element => element.id === demon.id), 1);
+        let index = map.demons.length - 1;
+        while (index >= 0) {
+            if (!map.demons[index].isAlive) {
+                map.demons.splice(index, 1);
             }
-        });
+            index--;
+        }
+        // Source of probleme and i don't know why
+        // map.demons.forEach((demon) => {
+        //     if (!demon.isAlive) {
+        //         map.demons.splice(map.demons.findIndex(element => element.id === demon.id), 1);
+        //     }
+        // });
         map.demons.forEach((demon) => {
             if (demon.canAttack()) {
                 demon.attack();
