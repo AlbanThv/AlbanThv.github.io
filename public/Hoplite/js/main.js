@@ -74,14 +74,16 @@ async function main(canvas) {
             // console.log(tile);
         }
         map.getNeighbours(map.player.tile).forEach(nextTile => {
-            if (tile === nextTile && map.isClean(nextTile)) {
+            if (tile === nextTile && map.isClean(nextTile)) { // verifie que le joueur click z coter du perso
                 map.demons.forEach(demon => {
                     map.player.canAttack(demon).forEach(killingTile => {
+                        // console.log(killingTile, demon);
                         if (killingTile === tile) {
                             map.player.attack(demon);
                         }
                     });
                 });
+                console.log(map.demons);
                 map.player.move(tile);
                 update();
             }
@@ -98,7 +100,9 @@ async function main(canvas) {
             {
                 map.demons.splice(map.demons.findIndex(element => element.id === demon.id), 1);
             }
-            else if (demon.canAttack()) {
+        });
+        map.demons.forEach((demon) => {
+            if (demon.canAttack()) {
                 demon.attack();
             } else {
                 demon.planMovement();
