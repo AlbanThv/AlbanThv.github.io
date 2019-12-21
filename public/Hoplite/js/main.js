@@ -65,11 +65,11 @@ function main(canvas) {
             e.show();
         });
 
-        map.demons.forEach(demon => {
-            map.player.canAttack(demon).forEach(killingTile => {
-                killingTile.hexagon("rgba(0,0,255,0.2)")
-            });
-        });
+        // map.demons.forEach(demon => {
+        //     map.player.canAttack(demon).forEach(killingTile => {
+                // killingTile.hexagon("rgba(0,0,255,0.2)")
+        //     });
+        // });
     }
 
     function mousePressed(e) {
