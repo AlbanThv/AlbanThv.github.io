@@ -91,7 +91,6 @@ function main(canvas) {
                 });
                 map.player.move(tile);
                 update();
-                console.log(map.demons);
             }
         });
     }
@@ -128,7 +127,7 @@ function main(canvas) {
         let badTile;
         do {
             badTile = false;
-            tile = map.tilesList[Math.round(Math.random() * map.tilesList.length)];
+            tile = map.tilesList[map.random(map.tilesList.length)];
             if (map.isClean(tile)) {
                 map.getNeighbours(tile).forEach((neighbour) => {
                     if (neighbour === map.player.tile) {

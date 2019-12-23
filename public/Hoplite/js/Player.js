@@ -33,20 +33,12 @@ export default class Player {
         }
         else if (this.hasSpear)
         {
-            if (this.map.get(this.tile.x + 2, this.tile.y - 2, this.tile.z) === demon.tile)
-                killingTiles.push(this.map.get(this.tile.x + 1, this.tile.y - 1, this.tile.z));
-            else if (this.map.get(this.tile.x - 2, this.tile.y + 2, this.tile.z) === demon.tile)
-                killingTiles.push(this.map.get(this.tile.x - 1, this.tile.y + 1, this.tile.z));
-            else if (this.map.get(this.tile.x, this.tile.y + 2, this.tile.z - 2) === demon.tile)
-                killingTiles.push(this.map.get(this.tile.x, this.tile.y + 1, this.tile.z - 1));
-            else if (this.map.get(this.tile.x, this.tile.y - 2, this.tile.z + 2) === demon.tile)
-                killingTiles.push(this.map.get(this.tile.x, this.tile.y - 1, this.tile.z + 1));
-            else if (this.map.get(this.tile.x - 2, this.tile.y, this.tile.z + 2) === demon.tile)
-                killingTiles.push(this.map.get(this.tile.x - 1, this.tile.y, this.tile.z + 1));
-            else if (this.map.get(this.tile.x + 2, this.tile.y, this.tile.z - 2) === demon.tile)
-                killingTiles.push(this.map.get(this.tile.x + 1, this.tile.y, this.tile.z - 1));
+            this.map.neighbourCoords.forEach(coords => {
+                if (this.map.get(this.tile.x + coords[0] * 2, this.tile.y + coords[1] * 2, this.tile.z + coords[2] * 2) === demon.tile) {
+                    killingTiles.push(this.map.get(this.tile.x + coords[0], this.tile.y + coords[1], this.tile.z + coords[2]));
+                }
+            });
         }
-
 
         let index = killingTiles.length - 1;
         while (index >= 0) {

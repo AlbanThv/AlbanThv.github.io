@@ -75,7 +75,7 @@ export default class Demon {
         } else { // no paths -> moves randomly
             let randomTile = this.map.getNeighbours(this.tile, true);
             if (randomTile.length !== 0) {
-                this.move(randomTile[Math.floor(Math.random() * Math.floor(randomTile.length))]);
+                this.move(randomTile[this.map.random(randomTile.length)]);
             }
         }
 

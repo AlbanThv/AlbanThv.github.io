@@ -9,6 +9,12 @@ export default class Map {
         this.cellSize = this.ctx.canvas.width < this.ctx.canvas.height ? this.ctx.canvas.width / 9 / (4 / 5) / 2 : Math.floor(this.ctx.canvas.height / 11 / Math.sqrt(3));
         this.player;
         this.demons = [];
+        this.neighbourCoords = [
+                [0, 1, -1],
+        [1, 0, -1], [1, -1, 0],
+        [-1, 0, 1], [-1, 1, 0],
+                [0, -1, 1]
+        ];
     }
 
     set(_x, _y, _z) {
@@ -84,13 +90,13 @@ export default class Map {
         return ldv;
     }
 
+    random(n) { // n excluded
+        return Math.floor(Math.random() * Math.floor(n));
+    }
+
     generateNeighbour(i, j, k, radius = 1, chopX = radius + 1, chopY = radius + 1, chopZ = radius + 1 ) {
         let neighbourList = [];
-        let neighbourCoords = [
-            [1, 0, -1], [1, -1, 0], [0, -1, 1],
-            [-1, 0, 1], [-1, 1, 0], [0, 1, -1]
-        ];
-        neighbourCoords.forEach(coords => {
+        this.neighbourCoords.forEach(coords => {
             if (Math.abs(i + coords[0]) < chopX && Math.abs(j + coords[1]) < chopY && Math.abs(k + coords[2]) < chopZ) {
                 this.set(i + coords[0], j + coords[1], k + coords[2]);
                 neighbourList.push(this.get(i + coords[0], j + coords[1], k + coords[2]));
@@ -122,44 +128,40 @@ export default class Map {
     }
 
     generateLava(lavaNumber = 3) {
-        let lavas = [];
+        let lavaSource = [];
         this.tilesList.forEach(tile => {
-            tile.AStar_visited = false;
-            if (tile !== this.player.tile && Math.floor(Math.random() * Math.floor(10)) === 0 && lavaNumber > 0) {
+            if (this.isClean(tile) && this.random(10) === 0 && lavaNumber > 0) {
                 tile.isLava = true;
-                tile.AStar_visited = true;
-                lavas.push(tile);
+                lavaSource.push(tile);
                 lavaNumber--;
             }
         });
-        lavas.forEach(lava => {
-            this.generateLavaNeighbour(lava, 2);
+        lavaSource.forEach(lava => {
+            this.generateLavaNeighbour(lava, 1.6);
         });
     }
 
-    generateLavaNeighbour(lava, chance = 2) {
-        this.generateNeighbour(lava.x, lava.y, lava.z).forEach(el => {
-            if (el !== this.player.tile && Math.floor(Math.random() * Math.floor(chance)) === 0 && !el.AStar_visited && !el.isLava) {
-                el.isLava = true;
-                this.generateLavaNeighbour(el, chance * chance);
+    generateLavaNeighbour(lava, chance = 2) { //1.6 to 2 is quite good
+        this.getNeighbours(lava).forEach(tile => {
+            if (!tile.AStar_visited) {
+                tile.AStar_visited = true;
+                if (this.isClean(tile) && this.random(chance) === 0) {
+                    tile.isLava = true;
+                    this.generateLavaNeighbour(tile, chance * chance);
+                }
             }
-            el.AStar_visited = true;
         });
     }
 
     getNeighbours(tile, clean = false) {
         let neighbourList = [];
-        let neighbourCoords = [
-            [1, 0, -1], [1, -1, 0], [0, -1, 1],
-            [-1, 0, 1], [-1, 1, 0], [0, 1, -1]
-        ];
-        neighbourCoords.forEach(coords => {
+        this.neighbourCoords.forEach(coords => {
             if (this.get(tile.x + coords[0], tile.y + coords[1], tile.z + coords[2])) {
                 neighbourList.push(this.tilesList[this.get(tile.x + coords[0], tile.y + coords[1], tile.z + coords[2]).id]);
             }
         });
 
-        if (clean) {
+        if (clean) { // return isClean(Neighbours) only
             let index = neighbourList.length - 1;
             while (index >= 0) {
                 if (!this.isClean(neighbourList[index])) {
