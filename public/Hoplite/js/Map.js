@@ -64,13 +64,24 @@ export default class Map {
         return this.cube_round(x, y, z);
     }
 
-    cube_line(tileA, tileB,) {
+    cube_line(tileA, tileB) {
         let N = this.cube_distance(tileA, tileB);
         let results = [];
-        for (let i = 0; i <= N; i++) {
+        for (let i = 0; i < N; i++) {
             results.push(this.cube_lerp(tileA, tileB, 1.0 / N * i));
         }
         return results
+    }
+
+    has_ldv(tile1, tile2, demon){
+        let ldv = true;
+        let line = this.cube_line(tile1, tile2);
+        line.forEach(tile => {
+            if (!this.isNotObstacle(tile, demon)) {
+                ldv = false;
+            }
+        });
+        return ldv;
     }
 
     generateNeighbour(i, j, k, radius = 1, chopX = radius + 1, chopY = radius + 1, chopZ = radius + 1 ) {
@@ -169,7 +180,7 @@ export default class Map {
         return observer !== null && tile === observer.tile || !(tile === undefined || !tile instanceof Cell || tile.isWall || tile.isOccupied || tile.isLava);
     }
 
-    isObstacle(tile, observer = null) { // Ldv Obstruction
+    isNotObstacle(tile, observer = null) { // Ldv Obstruction
         return observer !== null && tile === observer.tile || !(tile === undefined || !tile instanceof Cell || tile.isWall || tile.isOccupied);
     }
 }

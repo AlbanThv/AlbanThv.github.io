@@ -52,13 +52,14 @@ export default class Demon {
             }
         });
 
-        let index = paths.length - 1;
-        while (index >= 0) {
-            if (paths[index].length === 0) {
-                paths.splice(index, 1);
-            }
-            index--;
-        }
+        // never triggered because if already attaking no need to move
+        // let index = paths.length - 1;
+        // while (index >= 0) {
+        //     if (paths[index].length === 0) {
+        //         paths.splice(index, 1);
+        //     }
+        //     index--;
+        // }
 
         let smallest = paths[0];
         for (let i = 0; i < paths.length - 1; i++) {
