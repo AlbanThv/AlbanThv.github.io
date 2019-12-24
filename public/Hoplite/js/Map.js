@@ -19,7 +19,7 @@ export default class Map {
 
     set(_x, _y, _z) {
         if (this.tiles[`${_x},${_y},${_z}`] === undefined) {
-            this.tiles[`${_x},${_y},${_z}`] = new Cell({x: _x, y: _y, z: _z, size: this.cellSize, ctx: this.ctx, img: this.img});
+            this.tiles[`${_x},${_y},${_z}`] = new Cell({x: _x, y: _y, z: _z, size: this.cellSize, ctx: this.ctx});
         }
     }
 
