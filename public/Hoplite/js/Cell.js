@@ -3,20 +3,23 @@ export default class Cell {
         // main parameters
         this.id = Cell.Count === undefined ? Cell.Count = 0 : ++Cell.Count;
         this.ctx = args.ctx;
+        this.img = args.img;
         this.x = args.x;
         this.y = args.y;
         this.z = args.z;
         this.size = args.size;
 
         // drawing parameters
-        this.w = 2 * this.size * 3 / 4;
-        this.h = Math.sqrt(3) * this.size * 0.5;
-        this.gridX = this.ctx.canvas.width / 2 + this.w * this.x;
-        this.gridY = this.ctx.canvas.height / 2 + this.h * (this.z - this.y);
+        this.h = 2 * this.size * 3 / 4;
+        this.w = Math.sqrt(3) * this.size * 0.5;
+        this.gridX = this.ctx.canvas.width / 2 + this.h * this.x;
+        this.gridY = this.ctx.canvas.height / 2 + this.w * (this.z - this.y);
+        this.rotate = null; //for Action bar
+        this.skin = new Image();
+        this.skin.src = '';
 
         // misc parameters
         this.color = "rgb(100, 100, 100)";
-        // this.void = false;
         this.isWall = false;
         this.isLava = false;
         this.isOccupied = false;
@@ -38,12 +41,12 @@ export default class Cell {
         this.hexagon();
     }
 
-    hexagon(color = this.color, text, textcolor = `rgb(255,255,255)`) {
+    hexagon(img, tileColor = this.color, text, textColor = `rgb(255,255,255)`) {
         let angle = (2 * Math.PI) / 6;
         let x = this.gridX;
         let y = this.gridY;
         this.ctx.beginPath();
-        this.ctx.fillStyle = color;
+        this.ctx.fillStyle = tileColor;
         for (let a = 0; a < 2 * Math.PI; a += angle) {
             let sx = x + Math.cos(a) * this.size;
             let sy = y + Math.sin(a) * this.size;
@@ -52,18 +55,24 @@ export default class Cell {
         this.ctx.fill();
         this.ctx.stroke();
 
-        // numbers
-        this.ctx.fillStyle = `rgb(0,0,0)`;
-        this.ctx.fillText(this.id > 9 ? "" + this.id : "0" + this.id, x - 6, y + 5);
-        this.ctx.fillStyle = `rgb(100, 255, 100)`;
-        this.ctx.fillText(`${this.x}.${this.y}.${this.z}`, x - 14, y + 20);
-        if (text >= 0) {
-            this.ctx.fillStyle = textcolor;
-            this.ctx.fillText(text > 9 ? "" + text : "0" + text, x - 6, y - 9);
+        if (this.isLava) {
+            // console.log(this.isLava)
+            this.ctx.drawImage(this.skin, x - this.h / 2, y - this.h / 2, this.h, this.h);
         }
-    }
+        if ((typeof img) === "object") {
+            this.ctx.drawImage(img, x - this.h / 2, y - this.h / 2, this.h, this.h);
+        }
 
-    colour(r = 255, g = r, b = r, a = 1) {
-        this.color = `rgba(${r}, ${g}, ${b}, ${a})`;
+        // Cell Id
+        // this.ctx.fillStyle = `rgb(0,0,0)`;
+        // this.ctx.fillText(this.id > 9 ? "" + this.id : "0" + this.id, x - 6, y + 5);
+        // Cell Coords
+        // this.ctx.fillStyle = `rgb(100, 255, 100)`;
+        // this.ctx.fillText(`${this.x}.${this.y}.${this.z}`, x - 14, y + 20);
+        // Demon ID & Player Life
+        // if (text >= 0) {
+        //     this.ctx.fillStyle = textColor;
+        //     this.ctx.fillText(text > 9 ? "" + text : "0" + text, x - 6, y - 9);
+        // }
     }
 }

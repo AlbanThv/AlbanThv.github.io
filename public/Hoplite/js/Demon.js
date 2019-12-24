@@ -5,9 +5,9 @@ export default class Demon {
         this.map = map;
         this.id = Demon.Count === undefined ? Demon.Count = 0 : ++Demon.Count;
         this.tile = tile;
-        this.skin = null;
         this.tile.isOccupied = true;
         this.isAlive = true;
+        this.skin = new Image();
     }
 
     move(tile) {
@@ -82,6 +82,6 @@ export default class Demon {
     }
 
     show(color = "rgb(255, 0, 0)") {
-        this.tile.hexagon(color, this.id, "rgb(100, 50, 100)");
+        this.tile.hexagon(this.skin, color, this.id, "rgb(100, 50, 100)");
     }
 }

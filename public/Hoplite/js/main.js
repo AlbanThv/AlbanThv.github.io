@@ -1,23 +1,33 @@
 import Timer from "./Timer.js";
 import Map from "./Map.js";
+import ActionBar from "./ActionBar.js";
 import Warrior from "./Warrior.js";
 import Archer from "./Archer.js";
 
-let map;
+function main(canvasMap, canvasActionBar) {
+    canvasMap.width = window.innerWidth;
+    canvasMap.height = window.innerHeight - window.innerHeight * 0.15;
+    const ctx = canvasMap.getContext("2d");
 
-function main(canvas) {
-    const ctx = canvas.getContext("2d");
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    canvasActionBar.width = window.innerWidth;
+    canvasActionBar.height = window.innerHeight - ctx.canvas.height;
+    const ctxActBar = canvasActionBar.getContext("2d");
 
-    map = new Map(ctx);
+    const map = new Map(ctx);
+    const actionBar = new ActionBar(ctxActBar);
+
     let rad = 5;
-
     map.init(rad, 5);
     map.createPlayer(0, -rad + 1, rad - 1);
     map.generateLava();
 
-    document.addEventListener("click", mousePressed);
+    canvasMap.addEventListener("click", mousePressed);
+    canvasActionBar.addEventListener("click", mousePressedActionBar);
+
+    // let drag = false;
+    // document.addEventListener('mousedown', () => drag = true);
+    // document.addEventListener('mouseup', () => drag = false);
+    // document.addEventListener('mousemove', mouseDragged);
 
     // temporaire
     document.addEventListener("keydown", (ev) => {
@@ -40,7 +50,8 @@ function main(canvas) {
 
     const timer = new Timer(1 / 60);
     timer.update = function update(deltaTime) {
-        draw(ctx);
+        draw();
+        drawActionBar();
     };
     timer.start();
 
@@ -51,7 +62,7 @@ function main(canvas) {
         ctx.font = "12px sans-serif";
     }
 
-    function draw(ctx) {
+    function draw() {
         ctx.fillStyle = `rgb(200,200,200)`;
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
         showFPS(timer.fps);
@@ -64,39 +75,43 @@ function main(canvas) {
         map.demons.forEach((e) => {
             e.show();
         });
+    }
 
-        // map.demons.forEach(demon => {
-        //     map.player.canAttack(demon).forEach(killingTile => {
-                // killingTile.hexagon("rgba(0,0,255,0.2)")
-        //     });
-        // });
+    function drawActionBar() {
+        ctxActBar.fillStyle = `rgb(200,200,200)`;
+        ctxActBar.clearRect(0, 0, ctxActBar.canvas.width, ctxActBar.canvas.height);
+        actionBar.show();
     }
 
     function mousePressed(e) {
-        // correct out of the map mouse pos
-        // or do if(tile)
         let tile = map.mouse_to_coords(e);
         if (tile) {
             // console.log(tile);
-        }
-        map.getNeighbours(map.player.tile).forEach(nextTile => {
-            if (tile === nextTile && map.isClean(nextTile)) { // Vérifie que le joueur clic à côté du perso
-                map.demons.forEach(demon => {
-                    map.player.canAttack(demon).forEach(killingTile => {
-                        // console.log(demon, killingTile);
-                        if (killingTile === tile) {
-                            map.player.attack(demon);
-                        }
+            map.getNeighbours(map.player.tile).forEach(nextTile => {
+                if (tile === nextTile && map.isClean(nextTile)) { // Vérifie que le joueur clic à côté du perso
+                    map.demons.forEach(demon => {
+                        map.player.canAttack(demon).forEach(killingTile => {
+                            // console.log(demon, killingTile);
+                            if (killingTile === tile) {
+                                map.player.attack(demon);
+                            }
+                        });
                     });
-                });
-                map.player.move(tile);
-                update();
-            }
-        });
+                    map.player.move(tile);
+                    update();
+                }
+            });
+        }
+    }
+
+    function mousePressedActionBar(e) {
+        let tile = actionBar.mouse_to_coords(e);
     }
 
     function mouseDragged(e) {
-        // mousePressed(e);
+        if (drag) {
+            let tile = actionBar.mouse_to_coords(e);
+        }
     }
 
     function update() {
@@ -142,5 +157,6 @@ function main(canvas) {
     }
 }
 
-const canvas = document.getElementById("screen");
-main(canvas);
+const canvasMap = document.getElementById("map");
+const canvasActionBar = document.getElementById("actionBar");
+main(canvasMap, canvasActionBar);

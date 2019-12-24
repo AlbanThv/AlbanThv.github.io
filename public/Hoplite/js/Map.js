@@ -6,7 +6,7 @@ export default class Map {
         this.ctx = ctx;
         this.tiles = [];
         this.tilesList = [];
-        this.cellSize = this.ctx.canvas.width < this.ctx.canvas.height ? this.ctx.canvas.width / 9 / (4 / 5) / 2 : Math.floor(this.ctx.canvas.height / 11 / Math.sqrt(3));
+        this.cellSize = this.ctx.canvas.width < this.ctx.canvas.height ? this.ctx.canvas.width / 9 / 2.2 : Math.floor(this.ctx.canvas.height / 11 / Math.sqrt(3));
         this.player;
         this.demons = [];
         this.neighbourCoords = [
@@ -19,7 +19,7 @@ export default class Map {
 
     set(_x, _y, _z) {
         if (this.tiles[`${_x},${_y},${_z}`] === undefined) {
-            this.tiles[`${_x},${_y},${_z}`] = new Cell({x: _x, y: _y, z: _z, size: this.cellSize, ctx: this.ctx});
+            this.tiles[`${_x},${_y},${_z}`] = new Cell({x: _x, y: _y, z: _z, size: this.cellSize, ctx: this.ctx, img: this.img});
         }
     }
 
@@ -132,6 +132,7 @@ export default class Map {
         this.tilesList.forEach(tile => {
             if (this.isClean(tile) && this.random(10) === 0 && lavaNumber > 0) {
                 tile.isLava = true;
+                tile.skin.src = 'img/Lava.png';
                 lavaSource.push(tile);
                 lavaNumber--;
             }
@@ -147,6 +148,7 @@ export default class Map {
                 tile.AStar_visited = true;
                 if (this.isClean(tile) && this.random(chance) === 0) {
                     tile.isLava = true;
+                    tile.skin.src = 'img/Lava.png';
                     this.generateLavaNeighbour(tile, chance * chance);
                 }
             }
