@@ -3,7 +3,6 @@ export default class Cell {
         // main parameters
         this.id = Cell.Count === undefined ? Cell.Count = 0 : ++Cell.Count;
         this.ctx = args.ctx;
-        this.img = args.img;
         this.x = args.x;
         this.y = args.y;
         this.z = args.z;
