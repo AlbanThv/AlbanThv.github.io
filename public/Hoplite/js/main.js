@@ -67,6 +67,8 @@ function main(canvasMap, canvasActionBar) {
     // document.addEventListener('mouseup', () => drag = false);
     // document.addEventListener('mousemove', mouseDragged);
 
+    document.addEventListener("dblclick", _ =>  document.documentElement.requestFullscreen());
+    
     // temporaire
     document.addEventListener("keydown", (ev) => {
         if (ev.key === " ") {
