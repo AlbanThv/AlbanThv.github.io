@@ -1,9 +1,8 @@
 import Demon from "./Demon.js";
 
 export default class Warrior extends Demon {
-    constructor(map, tile) {
-        super(map, tile)
-        this.skin.src = 'img/Warrior.png';
+    constructor(map, tile, skin) {
+        super(map, tile, skin)
     }
 
     getAttackPositions() {

@@ -1,13 +1,13 @@
 import AStar from "./AStar.js";
 
 export default class Demon {
-    constructor(map, tile) {
+    constructor(map, tile, skin) {
         this.map = map;
         this.id = Demon.Count === undefined ? Demon.Count = 0 : ++Demon.Count;
         this.tile = tile;
         this.tile.isOccupied = true;
         this.isAlive = true;
-        this.skin = new Image();
+        this.skin = skin;
     }
 
     move(tile) {

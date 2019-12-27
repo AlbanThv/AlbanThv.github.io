@@ -1,13 +1,12 @@
 export default class Player {
-    constructor(map, tile) {
+    constructor(map, skin, tile) {
         this.map = map;
         this.tile = tile;
         this.maxHealth = 3;
         this.currentHealth = 3;
         this.tile.isOccupied = true;
         this.hasSpear = true;
-        this.skin = new Image();
-        this.skin.src = 'img/Player.png';
+        this.skin = skin;
     }
 
     move(tile) {

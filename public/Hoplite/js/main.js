@@ -1,5 +1,6 @@
 import Timer from "./Timer.js";
 import Map from "./Map.js";
+import ImageLoader from "./ImageLoader.js";
 import ActionBar from "./ActionBar.js";
 import Warrior from "./Warrior.js";
 import Archer from "./Archer.js";
@@ -16,10 +17,44 @@ function main(canvasMap, canvasActionBar) {
     const map = new Map(ctx);
     const actionBar = new ActionBar(ctxActBar);
 
-    let rad = 5;
-    map.init(rad, 5);
-    map.createPlayer(0, -rad + 1, rad - 1);
-    map.generateLava();
+    // Load Images
+    let sources = {
+        Player : "img/Player.png",
+        Lava : "img/Lava.png",
+        Warrior : "img/Warrior.png",
+        Archer : "img/Archer.png",
+    };
+    let _images = {};
+    ImageLoader(sources, function(images) {
+        _images = images;
+    });
+    function when_external_loaded (callback) {
+        if (Object.keys(_images).length < Object.keys(sources).length) {
+            setTimeout (function () {
+                when_external_loaded (callback);
+            }, 100); // wait 100 ms
+        } else { callback (); }
+    }
+
+    let isReady = false;
+    when_external_loaded (function () {
+        isReady = true;
+
+        console.log(_images);
+
+        let rad = 5;
+        map.init(rad, 5);
+        map.createPlayer(_images.Player, 0, -rad + 1, rad - 1);
+        map.generateLava(_images.Lava);
+
+        map.demons.push(new Archer(map, newTile(), _images.Archer));
+        map.demons.push(new Archer(map, newTile(), _images.Archer));
+
+        map.demons.push(new Warrior(map, newTile(), _images.Warrior));
+        map.demons.push(new Warrior(map, newTile(), _images.Warrior));
+        map.demons.push(new Warrior(map, newTile(), _images.Warrior));
+    });
+
 
     canvasMap.addEventListener("click", mousePressed);
     canvasActionBar.addEventListener("click", mousePressedActionBar);
@@ -36,22 +71,14 @@ function main(canvasMap, canvasActionBar) {
             update();
         }
     });
-
-
-    map.demons.push(new Archer(map, newTile()));
-    map.demons.push(new Archer(map, newTile()));
-
-    map.demons.push(new Warrior(map, newTile()));
-    map.demons.push(new Warrior(map, newTile()));
-    map.demons.push(new Warrior(map, newTile()));
-
     // ===========
-
 
     const timer = new Timer(1 / 60);
     timer.update = function update(deltaTime) {
-        draw();
-        drawActionBar();
+        if(isReady){
+            draw();
+            drawActionBar();
+        }
     };
     timer.start();
 

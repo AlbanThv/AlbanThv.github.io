@@ -127,29 +127,29 @@ export default class Map {
         this.save();
     }
 
-    generateLava(lavaNumber = 3) {
+    generateLava(skin, lavaNumber = 3) {
         let lavaSource = [];
         this.tilesList.forEach(tile => {
             if (this.isClean(tile) && this.random(10) === 0 && lavaNumber > 0) {
                 tile.isLava = true;
-                tile.skin.src = 'img/Lava.png';
+                tile.skin = skin;
                 lavaSource.push(tile);
                 lavaNumber--;
             }
         });
         lavaSource.forEach(lava => {
-            this.generateLavaNeighbour(lava, 1.6);
+            this.generateLavaNeighbour(skin, lava, 1.6);
         });
     }
 
-    generateLavaNeighbour(lava, chance = 2) { //1.6 to 2 is quite good
+    generateLavaNeighbour(skin, lava, chance = 2) { //1.6 to 2 is quite good
         this.getNeighbours(lava).forEach(tile => {
             if (!tile.AStar_visited) {
                 tile.AStar_visited = true;
                 if (this.isClean(tile) && this.random(chance) === 0) {
                     tile.isLava = true;
-                    tile.skin.src = 'img/Lava.png';
-                    this.generateLavaNeighbour(tile, chance * chance);
+                    tile.skin = skin;
+                    this.generateLavaNeighbour(skin, tile, chance * chance);
                 }
             }
         });
@@ -176,8 +176,8 @@ export default class Map {
         return neighbourList;
     }
 
-    createPlayer(x, y, z) {
-        this.player = new Player(this, this.tiles[`${x},${y},${z}`]);
+    createPlayer(skin, x, y, z) {
+        this.player = new Player(this, skin, this.tiles[`${x},${y},${z}`]);
     }
 
     isClean(tile, observer = null) {

@@ -14,8 +14,7 @@ export default class Cell {
         this.gridX = this.ctx.canvas.width / 2 + this.h * this.x;
         this.gridY = this.ctx.canvas.height / 2 + this.w * (this.z - this.y);
         this.rotate = null; //for Action bar
-        this.skin = new Image();
-        this.skin.src = '';
+        this.skin = undefined;
 
         // misc parameters
         this.color = "rgb(100, 100, 100)";
@@ -37,7 +36,7 @@ export default class Cell {
         if (this.isLava) {
             this.color = `rgb(170, 50, 50)`;
         }
-        this.hexagon();
+        this.hexagon(this.skin);
     }
 
     hexagon(img, tileColor = this.color, text, textColor = `rgb(255,255,255)`) {
@@ -54,20 +53,22 @@ export default class Cell {
         this.ctx.fill();
         this.ctx.stroke();
 
-        if (this.isLava) {
-            // console.log(this.isLava)
-            this.ctx.drawImage(this.skin, x - this.h / 2, y - this.h / 2, this.h, this.h);
-        }
-        if ((typeof img) === "object") {
-            this.ctx.drawImage(img, x - this.h / 2, y - this.h / 2, this.h, this.h);
+        if (img !== undefined) {
+            if (this.isLava) {
+                this.ctx.drawImage(img, x - this.h / 2, y - this.h / 2, this.h, this.h);
+            } else {
+                this.ctx.drawImage(img, x - this.h / 2, y - this.h / 2, this.h, this.h);
+            }
         }
 
         // Cell Id
         // this.ctx.fillStyle = `rgb(0,0,0)`;
         // this.ctx.fillText(this.id > 9 ? "" + this.id : "0" + this.id, x - 6, y + 5);
+
         // Cell Coords
         // this.ctx.fillStyle = `rgb(100, 255, 100)`;
         // this.ctx.fillText(`${this.x}.${this.y}.${this.z}`, x - 14, y + 20);
+
         // Demon ID & Player Life
         // if (text >= 0) {
         //     this.ctx.fillStyle = textColor;

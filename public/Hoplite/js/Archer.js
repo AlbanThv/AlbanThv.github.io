@@ -2,9 +2,8 @@ import AStar from "./AStar.js";
 import Demon from "./Demon.js";
 
 export default class Archer extends Demon {
-    constructor(map, tile) {
-        super(map, tile);
-        this.skin.src = 'img/Archer.png';
+    constructor(map, tile, skin) {
+        super(map, tile, skin);
     }
 
     getAttackPositions() {
