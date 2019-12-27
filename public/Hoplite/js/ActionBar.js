@@ -1,29 +1,32 @@
 import Cell from "./Cell.js";
 
 export default class ActionBar {
-    constructor(ctx) {
+    constructor(canvasDOM, ctx, mapCellSize) {
         this.ctx = ctx;
-        this.cellSize = this.ctx.canvas.height / 2.2;
+        this.canvasDOM = canvasDOM;
 
-        this.cell1 = new Cell({x: -1.5, y: 0, z: 0, size: this.cellSize, ctx: this.ctx});
-        this.cell2 = new Cell({x:    0, y: 0, z: 0, size: this.cellSize, ctx: this.ctx});
-        this.cell3 = new Cell({x:  1.5, y: 0, z: 0, size: this.cellSize, ctx: this.ctx});
+        this.chopX = 5;
+        this.mapCellFitWidth = ((this.chopX * 2 - 1) * 2) + (this.chopX * 2);
+        this.ctx.canvas.width = (mapCellSize + 1) / 2 * this.mapCellFitWidth;
+        this.cellSize = this.ctx.canvas.width / this.mapCellFitWidth * 3;
+        this.cellWidth = this.cellSize * Math.sqrt(3);
+        this.cellHeight = this.cellSize * 2;
 
         this.buttons = [];
-        this.buttons.push(this.cell1)
-        this.buttons.push(this.cell2)
-        this.buttons.push(this.cell3)
+        this.buttons.push(new Cell({x: -1.5, y: 0, z: 0, size: this.cellSize, ctx: this.ctx}));
+        this.buttons.push(new Cell({x:    0, y: 0, z: 0, size: this.cellSize, ctx: this.ctx}));
+        this.buttons.push(new Cell({x:  1.5, y: 0, z: 0, size: this.cellSize, ctx: this.ctx}));
 
         // drawing parameters
         this.w = 2 * this.cellSize * 3 / 4;
         this.h = Math.sqrt(3) * this.cellSize * 0.5;
     }
 
-    show() {
+    show(img, maxHP, currHP) {
         this.buttons.forEach(button => {
             let angle = (2 * Math.PI) / 6;
             let x = this.ctx.canvas.width / 2 + this.w * button.x;
-            let y = this.ctx.canvas.height / 2 + this.h * (button.z - button.y);
+            let y = this.ctx.canvas.height - this.cellSize - 5;
             this.ctx.beginPath();
             this.ctx.fillStyle = "rgb(100, 100, 100)";
             this.ctx.lineWidth = 3;
@@ -45,74 +48,73 @@ export default class ActionBar {
                 }
             }
         });
+
+        let size = this.cellSize - 5;
+        for (let i = 0; i < maxHP; i++) {
+            if (i < currHP) {
+                this.ctx.drawImage(img.Heart, 5 + size * i, 0, size, size);
+            } else {
+                this.ctx.drawImage(img.HeartG, 5 + size * i, 0, size, size);
+            }
+        }
     }
 
-    mouse_to_coords(e) {
-        let mouseX = e.x - this.ctx.canvas.width / 2;
-        let mouseY = e.y - this.ctx.canvas.height / 2;
+    buttonClick(e) {
+        let totalOffsetX = 0;
+        let totalOffsetY = 0;
+        let currentElement = this.canvasDOM;
 
-        let q = (Math.sqrt(3)/3 * mouseX -  1/3 * mouseY) / this.cellSize;
-        let r = (2/3 * mouseY) / this.cellSize;
-
-        let x = q;
-        let z = r;
-        let y = -x - z;
-        return this.cube_round(x, y, z);
-    }
-
-    cube_round(x, y, z) {
-        let rx = Math.round(x);
-        let ry = Math.round(y);
-        let rz = Math.round(z);
-
-        let x_diff = Math.abs(rx - x);
-        let y_diff = Math.abs(ry - y);
-        let z_diff = Math.abs(rz - z);
-
-        if (x_diff > y_diff && x_diff > z_diff) {
-            rx = -ry - rz;
-        } else if (y_diff > z_diff) {
-            ry = -rx - rz;
-        } else {
-            rz = -rx - ry;
+        do{
+            totalOffsetX += currentElement.offsetLeft - currentElement.scrollLeft;
+            totalOffsetY += currentElement.offsetTop - currentElement.scrollTop;
         }
+        while(currentElement = currentElement.offsetParent)
 
-        if (rx === -5 && ry === -3 && rz === 8 ||
-            rx === -6 && ry === -3 && rz === 9 ||
-            rx === -6 && ry === -2 && rz === 8) {
-                // Gauche
-                console.log("this.cell1")
-                console.log(this.cell1.rotate)
-                if (this.cell1.rotate !== null) {
-                    this.cell1.rotate = null;
-                } else if (this.cell2.rotate === null && this.cell3.rotate === null) {
-                    this.cell1.rotate = 0;
+        let canvasX = e.pageX - totalOffsetX;
+        let canvasY = e.pageY - totalOffsetY;
+
+
+        let y = this.ctx.canvas.height - this.cellSize - 5;
+        let top = y - this.cellHeight / 2;
+        let bottom = y + this.cellHeight / 2;
+
+        let x = this.ctx.canvas.width / 2 + this.w * this.buttons[0].x;
+        let gauche = x - this.cellWidth / 2;
+        let droite = x + this.cellWidth / 2;
+        if (canvasX >= gauche && canvasX <= droite &&
+            canvasY >= top    && canvasY <= bottom ) {
+                // Bouton de gauche
+                if (this.buttons[0].rotate !== null) {
+                    this.buttons[0].rotate = null;
+                } else if (this.buttons[1].rotate === null && this.buttons[2].rotate === null) {
+                    this.buttons[0].rotate = 0;
                 }
         }
-        if (rx === -4 && ry === -4 && rz === 8 ||
-            rx === -4 && ry === -5 && rz === 9 ||
-            rx === -5 && ry === -4 && rz === 9) {
-                // Milieu
-                console.log("this.cell2")
-                console.log(this.cell2.rotate)
-                if (this.cell2.rotate !== null) {
-                    this.cell2.rotate = null;
-                } else if (this.cell1.rotate === null && this.cell3.rotate === null) {
-                    this.cell2.rotate = 0;
+
+        x = this.ctx.canvas.width / 2 + this.w * this.buttons[1].x;
+        gauche = x - this.cellWidth / 2;
+        droite = x + this.cellWidth / 2;
+        if (canvasX >= gauche && canvasX <= droite &&
+            canvasY >= top    && canvasY <= bottom ) {
+                // Bouton du milieu
+                if (this.buttons[1].rotate !== null) {
+                    this.buttons[1].rotate = null;
+                } else if (this.buttons[0].rotate === null && this.buttons[2].rotate === null) {
+                    this.buttons[1].rotate = 0;
                 }
         }
-        if (rx === -3 && ry === -5 && rz === 8 ||
-            rx === -2 && ry === -6 && rz === 8 ||
-            rx === -3 && ry === -6 && rz === 9) {
-                // Droite
-                console.log("this.cell3")
-                console.log(this.cell3.rotate)
-                if (this.cell3.rotate !== null) {
-                    this.cell3.rotate = null;
-                } else if (this.cell1.rotate === null && this.cell2.rotate === null) {
-                    this.cell3.rotate = 0;
+
+        x = this.ctx.canvas.width / 2 + this.w * this.buttons[2].x;
+        gauche = x - this.cellWidth / 2;
+        droite = x + this.cellWidth / 2;
+        if (canvasX >= gauche && canvasX <= droite &&
+            canvasY >= top    && canvasY <= bottom ) {
+                // Bouton de droite
+                if (this.buttons[2].rotate !== null) {
+                    this.buttons[2].rotate = null;
+                } else if (this.buttons[0].rotate === null && this.buttons[1].rotate === null) {
+                    this.buttons[2].rotate = 0;
                 }
         }
-        // return this.tiles[`${rx},${ry},${rz}`];
     }
 }

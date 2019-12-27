@@ -6,7 +6,10 @@ export default class Map {
         this.ctx = ctx;
         this.tiles = [];
         this.tilesList = [];
-        this.cellSize = this.ctx.canvas.width < this.ctx.canvas.height ? this.ctx.canvas.width / 9 / 2.2 : Math.floor(this.ctx.canvas.height / 11 / Math.sqrt(3));
+        this.chopX = 5;
+        this.cellFitWidth = ((this.chopX * 2 - 1) * 2) + (this.chopX * 2);
+        this.cellSize = this.ctx.canvas.width < this.ctx.canvas.height ? this.ctx.canvas.width / this.cellFitWidth * 2 - 1 : Math.floor(this.ctx.canvas.height / 11 / Math.sqrt(3));
+        console.log(this.cellSize)
         this.player;
         this.demons = [];
         this.neighbourCoords = [
@@ -122,8 +125,8 @@ export default class Map {
         }
     }
 
-    init(r, chop) {
-        this.generate(r, chop);
+    init(radius = 1, chopX = radius + 1, chopY = radius + 1, chopZ = radius + 1) {
+        this.generate(radius, chopX, chopY, chopZ);
         this.save();
     }
 

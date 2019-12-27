@@ -7,7 +7,7 @@ import Archer from "./Archer.js";
 
 function main(canvasMap, canvasActionBar) {
     canvasMap.width = window.innerWidth;
-    canvasMap.height = window.innerHeight - window.innerHeight * 0.15;
+    canvasMap.height = window.innerHeight - window.innerHeight * 0.20;
     const ctx = canvasMap.getContext("2d");
 
     canvasActionBar.width = window.innerWidth;
@@ -15,14 +15,16 @@ function main(canvasMap, canvasActionBar) {
     const ctxActBar = canvasActionBar.getContext("2d");
 
     const map = new Map(ctx);
-    const actionBar = new ActionBar(ctxActBar);
+    const actionBar = new ActionBar(canvasActionBar, ctxActBar, map.cellSize);
 
     // Load Images
     let sources = {
-        Player : "img/Player.png",
-        Lava : "img/Lava.png",
+        Player  : "img/Player.png",
+        Lava    : "img/Lava.png",
         Warrior : "img/Warrior.png",
-        Archer : "img/Archer.png",
+        Archer  : "img/Archer.png",
+        Heart   : "img/Heart.png",
+        HeartG  : "img/HeartG.png",
     };
     let _images = {};
     ImageLoader(sources, function(images) {
@@ -40,10 +42,11 @@ function main(canvasMap, canvasActionBar) {
     when_external_loaded (function () {
         isReady = true;
 
-        console.log(_images);
+        // console.log(_images);
 
         let rad = 5;
-        map.init(rad, 5);
+        let chopX = 5;
+        map.init(rad, chopX);
         map.createPlayer(_images.Player, 0, -rad + 1, rad - 1);
         map.generateLava(_images.Lava);
 
@@ -75,7 +78,7 @@ function main(canvasMap, canvasActionBar) {
 
     const timer = new Timer(1 / 60);
     timer.update = function update(deltaTime) {
-        if(isReady){
+        if(isReady) {
             draw();
             drawActionBar();
         }
@@ -107,7 +110,7 @@ function main(canvasMap, canvasActionBar) {
     function drawActionBar() {
         ctxActBar.fillStyle = `rgb(200,200,200)`;
         ctxActBar.clearRect(0, 0, ctxActBar.canvas.width, ctxActBar.canvas.height);
-        actionBar.show();
+        actionBar.show(_images, map.player.maxHealth, map.player.currentHealth);
     }
 
     function mousePressed(e) {
@@ -132,14 +135,14 @@ function main(canvasMap, canvasActionBar) {
     }
 
     function mousePressedActionBar(e) {
-        let tile = actionBar.mouse_to_coords(e);
+        actionBar.buttonClick(e);
     }
 
-    function mouseDragged(e) {
-        if (drag) {
-            let tile = actionBar.mouse_to_coords(e);
-        }
-    }
+    // function mouseDragged(e) {
+    //     if (drag) {
+    //         let tile = actionBar.buttonClick(e);
+    //     }
+    // }
 
     function update() {
         let index = map.demons.length - 1;
