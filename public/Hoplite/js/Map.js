@@ -9,7 +9,6 @@ export default class Map {
         this.chopX = 5;
         this.cellFitWidth = ((this.chopX * 2 - 1) * 2) + (this.chopX * 2);
         this.cellSize = this.ctx.canvas.width < this.ctx.canvas.height ? this.ctx.canvas.width / this.cellFitWidth * 2 - 1 : Math.floor(this.ctx.canvas.height / 11 / Math.sqrt(3));
-        console.log(this.cellSize)
         this.player;
         this.demons = [];
         this.neighbourCoords = [
