@@ -7,15 +7,15 @@ import Archer from "./Archer.js";
 
 function main(canvasMap, canvasActionBar) {
     // Load ctx
+    const map;
     canvasMap.width = window.innerWidth;
     canvasMap.height = window.innerHeight - window.innerHeight * 0.20;
     const ctx = canvasMap.getContext("2d");
 
+    const actionBar;
     canvasActionBar.width = window.innerWidth;
     canvasActionBar.height = window.innerHeight - ctx.canvas.height;
     const ctxActBar = canvasActionBar.getContext("2d");
-
-    const map, actionBar;
 
     // Load Images
     let sources = {
