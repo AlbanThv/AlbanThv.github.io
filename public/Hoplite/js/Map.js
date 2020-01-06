@@ -2,8 +2,9 @@ import Cell from "./Cell.js";
 import Player from "./Player.js";
 
 export default class Map {
-    constructor(ctx) {
+    constructor(canvasDOM, ctx) {
         this.ctx = ctx;
+        this.canvasDOM = canvasDOM;
         this.tiles = [];
         this.tilesList = [];
         this.chopX = 5;
@@ -30,8 +31,18 @@ export default class Map {
     }
 
     mouse_to_coords(e) {
-        let mouseX = e.x - this.ctx.canvas.width / 2;
-        let mouseY = e.y - this.ctx.canvas.height / 2;
+        let totalOffsetX = 0;
+        let totalOffsetY = 0;
+        let currentElement = this.canvasDOM;
+
+        do{
+            totalOffsetX += currentElement.offsetLeft - currentElement.scrollLeft;
+            totalOffsetY += currentElement.offsetTop - currentElement.scrollTop;
+        }
+        while(currentElement = currentElement.offsetParent)
+
+        let mouseX = e.pageX - totalOffsetX - this.ctx.canvas.width / 2;
+        let mouseY = e.pageY - totalOffsetY - this.ctx.canvas.height / 2;
 
         let q = (2 / 3 * mouseX) / this.cellSize;
         let r = (-1 / 3 * mouseX + Math.sqrt(3) / 3 * mouseY) / this.cellSize;
