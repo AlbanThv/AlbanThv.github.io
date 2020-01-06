@@ -72,18 +72,20 @@ function main(canvasMap, canvasActionBar) {
     let tapped = false;
     document.addEventListener("dblclick", _ =>  document.documentElement.requestFullscreen());
     document.addEventListener("touchstart", e =>  {
-        if(!tapped){
-            tapped = setTimeout(function(){
-                // single_tap
+        if(e.targetTouches.length === 1) {
+            if(!tapped) {
+                tapped = setTimeout(function() {
+                    // single_tap
+                    tapped = null;
+                },300); //wait 300ms
+            } else {
+                clearTimeout(tapped);
                 tapped = null;
-            },300); //wait 300ms
-          } else {
-            clearTimeout(tapped);
-            tapped = null;
-            // double_tap
-            document.documentElement.requestFullscreen();
-          }
-          e.preventDefault();
+                // double_tap
+                document.documentElement.requestFullscreen();
+            }
+        }
+        e.preventDefault();
     });
 
     // temporaire
