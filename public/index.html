@@ -1,2 +1,9 @@
 You are not supposed to be here.<br>
-Click <a href=https://albanthv.github.io/>here</a> to go back.
+Click <a href=https://albanthv.github.io/>here</a> to go back (automatic redirect in 5 secondes).
+<script type="text/JavaScript">
+  redirectTime = "5000";
+  redirectURL = "https://albanthv.github.io/";
+  function timedRedirect() {
+      setTimeout("location.href = redirectURL;",redirectTime);
+  }
+</script>
