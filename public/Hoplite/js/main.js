@@ -15,7 +15,7 @@ function main(canvasMap, canvasActionBar) {
     canvasActionBar.height = window.innerHeight - ctx.canvas.height;
     const ctxActBar = canvasActionBar.getContext("2d");
 
-    const map = new Map(ctx);
+    const map = new Map(canvasMap, ctx);
     const actionBar = new ActionBar(canvasActionBar, ctxActBar, map.cellSize);
     
     // Load Images
