@@ -6,6 +6,7 @@ import Warrior from "./Warrior.js";
 import Archer from "./Archer.js";
 
 function main(canvasMap, canvasActionBar) {
+    // Load ctx
     canvasMap.width = window.innerWidth;
     canvasMap.height = window.innerHeight - window.innerHeight * 0.20;
     const ctx = canvasMap.getContext("2d");
@@ -14,8 +15,7 @@ function main(canvasMap, canvasActionBar) {
     canvasActionBar.height = window.innerHeight - ctx.canvas.height;
     const ctxActBar = canvasActionBar.getContext("2d");
 
-    const map = new Map(ctx);
-    const actionBar = new ActionBar(canvasActionBar, ctxActBar, map.cellSize);
+    const map, actionBar;
 
     // Load Images
     let sources = {
@@ -38,11 +38,13 @@ function main(canvasMap, canvasActionBar) {
         } else { callback (); }
     }
 
+    // Load game
     let isReady = false;
     when_external_loaded (function () {
         isReady = true;
 
-        // console.log(_images);
+        map = new Map(ctx);
+        actionBar = new ActionBar(canvasActionBar, ctxActBar, map.cellSize);
 
         let rad = 5;
         let chopX = 5;
@@ -62,22 +64,40 @@ function main(canvasMap, canvasActionBar) {
     canvasMap.addEventListener("click", mousePressed);
     canvasActionBar.addEventListener("click", mousePressedActionBar);
 
+    // dragging mouse code
     // let drag = false;
     // document.addEventListener('mousedown', () => drag = true);
     // document.addEventListener('mouseup', () => drag = false);
     // document.addEventListener('mousemove', mouseDragged);
 
+    // requestFullscreen by dlb tap/clic
+    let tapped = false;
     document.addEventListener("dblclick", _ =>  document.documentElement.requestFullscreen());
-    
+    document.addEventListener("touchstart", e =>  {
+        if(!tapped){
+            tapped = setTimeout(function(){
+                // single_tap
+                tapped = null;
+            },300); //wait 300ms
+          } else {
+            clearTimeout(tapped);
+            tapped = null;
+            // double_tap
+            document.documentElement.requestFullscreen();
+          }
+          e.preventDefault();
+    });
+
     // temporaire
     document.addEventListener("keydown", (ev) => {
-        if (ev.key === " ") {
+        if (ev.key === " ") { // space key
             //passer son tour
             update();
         }
     });
     // ===========
 
+    // Request Animation Frame
     const timer = new Timer(1 / 60);
     timer.update = function update(deltaTime) {
         if(isReady) {
@@ -169,6 +189,7 @@ function main(canvasMap, canvasActionBar) {
         });
     }
 
+    // get new valid tile
     function newTile() {
         let tile;
         let badTile;
