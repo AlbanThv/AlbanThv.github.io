@@ -7,16 +7,17 @@ import Archer from "./Archer.js";
 
 function main(canvasMap, canvasActionBar) {
     // Load ctx
-    const map;
     canvasMap.width = window.innerWidth;
     canvasMap.height = window.innerHeight - window.innerHeight * 0.20;
     const ctx = canvasMap.getContext("2d");
 
-    const actionBar;
     canvasActionBar.width = window.innerWidth;
     canvasActionBar.height = window.innerHeight - ctx.canvas.height;
     const ctxActBar = canvasActionBar.getContext("2d");
 
+    const map = new Map(ctx);
+    const actionBar = new ActionBar(canvasActionBar, ctxActBar, map.cellSize);
+    
     // Load Images
     let sources = {
         Player  : "img/Player.png",
@@ -42,9 +43,6 @@ function main(canvasMap, canvasActionBar) {
     let isReady = false;
     when_external_loaded (function () {
         isReady = true;
-
-        map = new Map(ctx);
-        actionBar = new ActionBar(canvasActionBar, ctxActBar, map.cellSize);
 
         let rad = 5;
         let chopX = 5;
