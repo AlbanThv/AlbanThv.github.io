@@ -257,19 +257,19 @@ function draw() {
 
 function mouseClicked() {
 
-  // console.log("-------------------------");
-  // let dis = hand1.cards[1].x - hand1.cards[0].x;
-  // for (let i = 0; i < hand1.cards.length; i++) {
-  //   const e = hand1.cards[i];
-  //   if (i == hand1.cards.length - 1) {
-  //     e.clicked(dis, true);
-  //   } else {
-  //     e.clicked(dis);
-  //   }
-  // }
+  console.log("-------------------------");
+  let dis = hand1.cards[1].x - hand1.cards[0].x;
+  for (let i = 0; i < hand1.cards.length; i++) {
+     const e = hand1.cards[i];
+    if (i == hand1.cards.length - 1) {
+       e.clicked(dis, true);
+     } else {
+       e.clicked(dis);
+     }
+   }
 
-  // add card
-  // hand1.cards.push(shuffledDeck.pop());
+   add card
+   hand1.cards.push(shuffledDeck.pop());
 }
 
 function mouseMoved() {
