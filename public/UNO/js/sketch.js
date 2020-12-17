@@ -268,7 +268,7 @@ function mouseClicked() {
      }
    }
 
-   add card
+   //add card
    hand1.cards.push(shuffledDeck.pop());
 }
 
