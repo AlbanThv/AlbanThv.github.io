@@ -68,6 +68,7 @@ let once = (function() {
                 chaos = new Particle(vertices[0].pos.x, vertices[0].pos.y);
                 fill('white');
                 r = document.getElementById("r").value;
+				document.getElementById("r").disabled = true;
             }
         }
     };
