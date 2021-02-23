@@ -3,7 +3,7 @@
 
 let l1 = 200, l2 = 150, l3 = 0;
 let m1 = Math.random()*10, m2 = Math.random()*10, m3 = 0;
-let a1 = Math.PI/(floor(Math.random()*10)+1), a2 = Math.PI/(floor(Math.random()*10)+1), a3 = 0;
+let a1 = Math.PI/(Math.floor(Math.random()*10)+1), a2 = Math.PI/(Math.floor(Math.random()*10)+1), a3 = 0;
 let a1_v = 0, a2_v = 0, a3_v = 0;
 let g = 2;//9.81;
 
