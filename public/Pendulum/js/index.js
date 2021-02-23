@@ -1,8 +1,8 @@
 // double pendulum formula : https://www.myphysicslab.com/pendulum/double-pendulum-en.html
 // triple pendulum formula : https://www.nickeyre.com/images/triplependulum.pdf
 
-let l1 = 150, l2 = 150, l3 = 150;
-let m1 = 40, m2 = 40, m3 = 40;
+let l1 = 200, l2 = 150, l3 = 0;
+let m1 = Math.random()*10, m2 = Math.random()*10, m3 = 0;
 let a1 = Math.PI/2, a2 = Math.PI/2, a3 = 0;
 let a1_v = 0, a2_v = 0, a3_v = 0;
 let g = 1;//9.81;
@@ -67,14 +67,14 @@ function draw() {
     //fill(100, 100, 255);
     //ellipse(x3, y3, 10, 10);
 
-    a1 += a1_v;
-    a2 += a2_v;
-    a3 += a3_v;
-
     a1_v += a1_a;
     a2_v += a2_a;
     a3_v += a3_a;
     
+    a1 += a1_v;
+    a2 += a2_v;
+    a3 += a3_v;
+
     // dampening
     // a1_v *= 0.9999;
     // a2_v *= 0.9999;
