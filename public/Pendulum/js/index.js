@@ -3,7 +3,7 @@
 
 let l1 = 200, l2 = 150, l3 = 0;
 let m1 = Math.random()*10, m2 = Math.random()*10, m3 = 0;
-let a1 = Math.PI/2, a2 = Math.PI/2, a3 = 0;
+let a1 = Math.PI/(floor(Math.random()*10)+1), a2 = Math.PI/(floor(Math.random()*10)+1), a3 = 0;
 let a1_v = 0, a2_v = 0, a3_v = 0;
 let g = 2;//9.81;
 
@@ -70,22 +70,6 @@ function draw() {
     a1_v += a1_a;
     a2_v += a2_a;
     // a3_v += a3_a;
-    
-    if (a1_a > 0 && a1_a <= 0.001) {
-        a2_v -= 0.05;
-        console.log("boost A+");
-    } else if (a1_a < 0 && a1_a >= -0.001) {
-        a2_v += 0.05;
-        console.log("boost A-");
-    }
-    
-    if (a2_a > 0 && a2_a <= 0.001) {
-        a1_v -= 0.05;
-        console.log("boost B+");
-    } else if (a2_a < 0 && a2_a >= -0.001) {
-        a1_v += 0.05;
-        console.log("boost B-");
-    }
     
     a1 += a1_v;
     a2 += a2_v;
