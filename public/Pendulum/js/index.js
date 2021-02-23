@@ -78,7 +78,7 @@ function draw() {
     m1 = Math.random()*10, m2 = Math.random()*10;
     
     if (Math.abs(a1_v) > 0.3) {
-        a1_v = a1_v / 10;
+        a1_v = a1_v / 2;
         console.log("a1_v too fast "+a1_v+" > 0.3");
     }
     
