@@ -73,14 +73,18 @@ function draw() {
     
     if (a1_v > 0 && a1_v <= 0.001) {
         a1_v += 0.01;
+        console.log("boost A+");
     } else if (a1_v < 0 && a1_v >= -0.001) {
         a1_v -= 0.01;
+        console.log("boost A-");
     }
     
     if (a2_v > 0 && a2_v <= 0.001) {
         a2_v += 0.01;
+        console.log("boost B+");
     } else if (a2_v < 0 && a2_v >= -0.001) {
         a2_v -= 0.01;
+        console.log("boost B-");
     }
     
     a1 += a1_v;
