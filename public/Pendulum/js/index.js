@@ -67,14 +67,14 @@ function draw() {
     //fill(100, 100, 255);
     //ellipse(x3, y3, 10, 10);
 
-    a1_v += a1_a;
-    a2_v += a2_a;
-    a3_v += a3_a;
-
     a1 += a1_v;
     a2 += a2_v;
     a3 += a3_v;
 
+    a1_v += a1_a;
+    a2_v += a2_a;
+    a3_v += a3_a;
+    
     // dampening
     // a1_v *= 0.9999;
     // a2_v *= 0.9999;
