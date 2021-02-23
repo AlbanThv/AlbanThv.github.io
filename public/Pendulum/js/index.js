@@ -77,6 +77,11 @@ function draw() {
     
     m1 = Math.random()*10, m2 = Math.random()*10;
     
+    if (Math.abs(a1_v) > 0.2) {
+        a1_v = a1_v / 10;
+        console.log("a1_v too fast > 0.2");
+    }
+    
     // dampening
     // a1_v *= 0.9999;
     // a2_v *= 0.9999;
