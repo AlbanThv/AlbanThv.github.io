@@ -5,13 +5,13 @@ let l1 = 200, l2 = 150, l3 = 0;
 let m1 = Math.random()*10, m2 = Math.random()*10, m3 = 0;
 let a1 = Math.PI/2, a2 = Math.PI/2, a3 = 0;
 let a1_v = 0, a2_v = 0, a3_v = 0;
-let g = 1;//9.81;
+let g = 2;//9.81;
 
 let pg;
 let cx, cy;
 let px1 = -1, py1 = -1;
 let px2 = -1, py2 = -1;
-let px3 = -1, py3 = -1;
+// let px3 = -1, py3 = -1;
 
 function setup() {
     createCanvas(windowWidth - 4, windowHeight - 4);
@@ -41,7 +41,7 @@ function draw() {
     n4 = a2_v*a2_v*l2*m2*cos(a1-a2);
     let a2_a = (n1*(n2+n3+n4))/(l2*d);
 
-    let a3_a = 0;
+    // let a3_a = 0;
 
     translate(cx, cy);
 
@@ -51,8 +51,8 @@ function draw() {
     let x2 = x1 + l2 * sin(a2);
     let y2 = y1 + l2 * cos(a2);
 
-    let x3 = x2 + l3 * sin(a3);
-    let y3 = y2 + l3 * cos(a3);
+    // let x3 = x2 + l3 * sin(a3);
+    // let y3 = y2 + l3 * cos(a3);
 
     stroke('black');
     strokeWeight(2);
@@ -66,14 +66,22 @@ function draw() {
     ellipse(x2, y2, 10, 10);
     //fill(100, 100, 255);
     //ellipse(x3, y3, 10, 10);
-
+    
     a1_v += a1_a;
     a2_v += a2_a;
-    a3_v += a3_a;
+    // a3_v += a3_a;
+    
+    if (Math.abs(a1_v) <= 0.04) {
+        a1_v += 0.1;
+    }
+    
+    if (Math.abs(a2_v) <= 0.04) {
+        a2_v += 0.1;
+    }
     
     a1 += a1_v;
     a2 += a2_v;
-    a3 += a3_v;
+    // a3 += a3_v;
 
     // dampening
     // a1_v *= 0.9999;
@@ -92,5 +100,5 @@ function draw() {
     }
     px1 = x1, py1 = y1;
     px2 = x2, py2 = y2;
-    px3 = x3, py3 = y3;
+    // px3 = x3, py3 = y3;
 }
