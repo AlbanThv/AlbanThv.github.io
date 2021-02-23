@@ -79,7 +79,7 @@ function draw() {
     
     if (Math.abs(a1_v) > 0.3) {
         console.log("a1_v too fast "+a1_v+" > 0.3");
-        a1_v = a1_v / 2;
+        a1_v = a1_v / 5;
     }
     
     // dampening
