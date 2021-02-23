@@ -2,7 +2,7 @@
 // triple pendulum formula : https://www.nickeyre.com/images/triplependulum.pdf
 
 let l1 = 200, l2 = 150, l3 = 100;
-let m1 = 1, m2 = 1, m3 = 1;
+let m1 = m2 = m3 = 1 + Math.random();
 let a1 = a2 = a3 = Math.PI/2;
 let a1_v = a2_v = a3_v = 0;
 let g = -0.1;
