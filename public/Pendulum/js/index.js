@@ -71,12 +71,16 @@ function draw() {
     a2_v += a2_a;
     // a3_v += a3_a;
     
-    if (Math.abs(a1_v) <= 0.04) {
+    if (a1_v > 0 && a1_v <= 0.01) {
         a1_v += 0.1;
+    } else if (a1_v < 0 && a1_v >= -0.01) {
+        a1_v -= 0.1;
     }
     
-    if (Math.abs(a2_v) <= 0.04) {
+    if (a2_v > 0 && a2_v <= 0.01) {
         a2_v += 0.1;
+    } else if (a2_v < 0 && a2_v >= -0.01) {
+        a2_v -= 0.1;
     }
     
     a1 += a1_v;
