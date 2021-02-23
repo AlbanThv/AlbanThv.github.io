@@ -71,18 +71,18 @@ function draw() {
     a2_v += a2_a;
     // a3_v += a3_a;
     
-    if (a1_v > 0 && a1_v <= 0.001) {
+    if (a1_a > 0 && a1_a <= 0.001) {
         a2_v -= 0.05;
         console.log("boost A+");
-    } else if (a1_v < 0 && a1_v >= -0.001) {
+    } else if (a1_a < 0 && a1_a >= -0.001) {
         a2_v += 0.05;
         console.log("boost A-");
     }
     
-    if (a2_v > 0 && a2_v <= 0.001) {
+    if (a2_a > 0 && a2_a <= 0.001) {
         a1_v -= 0.05;
         console.log("boost B+");
-    } else if (a2_v < 0 && a2_v >= -0.001) {
+    } else if (a2_a < 0 && a2_a >= -0.001) {
         a1_v += 0.05;
         console.log("boost B-");
     }
