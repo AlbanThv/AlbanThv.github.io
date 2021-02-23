@@ -76,9 +76,9 @@ function draw() {
     a3 += a3_v;
 
     // dampening
-    a1_v *= 0.9999;
-    a2_v *= 0.9999;
-    a3_v *= 0.9999;
+    // a1_v *= 0.9999;
+    // a2_v *= 0.9999;
+    // a3_v *= 0.9999;
 
     pg.background(255, 5);
     pg.strokeWeight(4);
